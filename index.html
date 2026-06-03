@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SRBV - Gestion Administrative & Impressions</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        :root {
+          --mada-red: #ED1C24; --mada-green: #007A33; --mada-white: #FFFFFF;
+          --mada-dark: #1A1A1A; --mada-gray: #F8FAFC; --mada-border: #E2E8F0;
+        }
+        body { background-color: #E2E8F0; font-family: 'Inter', sans-serif; margin: 0; padding-bottom: 60px; }
+        .mada-top-bar { height: 12px; width: 100%; background: linear-gradient(90deg, var(--mada-white) 33.33%, var(--mada-red) 33.33% 66.66%, var(--mada-green) 66.66%); position: fixed; top: 0; left: 0; z-index: 1000; }
+        .logo-container { padding: 30px 0 10px 0; background: white; border-bottom: 1px solid var(--mada-border); margin-top: 12px; }
+        
+        /* ==========================================================================
+           LOGO ANIMÉ STYLE MOTION DESIGN (EFFET VIDÉO)
+           ========================================================================== */
+        .site-logo { 
+            font-family: 'Poppins', sans-serif; 
+            font-weight: 900; 
+            font-size: 42px; 
+            text-transform: uppercase; 
+            letter-spacing: -2px; 
+            display: inline-block; 
+            color: #FFF; 
+            background: #000; 
+            padding: 5px 25px; 
+            border: 4px solid #FFF; 
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            
+            /* Animation principale combinée : Rotation 3D, légers sauts et ombres mouvantes */
+            animation: logoMotionVideo 6s infinite ease-in-out;
+            perspective: 1000px;
+        }
+
+        /* Effet de reflet brillant linéaire qui traverse le logo régulièrement */
+        .site-logo::after {
+            content: '';
+            position: absolute;
+            top: -50%; left: -60%;
+            width: 30%; height: 200%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+            transform: rotate(30deg);
+            animation: refletBrillant 3s infinite ease-in-out;
+        }
+
+        /* Définition des mouvements fluides du logo */
+        @keyframes logoMotionVideo {
+            0% {
+                transform: rotate(-1deg) scale(1);
+                box-shadow: 5px 5px 0px var(--mada-red), 10px 10px 0px var(--mada-green);
+            }
+            25% {
+                transform: rotate(1deg) scale(1.03) rotateY(10deg);
+                box-shadow: -5px 5px 0px var(--mada-green), -10px 10px 0px var(--mada-red);
+            }
+            50% {
+                transform: rotate(-2deg) scale(0.98) rotateX(8deg);
+                box-shadow: 5px -5px 0px var(--mada-red), 10px -10px 0px var(--mada-green);
+            }
+            75% {
+                transform: rotate(2deg) scale(1.02) rotateY(-10deg);
+                box-shadow: -5px -5px 0px var(--mada-green), -10px -10px 0px var(--mada-red);
+            }
+            100% {
+                transform: rotate(-1deg) scale(1);
+                box-shadow: 5px 5px 0px var(--mada-red), 10px 10px 0px var(--mada-green);
+            }
+        }
+
+        @keyframes refletBrillant {
+            0% { left: -60%; }
+            30% { left: 140%; }
+            100% { left: 140%; }
+        }
+        /* ========================================================================== */
+
+        .card-site { background: white; border: none; border-radius: 0; box-shadow: 0 15px 35px rgba(0,0,0,0.05); margin-bottom: 30px; }
+        .card-site-header { background: var(--mada-dark); color: white; font-family: 'Poppins', sans-serif; font-weight: 700; text-transform: uppercase; padding: 15px 20px; font-size: 0.85rem; letter-spacing: 1px; border-left: 8px solid var(--mada-red); }
+        .form-control-site { border: 1px solid var(--mada-border); border-radius: 0; padding: 10px; background: var(--mada-gray); font-size: 0.95rem; }
+        .form-control-site:focus { border-color: var(--mada-red); box-shadow: none; background: white; }
+        .btn-site-submit { background: var(--mada-red); color: white; font-family: 'Poppins', sans-serif; font-weight: 900; text-transform: uppercase; padding: 15px; border: none; width: 100%; transition: 0.3s; cursor: pointer; }
+        .btn-site-submit:hover { background: var(--mada-green); }
+        .table-site th { background: var(--mada-dark); color: white; text-transform: uppercase; font-size: 0.8rem; padding: 15px; }
+        .table-site td { padding: 15px; vertical-align: middle; background: white; border-bottom: 1px solid var(--mada-border); }
+        .nav-tabs-site .nav-link { border: none; color: #64748b; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; padding: 15px 20px; }
+        .nav-tabs-site .nav-link.active { color: var(--mada-red); border-bottom: 4px solid var(--mada-red); }
+        .pane-site-dossier { background: var(--mada-gray); padding: 25px; border-left: 6px solid var(--mada-green); }
+        .allocation-box { background: #f0fdf4; border: 2px dashed var(--mada-green); padding: 30px; text-align: center; }
+        .box-enfants-dynamique { background: #fff1f2; border: 1px solid #fecdd3; padding: 15px; margin-top: 10px; }
+        .badge-statut { font-weight: bold; padding: 6px 12px; text-transform: uppercase; font-size: 0.75rem; }
+        .box-evolution { background: #f8fafc; border: 1px solid #cbd5e1; padding: 20px; margin-top: 15px; border-top: 4px solid var(--mada-dark); }
+
+        .notif-centrale {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: rgba(26, 26, 26, 0.96); color: white; padding: 35px 55px;
+            border-radius: 4px; z-index: 10000; box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+            text-align: center; border-top: 6px solid var(--mada-green); display: none; 
+        }
+        .notif-centrale i { font-size: 55px; color: #22c55e; margin-bottom: 15px; display: block; }
+        .notif-centrale h4 { font-family: 'Poppins', sans-serif; font-weight: 900; margin-bottom: 5px; text-transform: uppercase; }
+
+        /* --- CONFIGURATION FILTRE IMPRESSION DOSSIER PHYSIQUE --- */
+        @media print {
+            body { background: white; color: black; padding-bottom: 0; }
+            .mada-top-bar, header, .col-xl-4, .card-site-header, .nav-tabs-site, #zone_bouton_evolution, #zone_formulaire_evolution, .btn, .badge-success, .badge-primary, .badge-warning {
+                display: none !important; 
+            }
+            .col-xl-8 { width: 100% !important; margin: 0 !important; padding: 0 !important; }
+            .card-site { box-shadow: none !important; border: none !important; margin: 0 !important; }
+            .tab-pane { display: block !important; opacity: 1 !important; margin-bottom: 25px; page-break-inside: avoid; }
+            .pane-site-dossier { background: white !important; border-left: 4px solid black !important; padding: 15px !important; }
+            .allocation-box { background: white !important; border: 2px solid black !important; }
+            #bloc_fiche_detail { display: block !important; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="mada-top-bar"></div>
+
+<div id="popup_notification" class="notif-centrale">
+    <i id="popup_icone" class="fa-solid fa-circle-check"></i>
+    <h4 id="popup_titre">Statut</h4>
+    <p id="popup_texte" class="m-0 text-muted small"></p>
+</div>
+
+<header class="logo-container shadow-sm mb-4">
+    <div class="container-fluid px-5">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <div class="site-logo">Gestion Agents</div>
+                <div class="text-muted fw-bold small text-uppercase mt-1">SRBV VATOVAVY • SYSTEME AUTOMATISÉ</div>
+            </div>
+            <div class="col-lg-6 mt-3 mt-lg-0">
+                <div class="input-group border shadow-sm">
+                    <span class="input-group-text bg-white border-0"><i class="fa-solid fa-magnifying-glass text-danger"></i></span>
+                    <input type="text" id="moteur_recherche" class="form-control border-0 py-3" placeholder="RECHERCHE PAR MATRICULE IM..." onkeyup="executerFiltrage()">
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="container-fluid px-5 mt-4">
+    <div class="row g-5">
+        
+        <div class="col-xl-4 col-lg-5">
+            <div class="card-site">
+                <div class="card-site-header"><i class="fa-solid fa-sliders me-2"></i> Enregistrement Dossier Agent</div>
+                <div class="card-body p-4">
+                    <form id="form_agent" onsubmit="sauvegarderAgent(event)">
+                        
+                        <div class="text-muted fw-bold small text-uppercase mb-2" style="color:var(--mada-green);">1. État Civil & Contact</div>
+                        <div class="row g-2 mb-3">
+                            <div class="col-md-5">
+                                <label class="small fw-bold">N° IM</label>
+                                <input type="text" id="im" class="form-control form-control-site" required>
+                            </div>
+                            <div class="col-md-7">
+                                <label class="small fw-bold">NOM & PRÉNOMS</label>
+                                <input type="text" id="nom" class="form-control form-control-site" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="small fw-bold">N° CIN</label>
+                                <input type="text" id="cin" class="form-control form-control-site">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="small fw-bold">TÉLÉPHONE</label>
+                                <input type="text" id="tel" class="form-control form-control-site">
+                            </div>
+                            <div class="col-12">
+                                <label class="small fw-bold">DATE DE NAISSANCE</label>
+                                <input type="date" id="date_naissance" class="form-control form-control-site">
+                            </div>
+                        </div>
+
+                        <div class="text-muted fw-bold small text-uppercase mb-2" style="color:var(--mada-green);">2. Situation Familiale</div>
+                        <div class="row g-2 mb-3">
+                            <div class="col-md-6">
+                                <label class="small fw-bold">SITUATION</label>
+                                <select id="select_situation" class="form-select form-control-site" onchange="gererAffichageConjoint()">
+                                    <option>Célibataire</option>
+                                    <option value="Marié(e)">Marié(e)</option>
+                                    <option>Divorcé(e)</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="small fw-bold">NB ENFANTS</label>
+                                <input type="number" id="champ_nb_enfants" class="form-control form-control-site" value="0" min="0" oninput="declarerChampsEnfants()">
+                            </div>
+                            <div class="col-12" id="bloc_conjoint" style="display:none;">
+                                <input type="text" id="nom_conjoint" class="form-control form-control-site border-danger" placeholder="Nom complet de l'époux(se)...">
+                            </div>
+                            <div class="col-12" id="bloc_enfants_dynamique"></div>
+                        </div>
+
+                        <div class="text-muted fw-bold small text-uppercase mb-2" style="color:var(--mada-green);">3. Cadre Administratif & Contrat</div>
+                        <div class="row g-2 mb-4">
+                            <div class="col-12">
+                                <label class="small fw-bold">DATE DE DÉBUT DE CONTRAT</label>
+                                <input type="date" id="date_debut_contrat" class="form-control form-control-site border-primary" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="small fw-bold">DIVISION</label>
+                                <select id="division" class="form-select form-control-site">
+                                    <option>Division du Contrôle</option>
+                                    <option>Division Administrative</option>
+                                    <option>Division du Patrimoine de l’Etat</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="small fw-bold">GRADE</label>
+                                <input type="text" id="grade" class="form-control form-control-site">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="small fw-bold">CLASSE / ÉCHELON</label>
+                                <input type="text" id="classe_echelon" class="form-control form-control-site">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-site-submit">Enregistrer l'Agent</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-8 col-lg-7">
+            <div class="card-site mb-4">
+                <div class="card-site-header d-flex justify-content-between align-items-center">
+                    <span><i class="fa-solid fa-table me-2"></i> Registre Général</span>
+                    <span class="badge bg-success rounded-0" id="badge_total">0 Enregistrements</span>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-site mb-0">
+                        <thead>
+                            <tr>
+                                <th>Nom de l'Agent</th>
+                                <th>Matricule IM</th>
+                                <th>Ancienneté</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="liste_agents_body"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="bloc_fiche_detail" style="display: none;">
+                <div class="card-site shadow border">
+                    <div class="p-4 bg-white border-bottom d-flex justify-content-between align-items-center">
+                        <h3 class="m-0 fw-bold"><i class="fa-solid fa-folder-open text-warning me-3"></i>Fiche : <span id="lbl_nom" class="text-danger"></span></h3>
+                        <div>
+                            <button class="btn btn-danger rounded-0 fw-bold px-4 me-2" onclick="window.print()">
+                                <i class="fa-solid fa-print me-2"></i> IMPRIMER LA FICHE
+                            </button>
+                            <span class="badge bg-success py-2 px-3 rounded-0 fs-6">IM : <span id="lbl_im"></span></span>
+                        </div>
+                    </div>
+
+                    <ul class="nav nav-tabs nav-tabs-site px-4 pt-2 bg-white" role="tablist">
+                        <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab_contrat">Suivi Contrat & Évolution</button></li>
+                        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab_civil">Données Civiles</button></li>
+                        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab_carriere">Carrière & Grade</button></li>
+                        <li class="nav-item"><button class="nav-link text-danger" data-bs-toggle="tab" data-bs-target="#tab_prestations"><i class="fa-solid fa-wallet me-1"></i> Prestations Sociales</button></li>
+                    </ul>
+
+                    <div class="tab-content p-4 bg-white">
+                        
+                        <div class="tab-pane fade show active pane-site-dossier" id="tab_contrat">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5>Statut du Contrat de l'Agent</h5>
+                                <span id="lbl_badge_statut" class="badge badge-statut">Calcul...</span>
+                            </div>
+                            <p><strong>Date d'entrée en service :</strong> <span id="lbl_date_debut_contrat"></span></p>
+                            <p><strong>Ancienneté exacte :</strong> <span id="lbl_anciennete_detail" class="fw-bold text-primary"></span></p>
+                            
+                            <div id="zone_bouton_evolution"></div>
+                            <div id="zone_formulaire_evolution" style="display:none;"></div>
+                        </div>
+                        
+                        <div class="tab-pane fade pane-site-dossier" id="tab_civil">
+                            <h5 class="mb-3 text-success border-bottom pb-2">Informations d'État Civil</h5>
+                            <div class="row g-3">
+                                <div class="col-md-6"><strong>N° CIN :</strong> <span id="lbl_cin"></span></div>
+                                <div class="col-md-6"><strong>Téléphone :</strong> <span id="lbl_tel"></span></div>
+                                <div class="col-md-6"><strong>Date de Naissance :</strong> <span id="lbl_date"></span></div>
+                                <div class="col-md-6"><strong>Statut Matrimonial :</strong> <span id="lbl_situation"></span></div>
+                            </div>
+                        </div>
+                        
+                        <div class="tab-pane fade pane-site-dossier" id="tab_carriere">
+                            <h5 class="mb-3 text-success border-bottom pb-2">Position Administrative</h5>
+                            <p><strong>Division :</strong> <span id="lbl_div"></span></p>
+                            <p><strong>Grade actuel :</strong> <span id="lbl_grade"></span> | <strong>Classe-Échelon :</strong> <span id="lbl_classe"></span></p>
+                        </div>
+                        
+                        <div class="tab-pane fade" id="tab_prestations">
+                            <div class="allocation-box">
+                                <h4 class="fw-bold text-success text-uppercase mb-3">Calculateur de Droits Familiaux</h4>
+                                <div class="fs-5 text-dark mb-2">Nombre d'enfants à charge : <strong id="lbl_nb_enfants">0</strong></div>
+                                <div class="small text-muted mb-4">Prénoms déclarés : <span id="lbl_prenoms_enfants" class="fw-bold text-dark"></span></div>
+                                <div class="bg-white p-3 border border-2 text-uppercase fw-bold shadow-sm d-inline-block">
+                                    Allocation Mensuelle (10 000 Ar / Enfant) : <span id="lbl_somme_ariary" class="text-danger fs-4">0</span> Ariary
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    let listeAgents = JSON.parse(localStorage.getItem('srbv_agents')) || [];
+    let currentAgentIm = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+        actualiserTableau();
+    });
+
+    function afficherPopupCentral(titre, texte, succes) {
+        const boite = document.getElementById('popup_notification');
+        const icone = document.getElementById('popup_icone');
+        document.getElementById('popup_titre').innerText = titre;
+        document.getElementById('popup_texte').innerText = texte;
+        boite.style.borderTopColor = succes ? "#007A33" : "#ED1C24"; 
+        icone.className = succes ? "fa-solid fa-circle-check text-success" : "fa-solid fa-triangle-exclamation text-danger";
+        boite.style.display = "block";
+        setTimeout(() => { boite.style.display = "none"; }, 3000);
+    }
+
+    function gererAffichageConjoint() {
+        document.getElementById('bloc_conjoint').style.display = (document.getElementById('select_situation').value === 'Marié(e)') ? 'block' : 'none';
+    }
+
+    function declarerChampsEnfants() {
+        const container = document.getElementById('bloc_enfants_dynamique');
+        const total = parseInt(document.getElementById('champ_nb_enfants').value) || 0;
+        container.innerHTML = ""; 
+        if (total > 0) {
+            const box = document.createElement('div');
+            box.className = "box-enfants-dynamique";
+            box.innerHTML = `<div class="small fw-bold text-danger text-uppercase mb-2"><i class="fa-solid fa-baby-carriage me-1"></i> Saisie des prénoms :</div>`;
+            for (let i = 1; i <= total; i++) {
+                box.innerHTML += `<input type="text" class="form-control form-control-site mb-2 border-success prenom-enfant-input" placeholder="Prénom Enfant N°${i}">`;
+            }
+            container.appendChild(box);
+        }
+    }
+
+    function calculerAnciennete(dateDebut) {
+        if (!dateDebut) return { annees: 0, mois: 0, totalMois: 0, texte: "Non définie" };
+        const debut = new Date(dateDebut);
+        const fin = new Date();
+        
+        let annees = fin.getFullYear() - debut.getFullYear();
+        let mois = fin.getMonth() - debut.getMonth();
+        
+        if (mois < 0 || (mois === 0 && fin.getDate() < debut.getDate())) {
+            annees--;
+            mois += 12;
+        }
+        if (fin.getDate() < debut.getDate()) {
+            mois--;
+        }
+        
+        const totalMois = (annees * 12) + mois;
+        let texte = "";
+        if (annees > 0) texte += `${annees} an(s) `;
+        texte += `${mois} mois`;
+        
+        return { annees, mois, totalMois, texte };
+    }
+
+    function sauvegarderAgent(event) {
+        event.preventDefault();
+        const imValue = document.getElementById('im').value.trim();
+        const situationValue = document.getElementById('select_situation').value;
+
+        const inputsEnfants = document.querySelectorAll('.prenom-enfant-input');
+        let listePrenoms = [];
+        inputsEnfants.forEach(input => { if(input.value.trim() !== "") listePrenoms.push(input.value.trim()); });
+
+        const agentObj = {
+            im: imValue,
+            nom: document.getElementById('nom').value.trim(),
+            cin: document.getElementById('cin').value.trim(),
+            tel: document.getElementById('tel').value.trim(),
+            date_naissance: document.getElementById('date_naissance').value,
+            date_debut_contrat: document.getElementById('date_debut_contrat').value,
+            etat_civil: situationValue,
+            enfants: parseInt(document.getElementById('champ_nb_enfants').value) || 0,
+            noms_enfants: listePrenoms.join(', '),
+            nom_conjoint: (situationValue === 'Marié(e)') ? document.getElementById('nom_conjoint').value.trim() : '',
+            division: document.getElementById('division').value,
+            grade: document.getElementById('grade').value.trim(),
+            classe_echelon: document.getElementById('classe_echelon').value.trim(),
+            avenant_details: null,
+            renouvellement_details: null
+        };
+
+        const index = listeAgents.findIndex(a => a.im === imValue);
+        if(index !== -1) {
+            agentObj.avenant_details = listeAgents[index].avenant_details;
+            agentObj.renouvellement_details = listeAgents[index].renouvellement_details;
+            listeAgents[index] = agentObj;
+        } else {
+            listeAgents.push(agentObj);
+        }
+
+        localStorage.setItem('srbv_agents', JSON.stringify(listeAgents));
+        afficherPopupCentral("Mémoire SRBV", "Fiche de l'agent enregistrée !", true);
+        
+        document.getElementById('form_agent').reset();
+        document.getElementById('bloc_enfants_dynamique').innerHTML = "";
+        document.getElementById('bloc_conjoint').style.display = "none";
+        actualiserTableau();
+    }
+
+    function actualiserTableau() {
+        const tbody = document.getElementById('liste_agents_body');
+        tbody.innerHTML = "";
+        listeAgents.sort((a, b) => a.nom.localeCompare(b.nom));
+
+        listeAgents.forEach(agent => {
+            const anc = calculerAnciennete(agent.date_debut_contrat);
+            const tr = document.createElement('tr');
+            tr.className = "ligne-agent";
+            tr.setAttribute('data-im', agent.im.toUpperCase());
+
+            tr.innerHTML = `
+                <td><strong>${escapeHtml(agent.nom)}</strong></td>
+                <td class="fw-bold text-danger">${escapeHtml(agent.im)}</td>
+                <td class="small fw-bold text-secondary">${anc.texte}</td>
+                <td class="text-end">
+                    <button class="btn btn-dark btn-sm rounded-0 px-3 fw-bold" onclick='chargerFicheIndividuelle(${JSON.stringify(agent)})'>
+                        CONSULTER <i class="fa-solid fa-chevron-right ms-2 text-warning"></i>
+                    </button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+        document.getElementById('badge_total').innerText = `${listeAgents.length} Enregistrements`;
+    }
+
+    function chargerFicheIndividuelle(donnees) {
+        currentAgentIm = donnees.im;
+        const agent = listeAgents.find(a => a.im === currentAgentIm);
+
+        document.getElementById('bloc_fiche_detail').style.display = 'block';
+        document.getElementById('lbl_nom').innerText = agent.nom;
+        document.getElementById('lbl_im').innerText = agent.im;
+        document.getElementById('lbl_cin').innerText = agent.cin || "Non renseigné";
+        document.getElementById('lbl_tel').innerText = agent.tel || "Non renseigné";
+        document.getElementById('lbl_date').innerText = agent.date_naissance || "Non spécifiée";
+        
+        let civilInfo = agent.etat_civil || "Célibataire";
+        if(agent.nom_conjoint && agent.etat_civil === 'Marié(e)') civilInfo += " (Conjoint: " + agent.nom_conjoint + ")";
+        document.getElementById('lbl_situation').innerText = civilInfo;
+        
+        document.getElementById('lbl_div').innerText = agent.division;
+        document.getElementById('lbl_grade').innerText = agent.grade || "Non spécifié";
+        document.getElementById('lbl_classe').innerText = agent.classe_echelon || "Non spécifié";
+        
+        // --- PRESTATIONS SOCIALES ADAPTÉES (10 000 AR / ENFANT) ---
+        const totalEnfants = parseInt(agent.enfants) || 0;
+        document.getElementById('lbl_nb_enfants').innerText = totalEnfants;
+        document.getElementById('lbl_prenoms_enfants').innerText = agent.noms_enfants || "Aucun prénom enregistré";
+        document.getElementById('lbl_somme_ariary').innerText = (totalEnfants * 10000).toLocaleString('fr-FR');
+        
+        document.getElementById('lbl_date_debut_contrat').innerText = agent.date_debut_contrat;
+        const anc = calculerAnciennete(agent.date_debut_contrat);
+        document.getElementById('lbl_anciennete_detail').innerText = anc.texte;
+
+        const badge = document.getElementById('lbl_badge_statut');
+        const btnZone = document.getElementById('zone_bouton_evolution');
+        const formZone = document.getElementById('zone_formulaire_evolution');
+        
+        btnZone.innerHTML = "";
+        formZone.style.display = "none";
+        formZone.innerHTML = "";
+
+        if (anc.annees >= 6) {
+            badge.innerText = "Contrat Indéterminé (CDI)";
+            badge.className = "badge badge-statut bg-danger text-white";
+            btnZone.innerHTML = `<div class="alert alert-success mt-3"><i class="fa-solid fa-gavel me-2"></i> <strong>Statut :</strong> Agent d'office à durée indéterminée (Plus de 6 ans de service).</div>`;
+        } 
+        else if (anc.annees >= 2) {
+            badge.innerText = "Période de Renouvellement";
+            badge.className = "badge badge-statut bg-warning text-dark";
+            if (agent.renouvellement_details) {
+                btnZone.innerHTML = `<div class="alert alert-info mt-2"><strong>Acte enregistré :</strong> Renouvellement effectué (Réf: ${agent.renouvellement_details.ref}).</div>`;
+            } else {
+                btnZone.innerHTML = `<button class="btn btn-success rounded-0 fw-bold mt-2 w-100" onclick="ouvrirFormulaireEvolution('renouvellement')"><i class="fa-solid fa-file-signature me-2"></i> CRÉER LE RENOUVELLEMENT DE CONTRAT</button>`;
+            }
+        } 
+        else if (anc.annees >= 1) {
+            badge.innerText = "Avenant Nécessaire";
+            badge.className = "badge badge-statut bg-primary text-white";
+            if (agent.avenant_details) {
+                btnZone.innerHTML = `<div class="alert alert-info mt-2"><strong>Acte enregistré :</strong> Avenant validé (Indice: ${agent.avenant_details.indice}).</div>`;
+            } else {
+                btnZone.innerHTML = `<button class="btn btn-primary rounded-0 fw-bold mt-2 w-100" onclick="ouvrirFormulaireEvolution('avenant')"><i class="fa-solid fa-file-circle-plus me-2"></i> CRÉER UN AVENANT AU CONTRAT</button>`;
+            }
+        } 
+        else {
+            badge.innerText = "Contrat Initial (Moins de 1 an)";
+            badge.className = "badge badge-statut bg-secondary text-white";
+            btnZone.innerHTML = `<div class="text-muted small mt-2"><i class="fa-solid fa-clock me-1"></i> Contrat initial en cours. Prochaine évolution à l'anniversaire du contrat.</div>`;
+        }
+
+        document.getElementById('bloc_fiche_detail').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function ouvrirFormulaireEvolution(type) {
+        const formZone = document.getElementById('zone_formulaire_evolution');
+        formZone.style.display = "block";
+        if (type === 'avenant') {
+            formZone.innerHTML = `
+                <div class="box-evolution shadow-sm">
+                    <h6 class="fw-bold text-primary text-uppercase mb-3"><i class="fa-solid fa-file-pen me-2"></i> Formulaire d'Avenant</h6>
+                    <div class="row g-2">
+                        <div class="col-md-6"><label class="small fw-bold">Nouvel Indice</label><input type="text" id="ev_avenant_indice" class="form-control form-control-site" required></div>
+                        <div class="col-md-6"><label class="small fw-bold">Date d'effet</label><input type="date" id="ev_avenant_date" class="form-control form-control-site" required></div>
+                        <div class="col-12 mt-3"><button class="btn btn-dark btn-sm rounded-0 fw-bold" onclick="enregistrerEvolution('avenant')">Enregistrer l'Avenant</button></div>
+                    </div>
+                </div>`;
+        } else if (type === 'renouvellement') {
+            formZone.innerHTML = `
+                <div class="box-evolution shadow-sm" style="border-top-color: var(--mada-green);">
+                    <h6 class="fw-bold text-success text-uppercase mb-3"><i class="fa-solid fa-stamp me-2"></i> Formulaire de Renouvellement</h6>
+                    <div class="row g-2">
+                        <div class="col-md-6"><label class="small fw-bold">Référence Décision</label><input type="text" id="ev_renouv_ref" class="form-control form-control-site" required></div>
+                        <div class="col-md-6"><label class="small fw-bold">Durée d'engagement</label><input type="text" id="ev_renouv_duree" class="form-control form-control-site" value="4 ans (Jusqu'à Indéterminé)" readonly></div>
+                        <div class="col-12 mt-3"><button class="btn btn-dark btn-sm rounded-0 fw-bold" onclick="enregistrerEvolution('renouvellement')">Valider le Renouvellement</button></div>
+                    </div>
+                </div>`;
+        }
+    }
+
+    function enregistrerEvolution(type) {
+        const idx = listeAgents.findIndex(a => a.im === currentAgentIm);
+        if (idx === -1) return;
+        if (type === 'avenant') {
+            listeAgents[idx].avenant_details = { indice: document.getElementById('ev_avenant_indice').value, date: document.getElementById('ev_avenant_date').value };
+            afficherPopupCentral("Avenant Validé", "L'avenant de l'agent a été appliqué au dossier !", true);
+        } else if (type === 'renouvellement') {
+            listeAgents[idx].renouvellement_details = { ref: document.getElementById('ev_renouv_ref').value, duree: document.getElementById('ev_renouv_duree').value };
+            afficherPopupCentral("Contrat Renouvelé", "La décision de renouvellement a été enregistrée !", true);
+        }
+        localStorage.setItem('srbv_agents', JSON.stringify(listeAgents));
+        chargerFicheIndividuelle(listeAgents[idx]);
+    }
+
+    function executerFiltrage() {
+        const recherche = document.getElementById('moteur_recherche').value.toUpperCase();
+        document.querySelectorAll('.ligne-agent').forEach(ligne => {
+            ligne.style.display = ligne.getAttribute('data-im').includes(recherche) ? "" : "none";
+        });
+    }
+
+    function escapeHtml(text) {
+        return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
