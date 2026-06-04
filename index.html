@@ -27,7 +27,7 @@
             animation: logoMotionVideo 6s infinite ease-in-out; perspective: 1000px;
         }
         .site-logo::after {
-            content: ''; position: absolute; top: -50%; left: -60%; width: 30%; height: 200%; background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%); transform: rotate(30deg); animation: refletBrillant 3s infinite ease-in-out;
+            content: ''; position: absolute; top: -50%; left: -60%; width: 30%; height: 200%; background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%); transform: rotate(30deg); animation: technologieReflet 3s infinite ease-in-out;
         }
         @keyframes logoMotionVideo {
             0% { transform: rotate(-1deg) scale(1); box-shadow: 5px 5px 0px var(--mada-red), 10px 10px 0px var(--mada-green); }
@@ -36,7 +36,7 @@
             75% { transform: rotate(2deg) scale(1.02) rotateY(-10deg); box-shadow: -5px -5px 0px var(--mada-green), -10px -10px 0px var(--mada-red); }
             100% { transform: rotate(-1deg) scale(1); box-shadow: 5px 5px 0px var(--mada-red), 10px 10px 0px var(--mada-green); }
         }
-        @keyframes refletBrillant { 0% { left: -60%; } 30% { left: 140%; } 100% { left: 140%; } }
+        @keyframes technologieReflet { 0% { left: -60%; } 30% { left: 140%; } 100% { left: 140%; } }
 
         .card-site { background: white; border: none; border-radius: 8px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3); margin-bottom: 30px; overflow: hidden; }
         .card-site-header { background: var(--mada-dark); color: white; font-family: 'Poppins', sans-serif; font-weight: 700; text-transform: uppercase; padding: 20px; font-size: 0.9rem; letter-spacing: 1px; border-left: 8px solid var(--mada-green); }
@@ -65,17 +65,6 @@
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(15, 23, 42, 0.98); color: white; padding: 35px 55px; border-radius: 8px; z-index: 10000; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); text-align: center; border-top: 6px solid var(--mada-green); display: none; 
         }
         .notif-centrale i { font-size: 50px; color: #10B981; margin-bottom: 15px; display: block; }
-
-        @media print {
-            body { background: white; color: black; padding-bottom: 0; }
-            .mada-top-bar, header, .col-xl-4, .card-site-header, .nav-tabs-site, .btn, .form-control-site, .input-group, select { display: none !important; }
-            .col-xl-8 { width: 100% !important; margin: 0 !important; padding: 0 !important; }
-            .card-site { box-shadow: none !important; border: none !important; margin: 0 !important; }
-            .tab-pane { display: block !important; opacity: 1 !important; margin-bottom: 30px; page-break-inside: avoid; }
-            .pane-site-dossier { background: white !important; border-left: 4px solid black !important; padding: 15px !important; }
-            .allocation-box { background: white !important; border: 2px solid black !important; }
-            #bloc_fiche_detail { display: block !important; }
-        }
     </style>
 </head>
 <body>
@@ -92,7 +81,7 @@
     <div class="container-fluid px-5">
         <div class="row align-items-center">
             <div class="col-lg-6">
-                <div class="site-logo"> Gestion Agent</div>
+                <div class="site-logo">SRBV Gestion</div>
                 <div class="text-white-50 fw-bold small text-uppercase mt-2" style="letter-spacing:1px;"><i class="fa-solid fa-satellite-dish text-success me-2"></i>Base de Données Intégrée Live • Vatovavy</div>
             </div>
             <div class="col-lg-6 mt-3 mt-lg-0">
@@ -318,6 +307,7 @@
 </footer>
 
 <script>
+    // Connexion à la base Firebase
     const firebaseConfig = { databaseURL: "https://srb-agents-default-rtdb.firebaseio.com/" };
     firebase.initializeApp(firebaseConfig);
     const dbRef = firebase.database().ref("agents_srbv_complete_v3");
@@ -412,9 +402,14 @@
         }
     }
 
+    // Réception en direct de Firebase
     dbRef.on("value", (snapshot) => {
         listeAgents = [];
-        snapshot.forEach((child) => { listeAgents.push(child.val()); });
+        snapshot.forEach((child) => { 
+            let a = child.val();
+            if(!a.im) a.im = child.key; // Sécurité si IM absent
+            listeAgents.push(a); 
+        });
         actualiserTableau();
         if(currentAgentIm) {
             const rechargé = listeAgents.find(a => a.im === currentAgentIm);
@@ -472,18 +467,23 @@
             tr.className = "ligne-agent";
             tr.setAttribute('data-im', agent.im);
             tr.innerHTML = `
-                <td><strong>${escapeHtml(agent.nom)}</strong></td>
+                <td><strong>${escapeHtml(agent.nom || "Sans Nom")}</strong></td>
                 <td class="text-danger fw-bold">${agent.im}</td>
-                <td><span class="badge bg-light text-dark">${agent.type_agent}</span></td>
-                <td class="text-end"><button class="btn btn-sm btn-success rounded-1" onclick='chargerFicheIndividuelle(${JSON.stringify(agent)})'>Ouvrir</button></td>
+                <td><span class="badge bg-light text-dark">${agent.type_agent || "Non défini"}</span></td>
+                <td class="text-end"><button class="btn btn-sm btn-success rounded-1" onclick='ouvrirFicheParIm("${agent.im}")'>Ouvrir</button></td>
             `;
             tbody.appendChild(tr);
         });
         document.getElementById('badge_total').innerText = `${listeAgents.length} Agents En Ligne`;
     }
 
+    function ouvrirFicheParIm(im) {
+        const agent = listeAgents.find(a => a.im === im);
+        if(agent) chargerFicheIndividuelle(agent);
+    }
+
     function calculerAnciennete(dateDebut) {
-        if (!dateDebut) return { annees: 0, mois: 0, texte: "Inconnue" };
+        if (!dateDebut) return { annees: 0, month: 0, texte: "Inconnue" };
         const debut = new Date(dateDebut); const fin = new Date();
         let annees = fin.getFullYear() - debut.getFullYear();
         let mois = fin.getMonth() - debut.getMonth();
@@ -495,45 +495,46 @@
         currentAgentIm = agent.im;
         document.getElementById('bloc_fiche_detail').style.display = 'block';
         
-        // Bloc 1 : Carrière
-        document.getElementById('lbl_nom').innerText = agent.nom;
+        // Sécurisation contre les valeurs manquantes (undefined)
+        document.getElementById('lbl_nom').innerText = agent.nom || "Non renseigné";
         document.getElementById('lbl_im_fiche').innerText = agent.im;
-        document.getElementById('lbl_type').innerText = agent.type_agent;
-        document.getElementById('lbl_grade').innerText = agent.grade;
-        document.getElementById('lbl_echelon').innerText = agent.echelon;
-        document.getElementById('lbl_indice').innerText = agent.indice;
-        document.getElementById('lbl_div').innerText = agent.division;
+        document.getElementById('lbl_type').innerText = agent.type_agent || "Non renseigné";
+        document.getElementById('lbl_grade').innerText = agent.grade || "Non renseigné";
+        document.getElementById('lbl_echelon').innerText = agent.echelon || "Non renseigné";
+        document.getElementById('lbl_indice').innerText = agent.indice || "0";
+        document.getElementById('lbl_div').innerText = agent.division || "Non affecté";
+        
         const anc = calculerAnciennete(agent.date_debut_contrat);
         document.getElementById('lbl_anciennete_detail').innerText = anc.texte;
 
-        // Bloc 2 : Données Civiles restaurées
-        document.getElementById('lbl_cin').innerText = agent.cin || "Non spécifié";
-        document.getElementById('lbl_tel').innerText = agent.tel || "Non spécifié";
-        document.getElementById('lbl_date_naissance').innerText = agent.date_naissance || "Non spécifiée";
+        document.getElementById('lbl_cin').innerText = agent.cin || "Non renseigné";
+        document.getElementById('lbl_tel').innerText = agent.tel || "Non renseigné";
+        document.getElementById('lbl_date_naissance').innerText = agent.date_naissance || "Non renseignée";
         
         let sitTxt = agent.situation_matrimoniale || "Célibataire";
         if(agent.nom_conjoint) sitTxt += ` (Conjoint: ${agent.nom_conjoint})`;
         document.getElementById('lbl_situation').innerText = sitTxt;
 
-        // Allocations Enfants
+        // Allocations Enfants sécurisées
         const nEnfants = parseInt(agent.nb_enfants) || 0;
         document.getElementById('lbl_nb_enfants').innerText = nEnfants;
         document.getElementById('lbl_prenoms_enfants').innerText = agent.prenoms_enfants || "Aucun prénom enregistré";
         document.getElementById('lbl_somme_ariary').innerText = (nEnfants * 10000).toLocaleString('fr-FR');
 
-        // Évolution Dynamique
+        // Évolution Dynamique FOP / CONTRACTUELS
         const zoneEv = document.getElementById('zone_evolution_dynamique');
         if(agent.type_agent === "FONCTIONNAIRE") {
+            let periodicite = (agent.echelon && agent.echelon.includes('3E')) ? '3 ans' : '2 ans';
             zoneEv.innerHTML = `
                 <div class="alert alert-info border-0 shadow-sm rounded-1 text-dark m-0">
                     <h6 class="fw-bold text-uppercase"><i class="fa-solid fa-angles-up text-success me-2"></i>Suivi Avancement FOP</h6>
-                    <p class="small m-0">L'agent progresse par avancement d'échelon. Périodicité requise pour l'échelon actuel : <strong>${agent.echelon.includes('3E') ? '3 ans' : '2 ans'}</strong>.</p>
+                    <p class="small m-0">L'agent progresse par avancement d'échelon. Périodicité requise pour l'échelon actuel : <strong>${periodicite}</strong>.</p>
                 </div>`;
         } else {
-            zoneEv.innerHTML = `<div class="alert alert-warning border-0 rounded-1 text-dark m-0">Suivi Contrat : Changement ou re-catégorisation selon la durée légale requise.</div>`;
+            zoneEv.innerHTML = `<div class="alert alert-warning border-0 rounded-1 text-dark m-0">Suivi Contrat : Changement ou re-catégorisation selon l'avenant ou la durée légale requis.</div>`;
         }
 
-        // Gestion Congés
+        // Compteur Congés
         let totalPris = 0;
         const histList = document.getElementById('liste_historique_conges');
         histList.innerHTML = "";
@@ -580,7 +581,7 @@
         setTimeout(() => { boite.style.display = "none"; }, 2500);
     }
 
-    function escapeHtml(text) { return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+    function escapeHtml(text) { return text ? text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : ""; }
     adapterFormulaireGrille();
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
