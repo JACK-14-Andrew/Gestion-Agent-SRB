@@ -91,7 +91,7 @@
 
 <div id="ecran_auth">
     <div class="carte-auth" id="bloc_connexion">
-        <div class="site-logo mb-4" style="font-size: 26px;">Gestion Agent<br> Login</div>
+        <div class="site-logo mb-4" style="font-size: 26px;">SRBV Securisé</div>
         <h5 class="text-white mb-1 fw-bold">Espace de Connexion</h5>
         <p class="text-muted small mb-4 text-uppercase" style="font-size:11px;">Direction Régionale du Budget Vatovavy</p>
         
@@ -103,7 +103,7 @@
                     <input type="text" id="login_user" class="form-control" placeholder="Ex: admin" required>
                 </div>
             </div>
-            <div class="mb-4 text-start">
+            <div class="mb-3 text-start">
                 <label class="text-white-50 small fw-bold mb-1">MOT DE PASSE</label>
                 <div class="input-group input-group-auth">
                     <span class="input-group-text bg-transparent border-0 text-white-50"><i class="fa-solid fa-lock"></i></span>
@@ -111,6 +111,12 @@
                     <button type="button" class="btn-oeil" onclick="basculerOeil('login_pass', this)"><i class="fa-solid fa-eye"></i></button>
                 </div>
             </div>
+
+            <div class="mb-4 text-start d-flex align-items-center">
+                <input type="checkbox" id="souvenir_moi" class="form-check-input bg-dark border-secondary me-2" style="margin-top: 0;">
+                <label for="souvenir_moi" class="text-white-50 small select-none" style="cursor:pointer; user-select: none;">Se souvenir de moi</label>
+            </div>
+
             <div id="erreur_login" class="alert alert-danger p-2 small border-0 mb-3" style="display: none;"></div>
             <button type="submit" class="btn-site-submit shadow-sm py-3 mb-3"><i class="fa-solid fa-key me-2"></i>Se Connecter</button>
             <div class="mt-2">
@@ -396,9 +402,21 @@
     const dbRef = firebase.database().ref("agents_srbv_complete_v3");
     const userRef = firebase.database().ref("utilisateurs_srbv");
 
-    // Compte Super-Admin par défaut (toujours valable au cas où la bdd est vide)
+    // Compte Super-Admin par défaut (Maître universel)
     const DEFAULT_USER = "admin";
     const DEFAULT_PASS = "srbv2026";
+
+    // CHARGEMENT AUTOMATIQUE DES IDENTIFIANTS MÉMORISÉS
+    window.onload = function() {
+        const savedUser = localStorage.getItem('srbv_user');
+        const savedPass = localStorage.getItem('srbv_pass');
+        if (savedUser && savedPass) {
+            document.getElementById('login_user').value = savedUser;
+            document.getElementById('login_pass').value = savedPass;
+            document.getElementById('souvenir_moi').checked = true;
+        }
+        adapterFormulaireGrille();
+    };
 
     // GESTION DU PORTAIL AUTHENTIFICATION
     function basculerEcranAuth(cible) {
@@ -423,32 +441,49 @@
         }
     }
 
-    // Connexion sécurisée avec vérification locale + Firebase
+    // VERIFICATION DU LOGIN AVEC CRITÈRES DE MÉMORISATION ET SECURITÉ LOCAL-FIRST
     function verifierLogin(event) {
         event.preventDefault();
         const user = document.getElementById('login_user').value.trim();
         const pass = document.getElementById('login_pass').value.trim();
         const boxErreur = document.getElementById('erreur_login');
+        const seSouvenir = document.getElementById('souvenir_moi').checked;
 
-        // 1. Test du super-compte maître
-        if (user === DEFAULT_USER && pass === DEFAULT_PASS) {
+        // Fonction locale pour retenir ou oublier les accès
+        const gererMemoire = () => {
+            if (seSouvenir) {
+                localStorage.setItem('srbv_user', user);
+                localStorage.setItem('srbv_pass', pass);
+            } else {
+                localStorage.removeItem('srbv_user');
+                localStorage.removeItem('srbv_pass');
+            }
+        };
+
+        // PROTECTION PRIORITAIRE ACCÈS MAÎTRE LOCAL (Fonctionne même sans connexion internet)
+        if (user.toLowerCase() === DEFAULT_USER && pass === DEFAULT_PASS) {
+            gererMemoire();
             ouvrirApplication();
             return;
         }
 
-        // 2. Recherche du compte créé dans Firebase
-        userRef.child(user).once('value', (snapshot) => {
+        // DEUXIÈME INSTANCE : RECHERCHE DES PROFILS INSCRITS SUR FIREBASE
+        userRef.child(user.toLowerCase()).once('value', (snapshot) => {
             const userData = snapshot.val();
             if(userData && userData.password === pass) {
+                gererMemoire();
                 ouvrirApplication();
             } else {
                 boxErreur.innerText = "Identifiant ou mot de passe incorrect.";
                 boxErreur.style.display = 'block';
             }
+        }, (error) => {
+            boxErreur.innerText = "Erreur réseau Firebase. Utilisez le compte maître local.";
+            boxErreur.style.display = 'block';
         });
     }
 
-    // Inscription dynamique d'un nouvel administrateur
+    // Inscription dynamique d'un nouvel administrateur dans Firebase
     function enregistrerNouvelUtilisateur(event) {
         event.preventDefault();
         const user = document.getElementById('reg_user').value.trim().toLowerCase();
@@ -461,14 +496,12 @@
             return;
         }
 
-        // Empêcher d'écraser le compte maître universel
         if(user === "admin") {
-            boxErreur.innerText = "L'identifiant 'admin' est réservé au système.";
+            boxErreur.innerText = "L'identifiant 'admin' est réservé par défaut.";
             boxErreur.style.display = 'block';
             return;
         }
 
-        // Sauvegarde sur Firebase
         userRef.child(user).set({ password: pass }).then(() => {
             boxErreur.style.display = 'none';
             document.getElementById('reg_user').value = "";
@@ -476,7 +509,7 @@
             afficherPopupCentral("Succès", "Votre compte administrateur a été créé !", true);
             basculerEcranAuth('connexion');
         }).catch(err => {
-            boxErreur.innerText = "Erreur de synchronisation réseau.";
+            boxErreur.innerText = "Erreur de synchronisation Firebase.";
             boxErreur.style.display = 'block';
         });
     }
@@ -491,15 +524,18 @@
     }
 
     function deconnexion() {
-        document.getElementById('login_user').value = "";
-        document.getElementById('login_pass').value = "";
+        // Optionnel : on ne vide pas les inputs si "Se souvenir de moi" est coché pour le confort d'usage
+        if(!document.getElementById('souvenir_moi').checked) {
+            document.getElementById('login_user').value = "";
+            document.getElementById('login_pass').value = "";
+        }
         document.getElementById('ecran_auth').style.opacity = '1';
         document.getElementById('ecran_auth').style.display = 'flex';
         document.getElementById('contenu_principal').style.display = 'none';
         basculerEcranAuth('connexion');
     }
 
-    // CODE CORE METIER DE GESTION ADMINISTRATIVE
+    // BASE LOGIQUE MÉTIER DE L'APPLICATION
     const GRILLES_INDICES = {
         FONCTIONNAIRE: {
             "SOUS OPERATEUR (D1A)": [275, 295, 310, 350, 370, 395, 415, 440, 460, 490, 515, 675],
@@ -739,7 +775,7 @@
 
         const soldeActuel = parseInt(document.getElementById('lbl_conges_restants').innerText);
         if(jours > soldeActuel) {
-            afficherPopupCentral("Alerte Solde", "Droit aux congés insuffisant !", false);
+            afficherPopupCentral("Alerte Solde", "Droit aux congés insuffisistant !", false);
             return;
         }
 
@@ -765,7 +801,6 @@
     }
 
     function escapeHtml(text) { return text ? text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : ""; }
-    adapterFormulaireGrille();
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
