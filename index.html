@@ -17,8 +17,8 @@
           --mada-dark: #111827; --mada-gray: #F8FAFC; --mada-border: #E2E8F0;
           --gold-premium: #D4AF37;
         }
-        body { background-color: #0F172A; font-family: 'Inter', sans-serif; color: #334155; padding-bottom: 80px; }
-        .mada-top-bar { height: 12px; width: 100%; background: linear-gradient(90deg, var(--mada-white) 33.33%, var(--mada-red) 33.33% 66.66%, var(--mada-green) 66.66%); position: fixed; top: 0; left: 0; z-index: 1000; }
+        body { background-color: #0F172A; font-family: 'Inter', sans-serif; color: #334155; padding-bottom: 80px; overflow-x: hidden; }
+        .mada-top-bar { height: 12px; width: 100%; background: linear-gradient(90deg, var(--mada-white) 33.33%, var(--mada-red) 33.33% 66.66%, var(--mada-green) 66.66%); position: fixed; top: 0; left: 0; z-index: 10000; }
         .logo-container { padding: 35px 0; background: #1E293B; border-bottom: 2px solid #334155; margin-top: 12px; }
         
         /* LOGO ANIMÉ STYLE MOTION DESIGN PREMIUM */
@@ -38,6 +38,24 @@
         }
         @keyframes technologieReflet { 0% { left: -60%; } 30% { left: 140%; } 100% { left: 140%; } }
 
+        /* PORTAIL AUTHENTIFICATION DE LUXE */
+        #ecran_auth {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, #1E293B 0%, #0F172A 100%); z-index: 9999; display: flex; align-items: center; justify-content: center; transition: 0.5s ease-in-out;
+        }
+        .carte-auth {
+            background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(16px); width: 100%; max-width: 460px; padding: 45px; border-radius: 12px; box-shadow: 0 30px 60px -12px rgba(0,0,0,0.6); border: 1px solid rgba(255, 255, 255, 0.08); border-top: 5px solid var(--mada-green); text-align: center;
+        }
+        .btn-toggle-auth {
+            color: var(--gold-premium); text-decoration: none; font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: 0.2s;
+        }
+        .btn-toggle-auth:hover { color: white; text-shadow: 0 0 8px var(--gold-premium); }
+        .input-group-auth { background: #0F172A; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1); overflow: hidden; transition: 0.3s; }
+        .input-group-auth:focus-within { border-color: var(--mada-green); box-shadow: 0 0 10px rgba(0, 122, 51, 0.3); }
+        .input-group-auth input { background: transparent !important; color: white !important; border: none !important; }
+        .input-group-auth .btn-oeil { background: transparent; border: none; color: #64748B; padding: 10px 15px; transition: 0.2s; }
+        .input-group-auth .btn-oeil:hover { color: white; }
+
+        /* ÉLÉMENTS INTERNES APP */
         .card-site { background: white; border: none; border-radius: 8px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3); margin-bottom: 30px; overflow: hidden; }
         .card-site-header { background: var(--mada-dark); color: white; font-family: 'Poppins', sans-serif; font-weight: 700; text-transform: uppercase; padding: 20px; font-size: 0.9rem; letter-spacing: 1px; border-left: 8px solid var(--mada-green); }
         .form-control-site { border: 1px solid #CBD5E1; border-radius: 4px; padding: 10px; background: var(--mada-gray); font-size: 0.95rem; color: #1E293B; }
@@ -59,7 +77,7 @@
         .box-enfants-dynamique { background: #FFF1F2; border: 1px solid #FECDD3; padding: 12px; margin-top: 10px; border-radius: 4px; }
 
         .premium-footer { text-align: center; padding: 30px; margin-top: 50px; color: #64748B; font-size: 0.9rem; border-top: 1px solid #334155; }
-        .signature-tahiana { font-family: 'times news roman', serif; font-style: gold; font-weight: 600; color: var(--gold-premium); font-size: 1.3rem; letter-spacing: 1px; display: inline-block; margin-left: 8px; }
+        .signature-tahiana { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 600; color: var(--gold-premium); font-size: 1.3rem; letter-spacing: 1px; display: inline-block; margin-left: 8px; }
 
         .notif-centrale {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(15, 23, 42, 0.98); color: white; padding: 35px 55px; border-radius: 8px; z-index: 10000; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); text-align: center; border-top: 6px solid var(--mada-green); display: none; 
@@ -71,251 +89,417 @@
 
 <div class="mada-top-bar"></div>
 
+<div id="ecran_auth">
+    <div class="carte-auth" id="bloc_connexion">
+        <div class="site-logo mb-4" style="font-size: 26px;">SRBV Securisé</div>
+        <h5 class="text-white mb-1 fw-bold">Espace de Connexion</h5>
+        <p class="text-muted small mb-4 text-uppercase" style="font-size:11px;">Direction Régionale du Budget Vatovavy</p>
+        
+        <form onsubmit="verifierLogin(event)">
+            <div class="mb-3 text-start">
+                <label class="text-white-50 small fw-bold mb-1">IDENTIFIANT</label>
+                <div class="input-group input-group-auth">
+                    <span class="input-group-text bg-transparent border-0 text-white-50"><i class="fa-solid fa-user"></i></span>
+                    <input type="text" id="login_user" class="form-control" placeholder="Ex: admin" required>
+                </div>
+            </div>
+            <div class="mb-4 text-start">
+                <label class="text-white-50 small fw-bold mb-1">MOT DE PASSE</label>
+                <div class="input-group input-group-auth">
+                    <span class="input-group-text bg-transparent border-0 text-white-50"><i class="fa-solid fa-lock"></i></span>
+                    <input type="password" id="login_pass" class="form-control" placeholder="••••••••" required>
+                    <button type="button" class="btn-oeil" onclick="basculerOeil('login_pass', this)"><i class="fa-solid fa-eye"></i></button>
+                </div>
+            </div>
+            <div id="erreur_login" class="alert alert-danger p-2 small border-0 mb-3" style="display: none;"></div>
+            <button type="submit" class="btn-site-submit shadow-sm py-3 mb-3"><i class="fa-solid fa-key me-2"></i>Se Connecter</button>
+            <div class="mt-2">
+                <span class="text-white-50 small">Pas encore de compte ?</span> <a class="btn-toggle-auth" onclick="basculerEcranAuth('inscription')">Créer un profil</a>
+            </div>
+        </form>
+    </div>
+
+    <div class="carte-auth" id="bloc_inscription" style="display: none; border-top-color: var(--mada-red);">
+        <div class="site-logo mb-4" style="font-size: 26px;">SRBV Registre</div>
+        <h5 class="text-white mb-1 fw-bold">Nouvelle Inscription</h5>
+        <p class="text-muted small mb-4 text-uppercase" style="font-size:11px;">Création de compte Administrateur Budget</p>
+        
+        <form onsubmit="enregistrerNouvelUtilisateur(event)">
+            <div class="mb-3 text-start">
+                <label class="text-white-50 small fw-bold mb-1">CHOISIR UN IDENTIFIANT</label>
+                <div class="input-group input-group-auth">
+                    <span class="input-group-text bg-transparent border-0 text-white-50"><i class="fa-solid fa-user-plus"></i></span>
+                    <input type="text" id="reg_user" class="form-control" placeholder="Ex: tahiana" required>
+                </div>
+            </div>
+            <div class="mb-4 text-start">
+                <label class="text-white-50 small fw-bold mb-1">CRÉER UN MOT DE PASSE</label>
+                <div class="input-group input-group-auth">
+                    <span class="input-group-text bg-transparent border-0 text-white-50"><i class="fa-solid fa-lock"></i></span>
+                    <input type="password" id="reg_pass" class="form-control" placeholder="••••••••" required>
+                    <button type="button" class="btn-oeil" onclick="basculerOeil('reg_pass', this)"><i class="fa-solid fa-eye"></i></button>
+                </div>
+            </div>
+            <div id="erreur_inscription" class="alert alert-danger p-2 small border-0 mb-3" style="display: none;"></div>
+            <button type="submit" class="btn-site-submit shadow-sm py-3 mb-3" style="background: linear-gradient(135deg, var(--mada-red), #B91C1C);"><i class="fa-solid fa-user-check me-2"></i>Enregistrer le compte</button>
+            <div class="mt-2">
+                <span class="text-white-50 small">Déjà inscrit ?</span> <a class="btn-toggle-auth" onclick="basculerEcranAuth('connexion')">Retour au login</a>
+            </div>
+        </form>
+    </div>
+</div>
+
 <div id="popup_notification" class="notif-centrale">
     <i id="popup_icone" class="fa-solid fa-circle-check"></i>
     <h4 id="popup_titre">Statut</h4>
     <p id="popup_texte" class="m-0 text-muted small"></p>
 </div>
 
-<header class="logo-container shadow">
-    <div class="container-fluid px-5">
-        <div class="row align-items-center">
-            <div class="col-lg-6">
-                <div class="site-logo"> Gestion Agent</div>
-                <div class="text-white-50 fw-bold small text-uppercase mt-2" style="letter-spacing:1px;"><i class="fa-solid fa-satellite-dish text-success me-2"></i>Base de Données Intégrée Live • Vatovavy</div>
-            </div>
-            <div class="col-lg-6 mt-3 mt-lg-0">
-                <div class="input-group border-0 shadow-sm rounded">
-                    <span class="input-group-text bg-white border-0"><i class="fa-solid fa-magnifying-glass text-success"></i></span>
-                    <input type="text" id="moteur_recherche" class="form-control border-0 py-3 text-dark" placeholder="RECHERCHER UN AGENT PAR MATRICULE IM..." onkeyup="executerFiltrage()">
+<div id="contenu_principal" style="display: none;">
+    <header class="logo-container shadow">
+        <div class="container-fluid px-5">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="site-logo">SRBV Gestion</div>
+                    <div class="text-white-50 fw-bold small text-uppercase mt-2" style="letter-spacing:1px;"><i class="fa-solid fa-satellite-dish text-success me-2"></i>Base de Données Intégrée Live • Vatovavy</div>
                 </div>
-            </div>
-        </div>
-    </div>
-</header>
-
-<div class="container-fluid px-5 mt-5">
-    <div class="row g-4">
-        
-        <div class="col-xl-4 col-lg-5">
-            <div class="card-site">
-                <div class="card-site-header"><i class="fa-solid fa-user-plus me-2"></i> Enregistrement Agent</div>
-                <div class="card-body p-4 bg-white" style="max-height: 750px; overflow-y: auto;">
-                    <form id="form_agent" onsubmit="sauvegarderAgent(event)">
-                        
-                        <div class="text-uppercase small fw-bold mb-3 text-success border-bottom pb-1"><i class="fa-solid fa-id-card me-1"></i> 1. Statut & Identité</div>
-                        <div class="row g-2 mb-3">
-                            <div class="col-12">
-                                <label class="small fw-bold">CATÉGORIE / TYPE D'AGENT</label>
-                                <select id="type_agent" class="form-select form-control-site" onchange="adapterFormulaireGrille()" required>
-                                    <option value="FONCTIONNAIRE">FONCTIONNAIRE</option>
-                                    <option value="CONTRACTUEL_EFA_INF">CONTRACTUEL EFA (Cat I à III)</option>
-                                    <option value="CONTRACTUEL_EFA_SUP">CONTRACTUEL EFA (Cat IV à X)</option>
-                                    <option value="ELD">ELD (Emploi Longue Durée)</option>
-                                </select>
-                            </div>
-                            <div class="col-md-5">
-                                <label class="small fw-bold">N° IM</label>
-                                <input type="text" id="im" class="form-control form-control-site" required>
-                            </div>
-                            <div class="col-md-7">
-                                <label class="small fw-bold">NOM & PRÉNOMS</label>
-                                <input type="text" id="nom" class="form-control form-control-site" required>
-                            </div>
-                        </div>
-
-                        <div class="text-uppercase small fw-bold mb-3 text-success border-bottom pb-1"><i class="fa-solid fa-cake-candles me-1"></i> 2. Données Civiles & Contact</div>
-                        <div class="row g-2 mb-3">
-                            <div class="col-md-6">
-                                <label class="small fw-bold">N° CIN</label>
-                                <input type="text" id="cin" class="form-control form-control-site" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="small fw-bold">N° TÉLÉPHONE</label>
-                                <input type="text" id="tel" class="form-control form-control-site" required>
-                            </div>
-                            <div class="col-12">
-                                <label class="small fw-bold">DATE DE NAISSANCE</label>
-                                <input type="date" id="date_naissance" class="form-control form-control-site" required>
-                            </div>
-                        </div>
-
-                        <div class="text-uppercase small fw-bold mb-3 text-success border-bottom pb-1"><i class="fa-solid fa-children me-1"></i> 3. Situation Matrimoniale & Enfants</div>
-                        <div class="row g-2 mb-3">
-                            <div class="col-md-6">
-                                <label class="small fw-bold">SITUATION</label>
-                                <select id="select_situation" class="form-select form-control-site" onchange="gererAffichageConjoint()">
-                                    <option value="Célibataire">Célibataire</option>
-                                    <option value="Marié(e)">Marié(e)</option>
-                                    <option value="Divorcé(e)">Divorcé(e)</option>
-                                    <option value="Veuf(ve)">Veuf(ve)</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="small fw-bold">NB ENFANTS</label>
-                                <input type="number" id="champ_nb_enfants" class="form-control form-control-site" value="0" min="0" oninput="declarerChampsEnfants()">
-                            </div>
-                            <div class="col-12" id="bloc_conjoint" style="display:none;">
-                                <label class="small fw-bold text-danger">NOM DU CONJOINT (ÉPOUX / ÉPOUSE)</label>
-                                <input type="text" id="nom_conjoint" class="form-control form-control-site border-danger" placeholder="Nom complet du conjoint...">
-                            </div>
-                            <div class="col-12" id="bloc_enfants_dynamique"></div>
-                        </div>
-
-                        <div class="text-uppercase small fw-bold mb-3 text-success border-bottom pb-1"><i class="fa-solid fa-gavel me-1"></i> 4. Grade & Échelon (Calcul Indice)</div>
-                        <div class="row g-2 mb-3">
-                            <div class="col-md-12">
-                                <label class="small fw-bold" id="lbl_grade_dynamique">CORPS / GRADE</label>
-                                <select id="grade" class="form-select form-control-site" onchange="calculerIndiceAutomatique()"></select>
-                            </div>
-                            <div class="col-md-12">
-                                <label class="small fw-bold">ÉCHELON / CLASSE</label>
-                                <select id="echelon" class="form-select form-control-site" onchange="calculerIndiceAutomatique()"></select>
-                            </div>
-                            <div class="col-12 mt-2">
-                                <div class="p-2 text-center bg-light border fw-bold text-dark rounded">
-                                    INDICE CALCULÉ : <span id="affichage_indice" class="text-danger fs-5">0</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="text-uppercase small fw-bold mb-3 text-success border-bottom pb-1"><i class="fa-solid fa-calendar-check me-1"></i> 5. Entrée & Structure</div>
-                        <div class="row g-2 mb-4">
-                            <div class="col-12">
-                                <label class="small fw-bold">DATE D'ENTRÉE EN SERVICE</label>
-                                <input type="date" id="date_debut_contrat" class="form-control form-control-site" required>
-                            </div>
-                            <div class="col-12">
-                                <label class="small fw-bold">DIVISION D'AFFECTATION</label>
-                                <select id="division" class="form-select form-control-site">
-                                    <option>Chef de Service</option>
-                                    <option>Division du Patrimoine de l’Etat</option>
-                                    <option>Division du Contrôle</option>
-                                    <option>Division Administrative</option>
-                                    <option>Division Coordonateur</option>
-                                    <option>Chauffeur</option>
-                                    <option>Division Centre Informatique Régioinal</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <button type="submit" class="btn-site-submit shadow-sm">Enregistrer & Synchroniser</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xl-8 col-lg-7">
-            <div class="card-site">
-                <div class="card-site-header d-flex justify-content-between align-items-center" style="border-left-color: var(--mada-red);">
-                    <span><i class="fa-solid fa-folder-tree me-2"></i> Registre Général Live</span>
-                    <span class="badge bg-danger rounded-pill" id="badge_total">0 Agent</span>
-                </div>
-                <div class="table-responsive" style="max-height: 220px;">
-                    <table class="table table-site mb-0">
-                        <thead>
-                            <tr>
-                                <th>Nom de l'Agent</th>
-                                <th>Matricule IM</th>
-                                <th>Type</th>
-                                <th class="text-end">Fiche</th>
-                            </tr>
-                        </thead>
-                        <tbody id="liste_agents_body"></tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div id="bloc_fiche_detail" style="display: none;">
-                <div class="card-site shadow border bg-white">
-                    <div class="p-4 border-bottom d-flex justify-content-between align-items-center bg-light">
-                        <h4 class="m-0 fw-bold"><i class="fa-solid fa-file-invoice text-success me-2"></i>Fiche : <span id="lbl_nom" class="text-success"></span></h4>
-                        <button class="btn btn-dark rounded-1 fw-bold px-4" onclick="window.print()"><i class="fa-solid fa-print me-2"></i>IMPRIMER LA FICHE</button>
+                <div class="col-lg-4 mt-3 mt-lg-0">
+                    <div class="input-group border-0 shadow-sm rounded">
+                        <span class="input-group-text bg-white border-0"><i class="fa-solid fa-magnifying-glass text-success"></i></span>
+                        <input type="text" id="moteur_recherche" class="form-control border-0 py-3 text-dark" placeholder="RECHERCHER UN AGENT PAR MATRICULE IM..." onkeyup="executerFiltrage()">
                     </div>
+                </div>
+                <div class="col-lg-2 text-end">
+                    <button class="btn btn-outline-danger font-weight-bold px-3 py-2 text-uppercase small" onclick="deconnexion()"><i class="fa-solid fa-power-off me-2"></i>Quitter</button>
+                </div>
+            </div>
+        </div>
+    </header>
 
-                    <ul class="nav nav-tabs nav-tabs-site px-4 pt-2" role="tablist">
-                        <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab_carriere">Carrière & Évolution</button></li>
-                        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab_civil">Données Personnelles & Famille</button></li>
-                        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab_conges"><i class="fa-solid fa-umbrella-beach me-1"></i> Suivi des Congés</button></li>
-                    </ul>
-
-                    <div class="tab-content p-4">
-                        <div class="tab-pane fade show active pane-site-dossier" id="tab_carriere">
-                            <h5 class="fw-bold mb-3 text-dark text-uppercase"><i class="fa-solid fa-stairs me-2 text-danger"></i>Situation Administrative</h5>
-                            <div class="row g-3 mb-4 text-dark">
-                                <div class="col-md-6"><strong>Type de Personnel :</strong> <span id="lbl_type" class="badge bg-secondary"></span></div>
-                                <div class="col-md-6"><strong>Matricule IM :</strong> <span id="lbl_im_fiche" class="fw-bold text-danger"></span></div>
-                                <div class="col-md-6"><strong>Grade / Corps :</strong> <span id="lbl_grade"></span></div>
-                                <div class="col-md-6"><strong>Classe / Échelon :</strong> <span id="lbl_echelon"></span></div>
-                                <div class="col-md-6"><strong>Indice Fonction Publique :</strong> <span id="lbl_indice" class="badge bg-dark"></span></div>
-                                <div class="col-md-6"><strong>Ancienneté Générale :</strong> <span id="lbl_anciennete_detail" class="text-primary fw-bold"></span></div>
-                                <div class="col-md-12"><strong>Division d'Affectation :</strong> <span id="lbl_div" class="fw-bold"></span></div>
-                            </div>
-                            <div id="zone_evolution_dynamique"></div>
-                        </div>
-                        
-                        <div class="tab-pane fade pane-site-dossier" id="tab_civil" style="border-left-color: #a855f7;">
-                            <h5 class="fw-bold mb-3 text-dark text-uppercase"><i class="fa-solid fa-user me-2 text-purple"></i>État Civil & Prestations</h5>
-                            <div class="row g-3 text-dark mb-4">
-                                <div class="col-md-6"><strong>N° CIN :</strong> <span id="lbl_cin"></span></div>
-                                <div class="col-md-6"><strong>N° Téléphone :</strong> <span id="lbl_tel"></span></div>
-                                <div class="col-md-6"><strong>Date de Naissance :</strong> <span id="lbl_date_naissance"></span></div>
-                                <div class="col-md-6"><strong>Situation Matrimoniale :</strong> <span id="lbl_situation"></span></div>
-                            </div>
+    <div class="container-fluid px-5 mt-5">
+        <div class="row g-4">
+            
+            <div class="col-xl-4 col-lg-5">
+                <div class="card-site">
+                    <div class="card-site-header"><i class="fa-solid fa-user-plus me-2"></i> Enregistrement Agent</div>
+                    <div class="card-body p-4 bg-white" style="max-height: 750px; overflow-y: auto;">
+                        <form id="form_agent" onsubmit="sauvegarderAgent(event)">
                             
-                            <div class="allocation-box">
-                                <h5 class="fw-bold text-success text-uppercase mb-2">Prestations Sociales Automatiques</h5>
-                                <div class="fs-6 text-dark mb-2">Nombre d'enfants déclarés : <strong id="lbl_nb_enfants" class="text-danger">0</strong></div>
-                                <div class="small text-muted mb-3">Prénoms à charge : <span id="lbl_prenoms_enfants" class="fw-bold text-dark">Aucun</span></div>
-                                <div class="bg-white p-2 border border-2 text-uppercase fw-bold d-inline-block rounded">
-                                    Allocation Mensuelle (10 000 Ar / Enfant) : <span id="lbl_somme_ariary" class="text-success fs-5">0</span> Ar
+                            <div class="text-uppercase small fw-bold mb-3 text-success border-bottom pb-1"><i class="fa-solid fa-id-card me-1"></i> 1. Statut & Identité</div>
+                            <div class="row g-2 mb-3">
+                                <div class="col-12">
+                                    <label class="small fw-bold">CATÉGORIE / TYPE D'AGENT</label>
+                                    <select id="type_agent" class="form-select form-control-site" onchange="adapterFormulaireGrille()" required>
+                                        <option value="FONCTIONNAIRE">FONCTIONNAIRE</option>
+                                        <option value="CONTRACTUEL_EFA_INF">CONTRACTUEL EFA (Cat I à III)</option>
+                                        <option value="CONTRACTUEL_EFA_SUP">CONTRACTUEL EFA (Cat IV à X)</option>
+                                        <option value="ELD">ELD (Emploi Longue Durée)</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-5">
+                                    <label class="small fw-bold">N° IM</label>
+                                    <input type="text" id="im" class="form-control form-control-site" required>
+                                </div>
+                                <div class="col-md-7">
+                                    <label class="small fw-bold">NOM & PRÉNOMS</label>
+                                    <input type="text" id="nom" class="form-control form-control-site" required>
                                 </div>
                             </div>
-                        </div>
-                        
-                        <div class="tab-pane fade pane-site-dossier" id="tab_conges" style="border-left-color: #3b82f6;">
-                            <h5 class="fw-bold text-dark text-uppercase mb-4"><i class="fa-solid fa-clock-rotate-left me-2 text-primary"></i>Droits aux Congés de l'Agent</h5>
-                            
-                            <div class="row g-3 mb-4">
-                                <div class="col-md-4"><div class="conge-badge-box"><strong>Droit Annuel</strong><div class="fs-4 fw-bold text-dark">60 Jours</div></div></div>
-                                <div class="col-md-4"><div class="conge-badge-box bg-danger-subtle text-danger"><strong>Jours Consommés</strong><div class="fs-4 fw-bold text-danger" id="lbl_conges_pris">0 Jour</div></div></div>
-                                <div class="col-md-4"><div class="conge-badge-box bg-success-subtle text-success"><strong>Solde Restant</strong><div class="fs-4 fw-bold text-success" id="lbl_conges_restants">60 Jours</div></div></div>
+
+                            <div class="text-uppercase small fw-bold mb-3 text-success border-bottom pb-1"><i class="fa-solid fa-cake-candles me-1"></i> 2. Données Civiles & Contact</div>
+                            <div class="row g-2 mb-3">
+                                <div class="col-md-6">
+                                    <label class="small fw-bold">N° CIN</label>
+                                    <input type="text" id="cin" class="form-control form-control-site" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="small fw-bold">N° TÉLÉPHONE</label>
+                                    <input type="text" id="tel" class="form-control form-control-site" required>
+                                </div>
+                                <div class="col-12">
+                                    <label class="small fw-bold">DATE DE NAISSANCE</label>
+                                    <input type="date" id="date_naissance" class="form-control form-control-site" required>
+                                </div>
                             </div>
 
-                            <div class="p-3 bg-light border rounded mb-4 text-dark">
-                                <h6 class="fw-bold text-uppercase"><i class="fa-solid fa-plus-circle me-1"></i> Enregistrer une absence / congé</h6>
-                                <div class="row g-2 mt-1">
-                                    <div class="col-md-4">
-                                        <select id="action_type_conge" class="form-select form-control-site">
-                                            <option value="Congé Annuel">Congé Annuel</option>
-                                            <option value="Autorisation d'Absence">Autorisation d'Absence</option>
-                                        </select>
+                            <div class="text-uppercase small fw-bold mb-3 text-success border-bottom pb-1"><i class="fa-solid fa-children me-1"></i> 3. Situation Matrimoniale & Enfants</div>
+                            <div class="row g-2 mb-3">
+                                <div class="col-md-6">
+                                    <label class="small fw-bold">SITUATION</label>
+                                    <select id="select_situation" class="form-select form-control-site" onchange="gererAffichageConjoint()">
+                                        <option value="Célibataire">Célibataire</option>
+                                        <option value="Marié(e)">Marié(e)</option>
+                                        <option value="Divorcé(e)">Divorcé(e)</option>
+                                        <option value="Veuf(ve)">Veuf(ve)</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="small fw-bold">NB ENFANTS</label>
+                                    <input type="number" id="champ_nb_enfants" class="form-control form-control-site" value="0" min="0" oninput="declarerChampsEnfants()">
+                                </div>
+                                <div class="col-12" id="bloc_conjoint" style="display:none;">
+                                    <label class="small fw-bold text-danger">NOM DU CONJOINT (ÉPOUX / ÉPOUSE)</label>
+                                    <input type="text" id="nom_conjoint" class="form-control form-control-site border-danger" placeholder="Nom complet du conjoint...">
+                                </div>
+                                <div class="col-12" id="bloc_enfants_dynamique"></div>
+                            </div>
+
+                            <div class="text-uppercase small fw-bold mb-3 text-success border-bottom pb-1"><i class="fa-solid fa-gavel me-1"></i> 4. Grade & Échelon (Calcul Indice)</div>
+                            <div class="row g-2 mb-3">
+                                <div class="col-md-12">
+                                    <label class="small fw-bold" id="lbl_grade_dynamique">CORPS / GRADE</label>
+                                    <select id="grade" class="form-select form-control-site" onchange="calculerIndiceAutomatique()"></select>
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="small fw-bold">ÉCHELON / CLASSE</label>
+                                    <select id="echelon" class="form-select form-control-site" onchange="calculerIndiceAutomatique()"></select>
+                                </div>
+                                <div class="col-12 mt-2">
+                                    <div class="p-2 text-center bg-light border fw-bold text-dark rounded">
+                                        INDICE CALCULÉ : <span id="affichage_indice" class="text-danger fs-5">0</span>
                                     </div>
-                                    <div class="col-md-4"><input type="number" id="action_jours_conge" class="form-control form-control-site" placeholder="Nombre de jours" min="1"></div>
-                                    <div class="col-md-4"><button class="btn btn-primary w-100 h-100 rounded-1 fw-bold" onclick="ajouterAbsenceEnLigne()">Déduire</button></div>
                                 </div>
                             </div>
 
-                            <h6 class="fw-bold text-dark border-bottom pb-2">Historique des Absences de l'Agent</h6>
-                            <ul class="list-group list-group-flush" id="liste_historique_conges"></ul>
+                            <div class="text-uppercase small fw-bold mb-3 text-success border-bottom pb-1"><i class="fa-solid fa-calendar-check me-1"></i> 5. Entrée & Structure</div>
+                            <div class="row g-2 mb-4">
+                                <div class="col-12">
+                                    <label class="small fw-bold">DATE D'ENTRÉE EN SERVICE</label>
+                                    <input type="date" id="date_debut_contrat" class="form-control form-control-site" required>
+                                </div>
+                                <div class="col-12">
+                                    <label class="small fw-bold">DIVISION D'AFFECTATION</label>
+                                    <select id="division" class="form-select form-control-site">
+                                        <option>Division du Patrimoine de l’Etat</option>
+                                        <option>Division du Contrôle</option>
+                                        <option>Division Administrative</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn-site-submit shadow-sm">Enregistrer & Synchroniser</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-8 col-lg-7">
+                <div class="card-site">
+                    <div class="card-site-header d-flex justify-content-between align-items-center" style="border-left-color: var(--mada-red);">
+                        <span><i class="fa-solid fa-folder-tree me-2"></i> Registre Général Live</span>
+                        <span class="badge bg-danger rounded-pill" id="badge_total">0 Agent</span>
+                    </div>
+                    <div class="table-responsive" style="max-height: 220px;">
+                        <table class="table table-site mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Nom de l'Agent</th>
+                                    <th>Matricule IM</th>
+                                    <th>Type</th>
+                                    <th class="text-end">Fiche</th>
+                                </tr>
+                            </thead>
+                            <tbody id="liste_agents_body"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="bloc_fiche_detail" style="display: none;">
+                    <div class="card-site shadow border bg-white">
+                        <div class="p-4 border-bottom d-flex justify-content-between align-items-center bg-light">
+                            <h4 class="m-0 fw-bold"><i class="fa-solid fa-file-invoice text-success me-2"></i>Fiche : <span id="lbl_nom" class="text-success"></span></h4>
+                            <button class="btn btn-dark rounded-1 fw-bold px-4" onclick="window.print()"><i class="fa-solid fa-print me-2"></i>IMPRIMER LA FICHE</button>
+                        </div>
+
+                        <ul class="nav nav-tabs nav-tabs-site px-4 pt-2" role="tablist">
+                            <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab_carriere">Carrière & Évolution</button></li>
+                            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab_civil">Données Personnelles & Famille</button></li>
+                            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab_conges"><i class="fa-solid fa-umbrella-beach me-1"></i> Suivi des Congés</button></li>
+                        </ul>
+
+                        <div class="tab-content p-4">
+                            <div class="tab-pane fade show active pane-site-dossier" id="tab_carriere">
+                                <h5 class="fw-bold mb-3 text-dark text-uppercase"><i class="fa-solid fa-stairs me-2 text-danger"></i>Situation Administrative</h5>
+                                <div class="row g-3 mb-4 text-dark">
+                                    <div class="col-md-6"><strong>Type de Personnel :</strong> <span id="lbl_type" class="badge bg-secondary"></span></div>
+                                    <div class="col-md-6"><strong>Matricule IM :</strong> <span id="lbl_im_fiche" class="fw-bold text-danger"></span></div>
+                                    <div class="col-md-6"><strong>Grade / Corps :</strong> <span id="lbl_grade"></span></div>
+                                    <div class="col-md-6"><strong>Classe / Échelon :</strong> <span id="lbl_echelon"></span></div>
+                                    <div class="col-md-6"><strong>Indice Fonction Publique :</strong> <span id="lbl_indice" class="badge bg-dark"></span></div>
+                                    <div class="col-md-6"><strong>Ancienneté Générale :</strong> <span id="lbl_anciennete_detail" class="text-primary fw-bold"></span></div>
+                                    <div class="col-md-12"><strong>Division d'Affectation :</strong> <span id="lbl_div" class="fw-bold"></span></div>
+                                </div>
+                                <div id="zone_evolution_dynamique"></div>
+                            </div>
+                            
+                            <div class="tab-pane fade pane-site-dossier" id="tab_civil" style="border-left-color: #a855f7;">
+                                <h5 class="fw-bold mb-3 text-dark text-uppercase"><i class="fa-solid fa-user me-2 text-purple"></i>État Civil & Prestations</h5>
+                                <div class="row g-3 text-dark mb-4">
+                                    <div class="col-md-6"><strong>N° CIN :</strong> <span id="lbl_cin"></span></div>
+                                    <div class="col-md-6"><strong>N° Téléphone :</strong> <span id="lbl_tel"></span></div>
+                                    <div class="col-md-6"><strong>Date de Naissance :</strong> <span id="lbl_date_naissance"></span></div>
+                                    <div class="col-md-6"><strong>Situation Matrimoniale :</strong> <span id="lbl_situation"></span></div>
+                                </div>
+                                
+                                <div class="allocation-box">
+                                    <h5 class="fw-bold text-success text-uppercase mb-2">Prestations Sociales Automatiques</h5>
+                                    <div class="fs-6 text-dark mb-2">Nombre d'enfants déclarés : <strong id="lbl_nb_enfants" class="text-danger">0</strong></div>
+                                    <div class="small text-muted mb-3">Prénoms à charge : <span id="lbl_prenoms_enfants" class="fw-bold text-dark">Aucun</span></div>
+                                    <div class="bg-white p-2 border border-2 text-uppercase fw-bold d-inline-block rounded">
+                                        Allocation Mensuelle (10 000 Ar / Enfant) : <span id="lbl_somme_ariary" class="text-success fs-5">0</span> Ar
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="tab-pane fade pane-site-dossier" id="tab_conges" style="border-left-color: #3b82f6;">
+                                <h5 class="fw-bold text-dark text-uppercase mb-4"><i class="fa-solid fa-clock-rotate-left me-2 text-primary"></i>Droits aux Congés de l'Agent</h5>
+                                
+                                <div class="row g-3 mb-4">
+                                    <div class="col-md-4"><div class="conge-badge-box"><strong>Droit Annuel</strong><div class="fs-4 fw-bold text-dark">60 Jours</div></div></div>
+                                    <div class="col-md-4"><div class="conge-badge-box bg-danger-subtle text-danger"><strong>Jours Consommés</strong><div class="fs-4 fw-bold text-danger" id="lbl_conges_pris">0 Jour</div></div></div>
+                                    <div class="col-md-4"><div class="conge-badge-box bg-success-subtle text-success"><strong>Solde Restant</strong><div class="fs-4 fw-bold text-success" id="lbl_conges_restants">60 Jours</div></div></div>
+                                </div>
+
+                                <div class="p-3 bg-light border rounded mb-4 text-dark">
+                                    <h6 class="fw-bold text-uppercase"><i class="fa-solid fa-plus-circle me-1"></i> Enregistrer une absence / congé</h6>
+                                    <div class="row g-2 mt-1">
+                                        <div class="col-md-4">
+                                            <select id="action_type_conge" class="form-select form-control-site">
+                                                <option value="Congé Annuel">Congé Annuel</option>
+                                                <option value="Autorisation d'Absence">Autorisation d'Absence</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4"><input type="number" id="action_jours_conge" class="form-control form-control-site" placeholder="Nombre de jours" min="1"></div>
+                                        <div class="col-md-4"><button class="btn btn-primary w-100 h-100 rounded-1 fw-bold" onclick="ajouterAbsenceEnLigne()">Déduire</button></div>
+                                    </div>
+                                </div>
+
+                                <h6 class="fw-bold text-dark border-bottom pb-2">Historique des Absences de l'Agent</h6>
+                                <ul class="list-group list-group-flush" id="liste_historique_conges"></ul>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <footer class="premium-footer">
+        DIRECTION DU BUDGET VATOVAVY • CONCEPTION TECHNIQUE PREMIUM PAR <span class="signature-tahiana">TAHIANA ANDREA</span> &copy; 2026
+    </footer>
 </div>
 
-<footer class="premium-footer">
-    DIRECTION DU BUDGET VATOVAVY • CONCEPTION TECHNIQUE PREMIUM PAR <span class="signature-tahiana">TAHIANA ANDREA</span> &copy; 2026
-</footer>
-
 <script>
-    // Connexion à la base Firebase
+    // Configuration & Branchement Firebase Realtime Database
     const firebaseConfig = { databaseURL: "https://srb-agents-default-rtdb.firebaseio.com/" };
     firebase.initializeApp(firebaseConfig);
     const dbRef = firebase.database().ref("agents_srbv_complete_v3");
+    const userRef = firebase.database().ref("utilisateurs_srbv");
 
+    // Compte Super-Admin par défaut (toujours valable au cas où la bdd est vide)
+    const DEFAULT_USER = "admin";
+    const DEFAULT_PASS = "srbv2026";
+
+    // GESTION DU PORTAIL AUTHENTIFICATION
+    function basculerEcranAuth(cible) {
+        if(cible === 'inscription') {
+            document.getElementById('bloc_connexion').style.display = 'none';
+            document.getElementById('bloc_inscription').style.display = 'block';
+        } else {
+            document.getElementById('bloc_connexion').style.display = 'block';
+            document.getElementById('bloc_inscription').style.display = 'none';
+        }
+    }
+
+    function basculerOeil(idChamp, bouton) {
+        const champ = document.getElementById(idChamp);
+        const icone = bouton.querySelector('i');
+        if (champ.type === "password") {
+            champ.type = "text";
+            icone.className = "fa-solid fa-eye-slash";
+        } else {
+            champ.type = "password";
+            icone.className = "fa-solid fa-eye";
+        }
+    }
+
+    // Connexion sécurisée avec vérification locale + Firebase
+    function verifierLogin(event) {
+        event.preventDefault();
+        const user = document.getElementById('login_user').value.trim();
+        const pass = document.getElementById('login_pass').value.trim();
+        const boxErreur = document.getElementById('erreur_login');
+
+        // 1. Test du super-compte maître
+        if (user === DEFAULT_USER && pass === DEFAULT_PASS) {
+            ouvrirApplication();
+            return;
+        }
+
+        // 2. Recherche du compte créé dans Firebase
+        userRef.child(user).once('value', (snapshot) => {
+            const userData = snapshot.val();
+            if(userData && userData.password === pass) {
+                ouvrirApplication();
+            } else {
+                boxErreur.innerText = "Identifiant ou mot de passe incorrect.";
+                boxErreur.style.display = 'block';
+            }
+        });
+    }
+
+    // Inscription dynamique d'un nouvel administrateur
+    function enregistrerNouvelUtilisateur(event) {
+        event.preventDefault();
+        const user = document.getElementById('reg_user').value.trim().toLowerCase();
+        const pass = document.getElementById('reg_pass').value.trim();
+        const boxErreur = document.getElementById('erreur_inscription');
+
+        if(user.length < 3 || pass.length < 4) {
+            boxErreur.innerText = "Champs trop courts (Utilisateur min 3, MDP min 4).";
+            boxErreur.style.display = 'block';
+            return;
+        }
+
+        // Empêcher d'écraser le compte maître universel
+        if(user === "admin") {
+            boxErreur.innerText = "L'identifiant 'admin' est réservé au système.";
+            boxErreur.style.display = 'block';
+            return;
+        }
+
+        // Sauvegarde sur Firebase
+        userRef.child(user).set({ password: pass }).then(() => {
+            boxErreur.style.display = 'none';
+            document.getElementById('reg_user').value = "";
+            document.getElementById('reg_pass').value = "";
+            afficherPopupCentral("Succès", "Votre compte administrateur a été créé !", true);
+            basculerEcranAuth('connexion');
+        }).catch(err => {
+            boxErreur.innerText = "Erreur de synchronisation réseau.";
+            boxErreur.style.display = 'block';
+        });
+    }
+
+    function ouvrirApplication() {
+        document.getElementById('ecran_auth').style.opacity = '0';
+        setTimeout(() => {
+            document.getElementById('ecran_auth').style.display = 'none';
+            document.getElementById('contenu_principal').style.display = 'block';
+            afficherPopupCentral("Accès Autorisé", "Session sécurisée active", true);
+        }, 400);
+    }
+
+    function deconnexion() {
+        document.getElementById('login_user').value = "";
+        document.getElementById('login_pass').value = "";
+        document.getElementById('ecran_auth').style.opacity = '1';
+        document.getElementById('ecran_auth').style.display = 'flex';
+        document.getElementById('contenu_principal').style.display = 'none';
+        basculerEcranAuth('connexion');
+    }
+
+    // CODE CORE METIER DE GESTION ADMINISTRATIVE
     const GRILLES_INDICES = {
         FONCTIONNAIRE: {
             "SOUS OPERATEUR (D1A)": [275, 295, 310, 350, 370, 395, 415, 440, 460, 490, 515, 675],
@@ -406,12 +590,11 @@
         }
     }
 
-    // Réception en direct de Firebase
     dbRef.on("value", (snapshot) => {
         listeAgents = [];
         snapshot.forEach((child) => { 
             let a = child.val();
-            if(!a.im) a.im = child.key; // Sécurité si IM absent
+            if(!a.im) a.im = child.key;
             listeAgents.push(a); 
         });
         actualiserTableau();
@@ -487,7 +670,7 @@
     }
 
     function calculerAnciennete(dateDebut) {
-        if (!dateDebut) return { annees: 0, month: 0, texte: "Inconnue" };
+        if (!dateDebut) return { annees: 0, mois: 0, texte: "Inconnue" };
         const debut = new Date(dateDebut); const fin = new Date();
         let annees = fin.getFullYear() - debut.getFullYear();
         let mois = fin.getMonth() - debut.getMonth();
@@ -499,7 +682,6 @@
         currentAgentIm = agent.im;
         document.getElementById('bloc_fiche_detail').style.display = 'block';
         
-        // Sécurisation contre les valeurs manquantes (undefined)
         document.getElementById('lbl_nom').innerText = agent.nom || "Non renseigné";
         document.getElementById('lbl_im_fiche').innerText = agent.im;
         document.getElementById('lbl_type').innerText = agent.type_agent || "Non renseigné";
@@ -519,13 +701,11 @@
         if(agent.nom_conjoint) sitTxt += ` (Conjoint: ${agent.nom_conjoint})`;
         document.getElementById('lbl_situation').innerText = sitTxt;
 
-        // Allocations Enfants sécurisées
         const nEnfants = parseInt(agent.nb_enfants) || 0;
         document.getElementById('lbl_nb_enfants').innerText = nEnfants;
         document.getElementById('lbl_prenoms_enfants').innerText = agent.prenoms_enfants || "Aucun prénom enregistré";
         document.getElementById('lbl_somme_ariary').innerText = (nEnfants * 10000).toLocaleString('fr-FR');
 
-        // Évolution Dynamique FOP / CONTRACTUELS
         const zoneEv = document.getElementById('zone_evolution_dynamique');
         if(agent.type_agent === "FONCTIONNAIRE") {
             let periodicite = (agent.echelon && agent.echelon.includes('3E')) ? '3 ans' : '2 ans';
@@ -535,10 +715,9 @@
                     <p class="small m-0">L'agent progresse par avancement d'échelon. Périodicité requise pour l'échelon actuel : <strong>${periodicite}</strong>.</p>
                 </div>`;
         } else {
-            zoneEv.innerHTML = `<div class="alert alert-warning border-0 rounded-1 text-dark m-0">Suivi Contrat : Changement ou re-catégorisation selon l'avenant ou la durée légale requis.</div>`;
+            zoneEv.innerHTML = `<div class="alert alert-warning border-0 rounded-1 text-dark m-0">Suivi Contrat : Changement ou re-catégorisation requis.</div>`;
         }
 
-        // Compteur Congés
         let totalPris = 0;
         const histList = document.getElementById('liste_historique_conges');
         histList.innerHTML = "";
