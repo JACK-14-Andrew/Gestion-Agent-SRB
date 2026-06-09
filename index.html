@@ -700,50 +700,50 @@
         }
     }
 
-   // CALCUL CHRONOLOGIQUE DU PROCHAIN AVANCEMENT AVEC STRATÉGIE D'ALERTE (CORRIGÉ)
-function calculerMetriqueTemps(dateEffet, dureeAnnees) {
-    if (!dateEffet) return null;
-
-    const today = new Date();
-    const dateActuelleEffet = new Date(dateEffet);
-    
-    // On initialise la date du prochain renouvellement avec la première échéance historique
-    let dateProchainRenouvellement = new Date(dateActuelleEffet);
-    dateProchainRenouvellement.setFullYear(dateProchainRenouvellement.getFullYear() + dureeAnnees);
-
-    // B0UCLE CRUCIALE : Tant que le renouvellement calculé est dépassé par rapport à AUJOURD'HUI,
-    // on avance de "dureeAnnees" (ex: 2 ans) pour simuler les renouvellements automatiques manqués.
-    while (dateProchainRenouvellement < today) {
+  // CALCUL CHRONOLOGIQUE DU PROCHAIN AVANCEMENT AVEC STRATÉGIE D'ALERTE
+    function calculerMetriqueTemps(dateEffet, dureeAnnees) {
+        if (!dateEffet) return null;
+        
+        const dateActuelleEffet = new Date(dateEffet);
+        const dateProchainRenouvellement = new Date(dateActuelleEffet);
         dateProchainRenouvellement.setFullYear(dateProchainRenouvellement.getFullYear() + dureeAnnees);
+        
+        const aujourdhui = new Date();
+        const differenceTemps = dateProchainRenouvellement - aujourdhui;
+        const joursRestants = Math.ceil(differenceTemps / (1000 * 60 * 60 * 24));
+        
+        let statut = "A JOUR";
+        let classeBadge = "badge-ajour";
+        
+        if (joursRestants <= 0) {
+            statut = "URGENT (ÉCHIENT)";
+            classeBadge = "badge-urgent";
+        } else if (joursRestants <= 90) { // Moins de 3 mois restants
+            statut = "PROCHE (-3 MOIS)";
+            classeBadge = "badge-proche";
+        }
+        
+        return {
+            prochaineDateStr: dateProchainRenouvellement.toLocaleDateString('fr-FR'),
+            jours: joursRestants,
+            statut: statut,
+            classeBadge: classeBadge
+        };
     }
 
-    // Calcul de la différence de temps par rapport à aujourd'hui
-    const differenceDeTemperature = dateProchainRenouvellement - today;
-    // Conversion en jours restants (arrondi supérieur)
-    const joursRestants = Math.ceil(differenceDeTemperature / (1000 * 60 * 60 * 24));
-
-    let statut = "UN JOUR";
-    let badgeDeClasse = "badge-ajour";
-
-    // Si les jours restants sont négatifs ou nuls (Échéance immédiate ou jour J)
-    if (joursRestants <= 0) {
-        statut = "URGENT (ÉCHIENT)";
-        badgeDeClasse = "badge-urgent";
-    } 
-    // Moins de 3 mois restants (3 mois = ~90 jours)
-    else if (joursRestants <= 90) {
-        statut = "PROCHE (-3 MOIS)";
-        badgeDeClasse = "badge-proche";
-    }
-
-    return {
-        prochaineDateStr: dateProchainRenouvellement.toLocaleDateString('fr-FR'),
-        jours: joursRestants,
-        statut: statut,
-        badge_de_classe: badgeDeClasse // Assurez-vous que le nom correspond à votre clé d'affichage
-    };
-}
-
+    dbRef.on("value", (snapshot) => {
+        listeAgents = [];
+        snapshot.forEach((child) => { 
+            let a = child.val();
+            if(!a.im) a.im = child.key;
+            listeAgents.push(a); 
+        });
+        actualiserTableau();
+        if(currentAgentIm) {
+            const rechargé = listeAgents.find(a => a.im === currentAgentIm);
+            if(rechargé) chargerFicheIndividuelle(rechargé);
+        }
+    });
     function sauvegarderAgent(event) {
         event.preventDefault();
         const imValue = document.getElementById('im').value.trim().toUpperCase();
