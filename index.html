@@ -35,7 +35,6 @@
             75% { transform: rotate(2deg) scale(1.02) rotateY(-10deg); box-shadow: -5px -5px 0px var(--mada-green), -10px -10px 0px var(--mada-red); }
             100% { transform: rotate(-1deg) scale(1); box-shadow: 5px 5px 0px var(--mada-red), 10px 10px 0px var(--mada-green); }
         }
-        @keyframes technologieReflet { 0% { left: -60%; } 30% { left: 140%; } 100% { left: 140%; } }
 
         #ecran_auth {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, #1E293B 0%, #0F172A 100%); z-index: 9999; display: flex; align-items: center; justify-content: center; transition: 0.5s ease-in-out;
@@ -44,12 +43,9 @@
             background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(16px); width: 100%; max-width: 460px; padding: 45px; border-radius: 12px; box-shadow: 0 30px 60px -12px rgba(0,0,0,0.6); border: 1px solid rgba(255, 255, 255, 0.08); border-top: 5px solid var(--mada-green); text-align: center;
         }
         .btn-toggle-auth { color: var(--gold-premium); text-decoration: none; font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: 0.2s; }
-        .btn-toggle-auth:hover { color: white; text-shadow: 0 0 8px var(--gold-premium); }
-        .input-group-auth { background: #0F172A; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1); overflow: hidden; transition: 0.3s; }
-        .input-group-auth:focus-within { border-color: var(--mada-green); box-shadow: 0 0 10px rgba(0, 122, 51, 0.3); }
+        .input-group-auth { background: #0F172A; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1); overflow: hidden; }
         .input-group-auth input { background: transparent !important; color: white !important; border: none !important; }
-        .input-group-auth .btn-oeil { background: transparent; border: none; color: #64748B; padding: 10px 15px; transition: 0.2s; }
-        .input-group-auth .btn-oeil:hover { color: white; }
+        .input-group-auth .btn-oeil { background: transparent; border: none; color: #64748B; padding: 10px 15px; }
 
         .card-site { background: white; border: none; border-radius: 8px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3); margin-bottom: 30px; overflow: hidden; }
         .card-site-header { background: var(--mada-dark); color: white; font-family: 'Poppins', sans-serif; font-weight: 700; text-transform: uppercase; padding: 20px; font-size: 0.9rem; letter-spacing: 1px; border-left: 8px solid var(--mada-green); }
@@ -66,20 +62,9 @@
         .nav-tabs-site .nav-link { border: none; color: #64748B; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; padding: 12px 18px; }
         .nav-tabs-site .nav-link.active { color: var(--mada-green); border-bottom: 4px solid var(--mada-green); background: none; }
         
-        .logo-mef-placeholder {
-            width: 60px; height: 60px;
-            background: linear-gradient(135deg, #1e293b, #0f172a);
-            border: 2px solid var(--mef-gold); border-radius: 14px;
-            margin: 0 auto 15px auto; display: flex; align-items: center;
-            justify-content: center; color: var(--mef-gold); font-size: 1.5rem;
-            box-shadow: 0 10px 20px rgba(251, 191, 36, 0.15);
-        }
-
-        
         .pane-site-dossier { background: var(--mada-gray); padding: 25px; border-left: 6px solid var(--mada-green); border-radius: 0 4px 4px 0; }
         .conge-badge-box { background: #EFF6FF; border: 1px solid #BFDBFE; padding: 15px; text-align: center; border-radius: 6px; }
         .allocation-box { background: #F0FDF4; border: 2px dashed var(--mada-green); padding: 20px; text-align: center; border-radius: 6px; margin-bottom: 20px; }
-        .box-enfants-dynamique { background: #FFF1F2; border: 1px solid #FECDD3; padding: 12px; margin-top: 10px; border-radius: 4px; }
 
         .premium-footer { text-align: center; padding: 30px; margin-top: 50px; color: #64748B; font-size: 0.9rem; border-top: 1px solid #334155; }
         .signature-tahiana { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 600; color: var(--gold-premium); font-size: 1.3rem; letter-spacing: 1px; display: inline-block; margin-left: 8px; }
@@ -89,7 +74,6 @@
         }
         .notif-centrale i { font-size: 50px; color: #10B981; margin-bottom: 15px; display: block; }
 
-        /* NOUVEAU DESIGN ALERTES TEMPORELLES */
         .badge-statut-temps { padding: 6px 12px; font-weight: 700; border-radius: 4px; text-transform: uppercase; font-size: 0.75rem; display: inline-block; }
         .badge-urgent { background-color: #FEE2E2; color: #991B1B; border: 1px solid #FCA5A5; animation: clignotementAlerte 2s infinite; }
         .badge-proche { background-color: #FEF3C7; color: #92400E; border: 1px solid #FCD34D; }
@@ -103,6 +87,7 @@
 
         .box-pieces-requises { background-color: #FAF5FF; border-left: 4px solid #8B5CF6; padding: 15px; border-radius: 4px; margin-top: 15px; }
         .box-pieces-requises ul { padding-left: 20px; margin-bottom: 0; font-size: 0.85rem; color: #5B21B6; }
+        .box-enfants-dynamique { background: #F1F5F9; padding: 8px; margin-top: 5px; border-radius: 4px; border-left: 3px solid #64748B; }
     </style>
 </head>
 <body>
@@ -111,7 +96,7 @@
 
 <div id="ecran_auth">
     <div class="carte-auth" id="bloc_connexion">
-        <div class="site-logo mb-4" style="font-size: 26px;">LOGIN AU GESTION AGENT</div>
+        <div class="site-logo mb-4" style="font-size: 26px;">LOGIN GESTION AGENT</div>
         <h5 class="text-white mb-1 fw-bold">Espace de Connexion</h5>
         <p class="text-muted small mb-4 text-uppercase" style="font-size:11px;">Direction Régionale du Budget Vatovavy</p>
         
@@ -184,7 +169,7 @@
         <div class="container-fluid px-5">
             <div class="row align-items-center">
                 <div class="col-lg-6">
-                    <div class="site-logo"> Gestion Agent Au sein du SRBV</div>
+                    <div class="site-logo">Gestion Agent au sein du SRBV</div>
                     <div class="text-white-50 fw-bold small text-uppercase mt-2" style="letter-spacing:1px;"><i class="fa-solid fa-satellite-dish text-success me-2"></i>Base de Données Intégrée Live • Vatovavy</div>
                 </div>
                 <div class="col-lg-4 mt-3 mt-lg-0">
@@ -200,14 +185,12 @@
         </div>
     </header>
 
-  
-
     <div class="container-fluid px-5 mt-5">
         <div class="row g-4">
             
             <div class="col-xl-4 col-lg-5">
                 <div class="card-site">
-                    <div class="card-site-header"><i class="fa-solid fa-user-plus me-2"></i> Enregistrement Agent</div>
+                    <div class="card-site-header"><i class="fa-solid fa-user-plus me-2"></i> Enregistrement / Modification Agent</div>
                     <div class="card-body p-4 bg-white" style="max-height: 750px; overflow-y: auto;">
                         <form id="form_agent" onsubmit="sauvegarderAgent(event)">
                             
@@ -215,8 +198,8 @@
                             <div class="row g-2 mb-3">
                                 <div class="col-12">
                                     <label class="small fw-bold">CATÉGORIE / TYPE D'AGENT</label>
-                                    <select id="type_agent" class="form-select form-control-site" onchange="adapterFormulaireGrille()" required>
-                                        <option value="FONCTIONNAIRE">FONCTIONNAIRE</option>
+                                    <select id="type_agent" class="form-select form-control-site" onchange="adapterFormulaireEchelons()" required>
+                                        <option value="FONCTIONNAIRE">FONCTIONNAIRE (Corps de l'État)</option>
                                         <option value="CONTRACTUEL_EFA_INF">CONTRACTUEL EFA (Cat I à III)</option>
                                         <option value="CONTRACTUEL_EFA_SUP">CONTRACTUEL EFA (Cat IV à X)</option>
                                         <option value="ELD">ELD (Emploi Longue Durée)</option>
@@ -252,7 +235,7 @@
                             <div class="row g-2 mb-3">
                                 <div class="col-md-6">
                                     <label class="small fw-bold">SITUATION</label>
-                                    <select id="select_situation" class="form-select form-control-site" onchange="gererAffichageConjoint()">
+                                    <select id="select_situation" class="form-select form-select-site" onchange="gererAffichageConjoint()">
                                         <option value="Célibataire">Célibataire</option>
                                         <option value="Marié(e)">Marié(e)</option>
                                         <option value="Divorcé(e)">Divorcé(e)</option>
@@ -270,29 +253,24 @@
                                 <div class="col-12" id="bloc_enfants_dynamique"></div>
                             </div>
 
-                            <div class="text-uppercase small fw-bold mb-3 text-success border-bottom pb-1"><i class="fa-solid fa-gavel me-1"></i> 4. Grade & Échelon (Calcul Indice)</div>
+                            <div class="text-uppercase small fw-bold mb-3 text-success border-bottom pb-1"><i class="fa-solid fa-gavel me-1"></i> 4. Hiérarchie, Échelon & Indice</div>
                             <div class="row g-2 mb-3">
                                 <div class="col-md-12">
-                                    <label class="small fw-bold" id="lbl_grade_dynamique">CORPS / GRADE</label>
-                                    <select id="grade" class="form-select form-control-site" onchange="adapterEchelonsParGrade(); calculerIndiceAutomatique();"></select>
-                                </div>
-                                <div class="col-md-12">
-                                    <label class="small fw-bold">ÉCHELON / CLASSE</label>
-                                    <select id="echelon" class="form-select form-control-site" onchange="calculerIndiceAutomatique()"></select>
+                                    <label class="small fw-bold">ÉCHELON ADMINISTRATIVE DIRECTE</label>
+                                    <select id="echelon" class="form-select form-control-site" onchange="suggererIndiceAutomatique()"></select>
                                 </div>
                                 <div class="col-12 mt-2">
-                                    <div class="p-2 text-center bg-light border fw-bold text-dark rounded">
-                                        INDICE CALCULÉ : <span id="affichage_indice" class="text-danger fs-5">0</span>
-                                    </div>
+                                    <label class="small fw-bold text-dark">INDICE DE CALCUL SÉLECTIONNÉ (MODIFIABLE)</label>
+                                    <input type="number" id="affichage_indice" class="form-control form-control-site text-center fw-bold text-danger fs-5" value="0" min="0">
                                 </div>
                             </div>
 
-                            <div class="text-uppercase small fw-bold mb-3 text-success border-bottom pb-1"><i class="fa-solid fa-calendar-check me-1"></i> 5. Date d'Effet Actuelle</div>
+                            <div class="text-uppercase small fw-bold mb-3 text-success border-bottom pb-1"><i class="fa-solid fa-calendar-check me-1"></i> 5. Date d'Entrée & Division</div>
                             <div class="row g-2 mb-4">
                                 <div class="col-12">
-                                    <label class="small fw-bold">DATE D'EFFET DE LA SITUATION ACTUELLE</label>
+                                    <label class="small fw-bold text-danger">DATE D'ENTRÉE AU MEF (BASE DE CALCUL)</label>
                                     <input type="date" id="date_debut_contrat" class="form-control form-control-site" required>
-                                    <span class="text-muted" style="font-size: 11px;">Saisissez la date de votre dernier arrêté/décision d'avancement pour calculer le prochain.</span>
+                                    <span class="text-muted" style="font-size: 11px;">Sert de point de départ réglementaire pour la règle des 6 ans et les avancements.</span>
                                 </div>
                                 <div class="col-12">
                                     <label class="small fw-bold">DIVISION D'AFFECTATION</label>
@@ -304,7 +282,7 @@
                                 </div>
                             </div>
 
-                            <button type="submit" class="btn-site-submit shadow-sm">Enregistrer & Synchroniser</button>
+                            <button type="submit" class="btn-site-submit shadow-sm"><i class="fa-solid fa-floppy-disk me-2"></i>Enregistrer & Synchroniser</button>
                         </form>
                     </div>
                 </div>
@@ -313,18 +291,18 @@
             <div class="col-xl-8 col-lg-7">
                 <div class="card-site">
                     <div class="card-site-header d-flex justify-content-between align-items-center" style="border-left-color: var(--mada-red);">
-                        <span><i class="fa-solid fa-folder-tree me-2"></i> Registre Général Live & Suivi Alertes</span>
+                        <span><i class="fa-solid fa-folder-tree me-2"></i> Registre Général Live & Suivi Alertes (Stabilité 6 Ans)</span>
                         <span class="badge bg-danger rounded-pill" id="badge_total">0 Agent</span>
                     </div>
-                    <div class="table-responsive" style="max-height: 250px;">
+                    <div class="table-responsive" style="max-height: 280px;">
                         <table class="table table-site mb-0">
                             <thead>
                                 <tr>
                                     <th>Nom de l'Agent</th>
                                     <th>Matricule IM</th>
-                                    <th>Échéance Avancement</th>
-                                    <th>Alerte Statut</th>
-                                    <th class="text-end">Fiche</th>
+                                    <th>Échéance Échelon</th>
+                                    <th>Contrat (6 ans)</th>
+                                    <th class="text-center" style="width: 260px;">Actions</th>
                                 </tr>
                             </thead>
                             <tbody id="liste_agents_body"></tbody>
@@ -351,22 +329,18 @@
                                     <div class="col-md-7">
                                         <h5 class="fw-bold m-0 text-dark text-uppercase"><i class="fa-solid fa-stairs me-2 text-danger"></i>Situation Administrative & Chrono</h5>
                                     </div>
-                                    <div class="col-md-5 text-md-end" id="zone_badge_fiche">
-                                        </div>
+                                    <div class="col-md-5 text-md-end" id="zone_badge_fiche"></div>
                                 </div>
                                 <div class="row g-3 mb-4 text-dark">
                                     <div class="col-md-6"><strong>Type de Personnel :</strong> <span id="lbl_type" class="badge bg-secondary"></span></div>
                                     <div class="col-md-6"><strong>Matricule IM :</strong> <span id="lbl_im_fiche" class="fw-bold text-danger"></span></div>
-                                    <div class="col-md-6"><strong>Grade / Corps / Grille :</strong> <span id="lbl_grade"></span></div>
-                                    <div class="col-md-6"><strong>Classe / Échelon :</strong> <span id="lbl_echelon"></span></div>
-                                    <div class="col-md-6"><strong>Indice Actuel :</strong> <span id="lbl_indice" class="badge bg-dark"></span></div>
-                                    <div class="col-md-6"><strong>Date Effet Actuelle :</strong> <span id="lbl_date_effet_actuel" class="fw-bold"></span></div>
-                                    <div class="col-md-6 text-primary"><strong>Date Prochain Renouvellement :</strong> <span id="lbl_date_prochain" class="fw-bold text-decoration-underline"></span></div>
-                                    <div class="col-md-6 text-danger"><strong>Temps Restant / Retard :</strong> <span id="lbl_temps_restant" class="fw-bold"></span></div>
+                                    <div class="col-md-6"><strong>Échelon Actuel :</strong> <span id="lbl_echelon" class="fw-bold text-primary"></span></div>
+                                    <div class="col-md-6"><strong>Indice Effectif :</strong> <span id="lbl_indice" class="badge bg-dark"></span></div>
+                                    <div class="col-md-6"><strong>Date d'Entrée MEF :</strong> <span id="lbl_date_effet_actuel" class="fw-bold"></span></div>
+                                    <div class="col-md-6 text-primary"><strong>Prochain Avancement Échelon :</strong> <span id="lbl_date_prochain" class="fw-bold text-decoration-underline"></span></div>
+                                    <div class="col-md-12 text-danger"><strong>Ancienneté / Temps Restant Global :</strong> <span id="lbl_temps_restant" class="fw-bold"></span></div>
                                     <div class="col-md-12"><strong>Division d'Affectation :</strong> <span id="lbl_div" class="fw-bold"></span></div>
                                 </div>
-
-                                <div id="zone_evolution_dynamique"></div>
 
                                 <div class="box-pieces-requises">
                                     <h6 class="fw-bold text-uppercase m-0 mb-2"><i class="fa-solid fa-file-shield me-2"></i>Pièces requises pour constitution du dossier (Vatovavy SRB)</h6>
@@ -400,7 +374,6 @@
                                     <div class="col-md-6"><strong>Date de Naissance :</strong> <span id="lbl_date_naissance"></span></div>
                                     <div class="col-md-6"><strong>Situation Matrimoniale :</strong> <span id="lbl_situation"></span></div>
                                 </div>
-                                
                                 <div class="allocation-box">
                                     <h5 class="fw-bold text-success text-uppercase mb-2">Prestations Sociales Automatiques</h5>
                                     <div class="fs-6 text-dark mb-2">Nombre d'enfants déclarés : <strong id="lbl_nb_enfants" class="text-danger">0</strong></div>
@@ -410,16 +383,14 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="tab-pane fade pane-site-dossier" id="tab_conges" style="border-left-color: #3b82f6;">
                                 <h5 class="fw-bold text-dark text-uppercase mb-4"><i class="fa-solid fa-clock-rotate-left me-2 text-primary"></i>Droits aux Congés de l'Agent</h5>
-                                
                                 <div class="row g-3 mb-4">
                                     <div class="col-md-4"><div class="conge-badge-box"><strong>Droit Annuel</strong><div class="fs-4 fw-bold text-dark">30 Jours</div></div></div>
                                     <div class="col-md-4"><div class="conge-badge-box bg-danger-subtle text-danger"><strong>Jours Consommés</strong><div class="fs-4 fw-bold text-danger" id="lbl_conges_pris">0 Jour</div></div></div>
                                     <div class="col-md-4"><div class="conge-badge-box bg-success-subtle text-success"><strong>Solde Restant</strong><div class="fs-4 fw-bold text-success" id="lbl_conges_restants">30 Jours</div></div></div>
                                 </div>
-
                                 <div class="p-3 bg-light border rounded mb-4 text-dark">
                                     <h6 class="fw-bold text-uppercase"><i class="fa-solid fa-plus-circle me-1"></i> Enregistrer une absence / congé</h6>
                                     <div class="row g-2 mt-1">
@@ -433,31 +404,57 @@
                                         <div class="col-md-4"><button class="btn btn-primary w-100 h-100 rounded-1 fw-bold" onclick="ajouterAbsenceEnLigne()">Déduire</button></div>
                                     </div>
                                 </div>
-
                                 <h6 class="fw-bold text-dark border-bottom pb-2">Historique des Absences de l'Agent</h6>
                                 <ul class="list-group list-group-flush" id="liste_historique_conges"></ul>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
-
+    
     <footer class="premium-footer">
-        DIRECTION DU BUDGET VATOVAVY • CONCEPTION TECHNIQUE PREMIUM PAR <span class="signature-tahiana">TAHIANA ANDREA</span> &copy; 2026
+        DIRECTION DU BUDGET VATOVAVY • CONCEPTION TECHNIQUE PREMIUM PAR <span class="signature-tahiana">PUNISHER / J4CK</span> &copy; 2026
     </footer>
 </div>
 
 <script>
-    // Configuration & Branchement Firebase Realtime Database
+    // Configuration Firebase Live Realtime Database
     const firebaseConfig = { databaseURL: "https://srb-agents-default-rtdb.firebaseio.com/" };
     firebase.initializeApp(firebaseConfig);
-    const dbRef = firebase.database().ref("agents_srbv_complete_v3");
+    const dbRef = firebase.database().ref("agents_srbv_complete_v4");
     const userRef = firebase.database().ref("utilisateurs_srbv");
-
+    
     const DEFAULT_USER = "admin";
     const DEFAULT_PASS = "srbv2026";
+    
+    let cacheAgents = {};
+    let currentAgentIm = null;
+
+    // Matrice Réglementaire Transmise Officiellement par le Formulaire
+    const ECHELONS_PAR_TYPE = {
+        FONCTIONNAIRE: ["STOE", "2C1E", "2C2E", "2C3E", "1C1E", "1C2E", "1C3E", "PR1E", "PR2E", "PR3E", "EX1E", "EX2E"],
+        CONTRACTUEL_EFA_INF: ["1er Echelon", "2ème Echelon", "3ème Echelon", "4ème Echelon", "5ème Echelon", "6ème Echelon", "7ème Echelon", "8ème Echelon", "9ème Echelon"],
+        CONTRACTUEL_EFA_SUP: ["STOE", "2C1E", "2C2E", "2C3E", "1C1E", "1C2E", "1C3E", "PR1E", "PR2E", "PR3E", "Ech.11", "Ech.12"],
+        ELD: ["0% Equivalence", "10% Equivalence", "20% Equivalence", "30% Equivalence", "40% Equivalence", "50% Equivalence", "60% Equivalence", "70% Equivalence", "80% Equivalence"]
+    };
+
+    // Grille de pré-remplissage indiciaire par défaut (Ajustable par l'utilisateur directement dans l'interface)
+    const BASE_INDICES_SUGGERES = {
+        FONCTIONNAIRE: [150, 210, 250, 290, 340, 390, 450, 520, 600, 710, 840, 1000],
+        CONTRACTUEL_EFA_INF: [100, 115, 130, 145, 160, 180, 200, 225, 250],
+        CONTRACTUEL_EFA_SUP: [200, 240, 280, 320, 370, 420, 480, 550, 630, 720, 820, 950],
+        ELD: [120, 140, 165, 190, 220, 255, 295, 340, 400]
+    };
+
+    const PIECES_LEGALES = {
+        ECHELON: ["Demande manuscrite de l'agent visée", "Copie certifiée du dernier arrêté d'avancement", "Fiche de notation annuelle remplie", "Certificat de présence effective"],
+        CLASSE: ["Projet de décision d'avancement de classe", "Attestation de vacance d'emploi budgétaire", "Copie acte de naissance certifiée", "Fiche d'évaluation de performance"],
+        RECLASSEMENT: ["Diplôme original ou titre équivalent homologué", "Arrêté d'intégration ou d'engagement", "Attestation d'équivalence de la fonction publique", "Curriculum vitae actualisé"],
+        BONIFICATION: ["Attestation de décoration honorifique ou acte de bravoure", "Rapport motivé du Directeur Régional", "Extrait du livret matricule individuel"]
+    };
 
     window.onload = function() {
         const savedUser = localStorage.getItem('srbv_user');
@@ -467,7 +464,7 @@
             document.getElementById('login_pass').value = savedPass;
             document.getElementById('souvenir_moi').checked = true;
         }
-        adapterFormulaireGrille();
+        adapterFormulaireEchelons();
     };
 
     function basculerEcranAuth(cible) {
@@ -483,471 +480,376 @@
     function basculerOeil(idChamp, bouton) {
         const champ = document.getElementById(idChamp);
         const icone = bouton.querySelector('i');
-        if (champ.type === "password") {
-            champ.type = "text";
-            icone.className = "fa-solid fa-eye-slash";
+        if (champ.type === "password") { champ.type = "text"; icone.className = "fa-solid fa-eye-slash"; }
+        else { champ.type = "password"; icone.className = "fa-solid fa-eye"; }
+    }
+
+    function verifierLogin(e) {
+        e.preventDefault();
+        const u = document.getElementById('login_user').value.trim();
+        const p = document.getElementById('login_pass').value;
+        const err = document.getElementById('erreur_login');
+        err.style.display = 'none';
+
+        if(u === DEFAULT_USER && p === DEFAULT_PASS) { finaliserAuthentification(u, p); return; }
+
+        userRef.child(u).once('value', s => {
+            if(s.exists() && s.val().pass === p) { finaliserAuthentification(u, p); }
+            else { err.innerText = "Identifiants incorrects ou compte inexistant au sein du MEF."; err.style.display = 'block'; }
+        });
+    }
+
+    function enregistrerNouvelUtilisateur(e) {
+        e.preventDefault();
+        const u = document.getElementById('reg_user').value.trim().toLowerCase();
+        const p = document.getElementById('reg_pass').value;
+        const err = document.getElementById('erreur_inscription');
+        err.style.display = 'none';
+
+        if(u === DEFAULT_USER) { err.innerText = "Cet identifiant système est réservé."; err.style.display = 'block'; return; }
+
+        userRef.child(u).once('value', s => {
+            if(s.exists()) { err.innerText = "Cet identifiant existe déjà."; err.style.display = 'block'; }
+            else {
+                userRef.child(u).set({ pass: p }).then(() => {
+                    afficherPopupCentral("Inscription Réussie", "Le compte administrateur a été enregistré !", true);
+                    basculerEcranAuth('connexion');
+                });
+            }
+        });
+    }
+
+    function finaliserAuthentification(u, p) {
+        if(document.getElementById('souvenir_moi').checked) {
+            localStorage.setItem('srbv_user', u); localStorage.setItem('srbv_pass', p);
         } else {
-            champ.type = "password";
-            icone.className = "fa-solid fa-eye";
+            localStorage.removeItem('srbv_user'); localStorage.removeItem('srbv_pass');
         }
-    }
-
-    function verifierLogin(event) {
-        event.preventDefault();
-        const user = document.getElementById('login_user').value.trim();
-        const pass = document.getElementById('login_pass').value.trim();
-        const boxErreur = document.getElementById('erreur_login');
-        const seSouvenir = document.getElementById('souvenir_moi').checked;
-
-        const gererMemoire = () => {
-            if (seSouvenir) {
-                localStorage.setItem('srbv_user', user);
-                localStorage.setItem('srbv_pass', pass);
-            } else {
-                localStorage.removeItem('srbv_user');
-                localStorage.removeItem('srbv_pass');
-            }
-        };
-
-        if (user.toLowerCase() === DEFAULT_USER && pass === DEFAULT_PASS) {
-            gererMemoire();
-            ouvrirApplication();
-            return;
-        }
-
-        userRef.child(user.toLowerCase()).once('value', (snapshot) => {
-            const userData = snapshot.val();
-            if(userData && userData.password === pass) {
-                gererMemoire();
-                ouvrirApplication();
-            } else {
-                boxErreur.innerText = "Identifiant ou mot de passe incorrect.";
-                boxErreur.style.display = 'block';
-            }
-        }, (error) => {
-            boxErreur.innerText = "Erreur réseau Firebase. Utilisez le compte maître local.";
-            boxErreur.style.display = 'block';
-        });
-    }
-
-    function enregistrerNouvelUtilisateur(event) {
-        event.preventDefault();
-        const user = document.getElementById('reg_user').value.trim().toLowerCase();
-        const pass = document.getElementById('reg_pass').value.trim();
-        const boxErreur = document.getElementById('erreur_inscription');
-
-        if(user.length < 3 || pass.length < 4) {
-            boxErreur.innerText = "Champs trop courts (Utilisateur min 3, MDP min 4).";
-            boxErreur.style.display = 'block';
-            return;
-        }
-
-        if(user === "admin") {
-            boxErreur.innerText = "L'identifiant 'admin' est réservé par défaut.";
-            boxErreur.style.display = 'block';
-            return;
-        }
-
-        userRef.child(user).set({ password: pass }).then(() => {
-            boxErreur.style.display = 'none';
-            document.getElementById('reg_user').value = "";
-            document.getElementById('reg_pass').value = "";
-            afficherPopupCentral("Succès", "Votre compte administrateur a été créé !", true);
-            basculerEcranAuth('connexion');
-        }).catch(err => {
-            boxErreur.innerText = "Erreur de synchronisation Firebase.";
-            boxErreur.style.display = 'block';
-        });
-    }
-
-    function ouvrirApplication() {
         document.getElementById('ecran_auth').style.opacity = '0';
         setTimeout(() => {
             document.getElementById('ecran_auth').style.display = 'none';
             document.getElementById('contenu_principal').style.display = 'block';
-            afficherPopupCentral("Accès Autorisé", "Session sécurisée active", true);
-        }, 400);
+            ecouterChangementsFirebase();
+        }, 500);
     }
 
-    function deconnexion() {
-        if(!document.getElementById('souvenir_moi').checked) {
-            document.getElementById('login_user').value = "";
-            document.getElementById('login_pass').value = "";
-        }
-        document.getElementById('ecran_auth').style.opacity = '1';
-        document.getElementById('ecran_auth').style.display = 'flex';
-        document.getElementById('contenu_principal').style.display = 'none';
-        basculerEcranAuth('connexion');
+    function deconnexion() { window.location.reload(); }
+
+    function adapterFormulaireEchelons() {
+        const type = document.getElementById("type_agent").value;
+        const sEchelon = document.getElementById("echelon");
+        sEchelon.innerHTML = "";
+        
+        ECHELONS_PAR_TYPE[type].forEach((ech, index) => {
+            sEchelon.innerHTML += `<option value="${index}">${ech}</option>`;
+        });
+        
+        suggererIndiceAutomatique();
     }
 
-    // ================= GRILLES D'INDICES EXTRAITES DES IMAGES DU COMPTEUR REEL =================
-    const GRILLES_INDICES = {
-        FONCTIONNAIRE: {
-            "SOUS OPERATEUR (D1A)": [275, 295, 310, 350, 370, 395, 415, 440, 460, 490, 515, 675],
-            "OPERATEUR (C1A)": [380, 415, 435, 455, 490, 515, 540, 570, 605, 640, 675, 1020],
-            "ENCADREUR (B1A)": [500, 540, 580, 620, 665, 715, 765, 825, 885, 950, 1020, 1550],
-            "TECNICIEN SUPERIEUR (A1C)": [605, 665, 730, 800, 880, 970, 1065, 1170, 1285, 1410, 1550, 1600],
-            "REALISATEUR ADJOINT (A1D)": [650, 710, 780, 850, 930, 1020, 1115, 1220, 1335, 1460, 1600, 1750],
-            "REALISATEUR (A1B)": [750, 815, 900, 970, 1015, 1145, 1290, 1360, 1480, 1610, 1750, 1850],
-            "CADRE A ECHELLE A2 (A01D)": [850, 920, 995, 1075, 1170, 1265, 1365, 1490, 1595, 1710, 1850, 2225],
-            "CONCEPTEUR (A1A)": [950, 1035, 1125, 1225, 1335, 1455, 1585, 1725, 1860, 2045, 2225, 2325],
-            "CADRE A ECHELLE A1 (A01B)": [1100, 1185, 1280, 1380, 1485, 1600, 1725, 1860, 2000, 2155, 2325, 2520]
-        },
-        CONTRACTUEL_EFA_INF: {
-            "Aux Echelle I (M00A/U01D)": [260, 264, 268, 276, 284, 288, 292, 300, 308],
-            "Aux Echelle II (M00B/U01C)": [276, 284, 292, 304, 316, 332, 348, 364, 380],
-            "Aux Echelle III (L00A/U02C)": [356, 372, 388, 404, 420, 438, 455, 477, 499],
-            "Aux Echelle IV (K00A/U03B)": [420, 438, 455, 473, 499, 530, 560, 591, 619]
-        },
-        CONTRACTUEL_EFA_SUP: {
-            "CONT CAT IV (J04A/U04A)": [605, 665, 730, 800, 880, 970, 1065, 1170, 1285, 1410, 1550, 1600],
-            "CONT CAT V (J05A/U05A)": [650, 710, 780, 850, 930, 1020, 1115, 1220, 1335, 1460, 1600, 1750],
-            "CONT CAT VI (J06A/U06A)": [750, 815, 900, 970, 1015, 1145, 1290, 1360, 1480, 1610, 1750, 1850],
-            "CONT CAT VII (J07A/U07A)": [850, 920, 995, 1075, 1170, 1265, 1365, 1490, 1595, 1710, 1850, 2225],
-            "CONT CAT VIII (J08A/U08A)": [950, 1035, 1125, 1225, 1335, 1455, 1585, 1725, 1860, 2045, 2225, 2325],
-            "CONT IX (J09A/U09A)": [1100, 1185, 1280, 1380, 1485, 1600, 1725, 1860, 2000, 2155, 2325, 2520],
-            "CONT X (J10A/U10A)": [1185, 1280, 1380, 1485, 1600, 1725, 1860, 2000, 2155, 2325, 2520, 2620]
-        },
-        ELD: {
-            "Indice CT 100": [212, 222, 228, 235, 242, 250, 257, 266, 273],
-            "Indice CT 125": [231, 241, 250, 259, 269, 278, 288, 297, 307],
-            "Indice CT 135": [238, 249, 259, 270, 280, 289, 300, 310, 320],
-            "Indice CT 150": [250, 262, 273, 284, 295, 307, 317, 329, 340],
-            "Indice CT 250": [320, 338, 357, 375, 393, 413, 434, 453, 473],
-            "Indice CT 400": [429, 460, 491, 524, 553, 588, 615, 645, 658],
-            "Indice CT 425": [449, 482, 516, 550, 583, 618, 645, 660, 699],
-            "Indice CT 700": [645, 697, 761, 824, 888, 951, 1015, 1078, 1142],
-            "Indice CT 1000": [897, 987, 1077, 1167, 1250, 1346, 1436, 1526, 1615]
+    function suggererIndiceAutomatique() {
+        const type = document.getElementById("type_agent").value;
+        const indexEchelon = document.getElementById("echelon").value;
+        
+        if(indexEchelon !== "") {
+            const indSugger = BASE_INDICES_SUGGERES[type][parseInt(indexEchelon)] || 100;
+            document.getElementById("affichage_indice").value = indSugger;
         }
-    };
-
-    const ECHELONS_PAR_TYPE = {
-        FONCTIONNAIRE: ["STOE", "2C1E", "2C2E", "2C3E", "1C1E", "1C2E", "1C3E", "PR1E", "PR2E", "PR3E", "EX1E", "EX2E"],
-        CONTRACTUEL_EFA_INF: ["1er Echelon", "2ème Echelon", "3ème Echelon", "4ème Echelon", "5ème Echelon", "6ème Echelon", "7ème Echelon", "8ème Echelon", "9ème Echelon"],
-        CONTRACTUEL_EFA_SUP: ["STOE", "2C1E", "2C2E", "2C3E", "1C1E", "1C2E", "1C3E", "PR1E", "PR2E", "PR3E", "Ech.11", "Ech.12"],
-        ELD: ["0% Equivalence", "10% Equivalence", "20% Equivalence", "30% Equivalence", "40% Equivalence", "50% Equivalence", "60% Equivalence", "70% Equivalence", "80% Equivalence"]
-    };
-
-    // DURÉES LEGALES D'AVANCEMENT EXTRAITES DES GRILLES (IMAGEN 3 & 4)
-    // Retourne le nombre d'années requises pour l'avancement
-    function obtenirDureeRequiseAnnees(type, echelonNom) {
-        if (type === "FONCTIONNAIRE" || type === "CONTRACTUEL_EFA_SUP") {
-            if (echelonNom === "STOE") return 1;
-            if (echelonNom.includes("2E") || echelonNom.includes("1E")) return 2;
-            if (echelonNom.includes("3E")) return 3;
-            return 2; // Par défaut
-        }
-        // Pour les EFA Cat I à III et ELD, l'avancement se fait généralement tous les 2 ans
-        return 2;
     }
-
-    let listeAgents = [];
-    let currentAgentIm = null;
 
     function gererAffichageConjoint() {
-        document.getElementById('bloc_conjoint').style.display = (document.getElementById('select_situation').value === 'Marié(e)') ? 'block' : 'none';
+        const sit = document.getElementById("select_situation").value;
+        document.getElementById("bloc_conjoint").style.display = (sit === "Marié(e)") ? "block" : "none";
     }
 
     function declarerChampsEnfants() {
-        const container = document.getElementById('bloc_enfants_dynamique');
-        const total = parseInt(document.getElementById('champ_nb_enfants').value) || 0;
-        container.innerHTML = ""; 
-        if (total > 0) {
-            const box = document.createElement('div');
-            box.className = "box-enfants-dynamique";
-            box.innerHTML = `<div class="small fw-bold text-danger text-uppercase mb-2"><i class="fa-solid fa-baby-carriage me-1"></i> Prénoms des enfants :</div>`;
-            for (let i = 1; i <= total; i++) {
-                box.innerHTML += `<input type="text" class="form-control form-control-site mb-2 border-success prenom-enfant-input" placeholder="Prénom de l'Enfant N°${i}" required>`;
-            }
-            container.appendChild(box);
+        const nb = parseInt(document.getElementById("champ_nb_enfants").value) || 0;
+        const div = document.getElementById("bloc_enfants_dynamique");
+        div.innerHTML = "";
+        for(let i=1; i<=nb; i++) {
+            div.innerHTML += `
+                <div class="box-enfants-dynamique">
+                    <label class="small fw-bold text-dark text-uppercase" style="font-size:10px;">Prénom Enfant N°0${i} :</label>
+                    <input type="text" class="form-control form-control-site py-1 champ-prenom-enfant" placeholder="Prénom de l'enfant..." required>
+                </div>`;
         }
     }
 
-    function adapterFormulaireGrille() {
-        const type = document.getElementById('type_agent').value;
-        const gradeSelect = document.getElementById('grade');
+    // ALGORITHME DE CALCUL D'ANCIENNÈTE ET DE SUIVI D'ÉCHELON (BASE : ENTRÉE MEF)
+    function calculerDonniesTemporelles(dateEntreeMEF) {
+        if(!dateEntreeMEF) return { dateProchaineStr: "-", tempsRestantStr: "-", classeAlerte: "badge-ajour", texteAlerte: "Inconnu", stabilite: "Inconnu", classeStabilite: "bg-secondary" };
         
-        document.getElementById('lbl_grade_dynamique').innerText = (type === "ELD") ? "INDICE DE BASE DE CALCUL" : (type === "FONCTIONNAIRE" ? "CORPS ET GRADE FOP" : "CATEGORIE GRILLE");
+        const dEntree = new Date(dateEntreeMEF);
+        const dAujourdhui = new Date(); 
 
-        gradeSelect.innerHTML = "";
-        Object.keys(GRILLES_INDICES[type]).forEach(g => {
-            gradeSelect.innerHTML += `<option value="${g}">${g}</option>`;
-        });
-
-        adapterEchelonsParGrade();
-    }
-
-    function adapterEchelonsParGrade() {
-        const type = document.getElementById('type_agent').value;
-        const echelonSelect = document.getElementById('echelon');
-        echelonSelect.innerHTML = "";
+        // 1. Calcul du statut de stabilité (Règle des 6 ans)
+        const diffMilli = dAujourdhui - dEntree;
+        const anneesService = diffMilli / (1000 * 60 * 60 * 24 * 365.25);
         
-        ECHELONS_PAR_TYPE[type].forEach((e, index) => {
-            echelonSelect.innerHTML += `<option value="${index}">${e}</option>`;
-        });
-        calculerIndiceAutomatique();
-    }
-
-    function calculerIndiceAutomatique() {
-        const type = document.getElementById('type_agent').value;
-        const grade = document.getElementById('grade').value;
-        const echelonIndex = parseInt(document.getElementById('echelon').value) || 0;
-        try {
-            const indicesList = GRILLES_INDICES[type][grade];
-            document.getElementById('affichage_indice').innerText = indicesList[echelonIndex] || indicesList[0];
-        } catch(e) {
-            document.getElementById('affichage_indice').innerText = "0";
-        }
-    }
-
-  // CALCUL CHRONOLOGIQUE DU PROCHAIN AVANCEMENT AVEC STRATÉGIE D'ALERTE
-    function calculerMetriqueTemps(dateEffet, dureeAnnees) {
-        if (!dateEffet) return null;
+        let stabilite = "";
+        let classeStabilite = "";
         
-        const dateActuelleEffet = new Date(dateEffet);
-        const dateProchainRenouvellement = new Date(dateActuelleEffet);
-        dateProchainRenouvellement.setFullYear(dateProchainRenouvellement.getFullYear() + dureeAnnees);
-        
-        const aujourdhui = new Date();
-        const differenceTemps = dateProchainRenouvellement - aujourdhui;
-        const joursRestants = Math.ceil(differenceTemps / (1000 * 60 * 60 * 24));
-        
-        let statut = "A JOUR";
-        let classeBadge = "badge-ajour";
-        
-        if (joursRestants <= 0) {
-            statut = "URGENT (ÉCHIENT)";
-            classeBadge = "badge-urgent";
-        } else if (joursRestants <= 90) { // Moins de 3 mois restants
-            statut = "PROCHE (-3 MOIS)";
-            classeBadge = "badge-proche";
-        }
-        
-        return {
-            prochaineDateStr: dateProchainRenouvellement.toLocaleDateString('fr-FR'),
-            jours: joursRestants,
-            statut: statut,
-            classeBadge: classeBadge
-        };
-    }
-
-    dbRef.on("value", (snapshot) => {
-        listeAgents = [];
-        snapshot.forEach((child) => { 
-            let a = child.val();
-            if(!a.im) a.im = child.key;
-            listeAgents.push(a); 
-        });
-        actualiserTableau();
-        if(currentAgentIm) {
-            const rechargé = listeAgents.find(a => a.im === currentAgentIm);
-            if(rechargé) chargerFicheIndividuelle(rechargé);
-        }
-    });
-    function sauvegarderAgent(event) {
-        event.preventDefault();
-        const imValue = document.getElementById('im').value.trim().toUpperCase();
-        const type = document.getElementById('type_agent').value;
-        const grade = document.getElementById('grade').value;
-        const echelonIndex = parseInt(document.getElementById('echelon').value);
-        const situation = document.getElementById('select_situation').value;
-
-        const inputsEnfants = document.querySelectorAll('.prenom-enfant-input');
-        let listePrenoms = [];
-        inputsEnfants.forEach(input => { if(input.value.trim() !== "") listePrenoms.push(input.value.trim()); });
-
-        const agentObj = {
-            im: imValue,
-            nom: document.getElementById('nom').value.trim(),
-            cin: document.getElementById('cin').value.trim(),
-            tel: document.getElementById('tel').value.trim(),
-            date_naissance: document.getElementById('date_naissance').value,
-            situation_matrimoniale: situation,
-            nom_conjoint: situation === 'Marié(e)' ? document.getElementById('nom_conjoint').value.trim() : '',
-            nb_enfants: parseInt(document.getElementById('champ_nb_enfants').value) || 0,
-            prenoms_enfants: listePrenoms.join(', '),
-            type_agent: type,
-            grade: grade,
-            echelon: ECHELONS_PAR_TYPE[type][echelonIndex],
-            indice: parseInt(document.getElementById('affichage_indice').innerText),
-            date_debut_contrat: document.getElementById('date_debut_contrat').value,
-            division: document.getElementById('division').value
-        };
-
-        const existant = listeAgents.find(a => a.im === imValue);
-        if(existant && existant.absences) agentObj.absences = existant.absences;
-
-        dbRef.child(imValue).set(agentObj).then(() => {
-            afficherPopupCentral("Réseau SRBV", "Fiche complète synchronisée !", true);
-            document.getElementById('form_agent').reset();
-            document.getElementById('bloc_enfants_dynamique').innerHTML = "";
-            document.getElementById('bloc_conjoint').style.display = "none";
-            adapterFormulaireGrille();
-        });
-    }
-
-    function actualiserTableau() {
-        const tbody = document.getElementById('liste_agents_body');
-        tbody.innerHTML = "";
-        listeAgents.forEach(agent => {
-            const duree = obtenirDureeRequiseAnnees(agent.type_agent, agent.echelon);
-            const chrono = calculerMetriqueTemps(agent.date_debut_contrat, duree);
-            
-            let dateAffiche = "Non définie";
-            let badgeAlerte = `<span class="badge bg-secondary">Incomplet</span>`;
-            
-            if(chrono) {
-                dateAffiche = chrono.prochaineDateStr;
-                badgeAlerte = `<span class="badge-statut-temps ${chrono.classeBadge}">${chrono.statut}</span>`;
-            }
-
-            const tr = document.createElement('tr');
-            tr.className = "ligne-agent";
-            tr.setAttribute('data-im', agent.im);
-            tr.innerHTML = `
-                <td><strong>${escapeHtml(agent.nom || "Sans Nom")}</strong></td>
-                <td class="text-danger fw-bold">${agent.im}</td>
-                <td>${dateAffiche}</td>
-                <td>${badgeAlerte}</td>
-                <td class="text-end"><button class="btn btn-sm btn-success rounded-1" onclick='ouvrirFicheParIm("${agent.im}")'>Ouvrir</button></td>
-            `;
-            tbody.appendChild(tr);
-        });
-        document.getElementById('badge_total').innerText = `${listeAgents.length} Agents En Ligne`;
-    }
-
-    function ouvrirFicheParIm(im) {
-        const agent = listeAgents.find(a => a.im === im);
-        if(agent) chargerFicheIndividuelle(agent);
-    }
-
-    function chargerFicheIndividuelle(agent) {
-        currentAgentIm = agent.im;
-        document.getElementById('bloc_fiche_detail').style.display = 'block';
-        
-        document.getElementById('lbl_nom').innerText = agent.nom || "Non renseigné";
-        document.getElementById('lbl_im_fiche').innerText = agent.im;
-        document.getElementById('lbl_type').innerText = agent.type_agent || "Non renseigné";
-        document.getElementById('lbl_grade').innerText = agent.grade || "Non renseigné";
-        document.getElementById('lbl_echelon').innerText = agent.echelon || "Non renseigné";
-        document.getElementById('lbl_indice').innerText = agent.indice || "0";
-        document.getElementById('lbl_div').innerText = agent.division || "Non affecté";
-        document.getElementById('lbl_date_effet_actuel').innerText = agent.date_debut_contrat ? new Date(agent.date_debut_contrat).toLocaleDateString('fr-FR') : "Non définie";
-        
-        // Calcul d'avancement
-        const duree = obtenirDureeRequiseAnnees(agent.type_agent, agent.echelon);
-        const chrono = calculerMetriqueTemps(agent.date_debut_contrat, duree);
-        
-        const zoneBadgeFiche = document.getElementById('zone_badge_fiche');
-        if(chrono) {
-            document.getElementById('lbl_date_prochain').innerText = chrono.prochaineDateStr;
-            zoneBadgeFiche.innerHTML = `<span class="badge-statut-temps ${chrono.classeBadge} fs-6 px-3 py-2">${chrono.statut}</span>`;
-            
-            if(chrono.jours <= 0) {
-                document.getElementById('lbl_temps_restant').innerText = `En retard de ${Math.abs(chrono.jours)} jour(s). Signalez l'agent immédiatement!`;
-                document.getElementById('lbl_temps_restant').className = "fw-bold text-danger animate-pulse";
-            } else {
-                document.getElementById('lbl_temps_restant').innerText = `${chrono.jours} jour(s) restant(s).`;
-                document.getElementById('lbl_temps_restant').className = "fw-bold text-success";
-            }
+        if (anneesService >= 6) {
+            stabilite = "INDÉTERMINÉ";
+            classeStabilite = "bg-success";
         } else {
-            document.getElementById('lbl_date_prochain').innerText = "Incalculable";
-            document.getElementById('lbl_temps_restant').innerText = "Manque la date d'effet.";
-            zoneBadgeFiche.innerHTML = "";
+            stabilite = "ECD / DURÉE DÉT.";
+            classeStabilite = "bg-warning text-dark";
         }
 
-        document.getElementById('lbl_cin').innerText = agent.cin || "Non renseigné";
-        document.getElementById('lbl_tel').innerText = agent.tel || "Non renseigné";
-        document.getElementById('lbl_date_naissance').innerText = agent.date_naissance || "Non renseignée";
+        // 2. Calcul du prochain avancement bisannuel théorique (Tous les 2 ans à partir de l'entrée au MEF)
+        const cyclesRevolus = Math.floor(anneesService / 2);
+        const dProchaine = new Date(dEntree.getFullYear() + (cyclesRevolus + 1) * 2, dEntree.getMonth(), dEntree.getDate());
         
-        let sitTxt = agent.situation_matrimoniale || "Célibataire";
-        if(agent.nom_conjoint) sitTxt += ` (Conjoint: ${agent.nom_conjoint})`;
-        document.getElementById('lbl_situation').innerText = sitTxt;
+        const diffTemps = dProchaine - dAujourdhui;
+        const joursRestants = Math.ceil(diffTemps / (1000 * 60 * 60 * 24));
 
-        const nEnfants = parseInt(agent.nb_enfants) || 0;
-        document.getElementById('lbl_nb_enfants').innerText = nEnfants;
-        document.getElementById('lbl_prenoms_enfants').innerText = agent.prenoms_enfants || "Aucun prénom enregistré";
-        document.getElementById('lbl_somme_ariary').innerText = (nEnfants * 10000).toLocaleString('fr-FR');
+        let texteAlerte = "", classeAlerte = "", tempsRestantStr = "";
 
-        const zoneEv = document.getElementById('zone_evolution_dynamique');
-        zoneEv.innerHTML = `
-            <div class="alert alert-info border-0 shadow-sm rounded-1 text-dark m-0 mb-3">
-                <h6 class="fw-bold text-uppercase"><i class="fa-solid fa-angles-up text-success me-2"></i>Règle de progression applicable</h6>
-                <p class="small m-0">Catégorie : <strong>${agent.type_agent}</strong>. Durée réglementaire d'avancement : <strong>${duree} an(s)</strong>.</p>
-            </div>`;
+        if (joursRestants <= 0) {
+            texteAlerte = "ÉCHÉANCE À TERME";
+            classeAlerte = "badge-urgent";
+            tempsRestantStr = `Cycle de 2 ans révolu. Traitement du nouvel arrêté d'échelon recommandé.`;
+        } else if (joursRestants <= 90) {
+            texteAlerte = "PROCHE (90J)";
+            classeAlerte = "badge-proche";
+            tempsRestantStr = `${joursRestants} jour(s) restant(s) avant le prochain cycle bisannuel.`;
+        } else {
+            texteAlerte = "EN COURS";
+            classeAlerte = "badge-ajour";
+            tempsRestantStr = `${Math.floor(anneesService)} ans et ${Math.floor((anneesService % 1) * 12)} mois de service au MEF. Prochain échelon dans ${joursRestants} jours.`;
+        }
 
-        actualiserPiecesDossier();
+        return {
+            dateProchaineStr: dProchaine.toLocaleDateString('fr-FR'),
+            tempsRestantStr: tempsRestantStr,
+            classeAlerte: classeAlerte,
+            texteAlerte: texteAlerte,
+            stabilite: stabilite,
+            classeStabilite: classeStabilite
+        };
+    }
 
-        // Partie Congés
-        let totalPris = 0;
-        const histList = document.getElementById('liste_historique_conges');
-        histList.innerHTML = "";
-        if(agent.absences) {
-            Object.values(agent.absences).forEach(abs => {
-                totalPris += parseInt(abs.jours);
-                histList.innerHTML += `<li class="list-group-item d-flex justify-content-between align-items-center text-dark small bg-transparent"><span><i class="fa-solid fa-circle text-primary me-2" style="font-size:6px;"></i>${abs.type}</span><span class="badge bg-danger rounded-1">${abs.jours} Jours</span></li>`;
+    function sauvegarderAgent(e) {
+        e.preventDefault();
+        const matricule = document.getElementById("im").value.trim();
+        if(!matricule) return;
+
+        const prenomsEnfants = [];
+        document.querySelectorAll(".champ-prenom-enfant").forEach(input => {
+            if(input.value.trim()) prenomsEnfants.push(input.value.trim());
+        });
+
+        const agentData = {
+            type: document.getElementById("type_agent").value,
+            im: matricule,
+            nom: document.getElementById("nom").value.trim(),
+            cin: document.getElementById("cin").value.trim(),
+            tel: document.getElementById("tel").value.trim(),
+            dateNaissance: document.getElementById("date_naissance").value,
+            situation: document.getElementById("select_situation").value,
+            conjoint: document.getElementById("nom_conjoint").value.trim(),
+            nbEnfants: prenomsEnfants.length,
+            enfants: prenomsEnfants,
+            echelonIndex: parseInt(document.getElementById("echelon").value),
+            indice: parseInt(document.getElementById("affichage_indice").value),
+            dateEffet: document.getElementById("date_debut_contrat").value, // Servira de date d'entrée MEF
+            division: document.getElementById("division").value
+        };
+
+        dbRef.child(matricule).update(agentData).then(() => {
+            afficherPopupCentral("Synchronisation", "Les données de l'agent ont été enregistrées avec succès !", true);
+            document.getElementById("form_agent").reset();
+            document.getElementById("bloc_enfants_dynamique").innerHTML = "";
+            document.getElementById("affichage_indice").value = "0";
+            adapterFormulaireEchelons();
+        });
+    }
+
+    function chargerAgentPourModification(im) {
+        const agent = cacheAgents[im];
+        if(!agent) return;
+
+        // Étape 1 : Assigner le type global d'agent
+        document.getElementById("type_agent").value = agent.type;
+        
+        // Étape 2 : Recréer la liste exacte des échelons correspondante
+        adapterFormulaireEchelons();
+
+        // Étape 3 : Assigner l'échelon exact enregistré
+        document.getElementById("echelon").value = agent.echelonIndex;
+        
+        // Étape 4 : Charger l'indice réel de la base
+        document.getElementById("affichage_indice").value = agent.indice;
+
+        // Données civiles habituelles
+        document.getElementById("im").value = agent.im;
+        document.getElementById("nom").value = agent.nom;
+        document.getElementById("cin").value = agent.cin;
+        document.getElementById("tel").value = agent.tel;
+        document.getElementById("date_naissance").value = agent.dateNaissance || "";
+        document.getElementById("select_situation").value = agent.situation || "Célibataire";
+        gererAffichageConjoint();
+        document.getElementById("nom_conjoint").value = agent.conjoint || "";
+        
+        document.getElementById("champ_nb_enfants").value = agent.nbEnfants || 0;
+        const div = document.getElementById("bloc_enfants_dynamique");
+        div.innerHTML = "";
+        if (agent.enfants && Array.isArray(agent.enfants)) {
+            agent.enfants.forEach((enfant, i) => {
+                div.innerHTML += `
+                    <div class="box-enfants-dynamique">
+                        <label class="small fw-bold text-dark text-uppercase" style="font-size:10px;">Prénom Enfant N°0${i+1} :</label>
+                        <input type="text" class="form-control form-control-site py-1 champ-prenom-enfant" value="${enfant}" required>
+                    </div>`;
             });
         }
-        if(histList.innerHTML === "") histList.innerHTML = `<span class="text-muted small">Aucune absence enregistrée.</span>`;
-        document.getElementById('lbl_conges_pris').innerText = totalPris + " Jour(s)";
-        document.getElementById('lbl_conges_restants').innerText = (30 - totalPris) + " Jour(s)";
+
+        document.getElementById("date_debut_contrat").value = agent.dateEffet || "";
+        document.getElementById("division").value = agent.division || "Division du Patrimoine de l’Etat";
+
+        afficherPopupCentral("Modification active", `Formulaire prêt pour mise à jour : IM ${im}`, true);
+        window.scrollTo({ top: 150, behavior: 'smooth' });
     }
 
-    // CHARGEMENT PIÈCES SUR MESURE DEPUIS L'IMAGE 5
-    function actualiserPiecesDossier() {
-        const typeActe = document.getElementById('select_type_acte').value;
-        const modeExemplaire = document.getElementById('select_ex_acte').value;
-        const listContainer = document.getElementById('liste_pieces_dossier');
-        listContainer.innerHTML = "";
-
-        let pieces = [];
-        let suffixe = modeExemplaire === "1" ? "(1 ex)" : "(5 ex ou 2 ex selon la pièce)";
-
-        if (typeActe === "ECHELON") {
-            if(modeExemplaire === "1") {
-                pieces = ["Projet (1)", "Demande (1)", "Dernière situation (1)", "Attestation de non interruption de service (1)", "CIN (1)", "Avis de crédit (1)"];
-            } else {
-                pieces = ["Projet (5 ex)", "Demande (2)", "Dernière situation (2)", "Attestation de non interruption de service (2)", "CIN (2 ex)", "Avis de crédit (2 ex)"];
-            }
-        } else if (typeActe === "CLASSE") {
-            if(modeExemplaire === "1") {
-                pieces = ["Projet (1)", "Demande (1)", "Dernière situation 1", "Attestation de non interruption de service (1)", "BIN (1)", "PV cap (1)", "CIN (1)", "Avis de crédit (1)"];
-            } else {
-                pieces = ["Projet (5 ex)", "Demande (2)", "Dernière situation 2ex", "Attestation de non interruption de service (2)", "BIN (2)", "PV cap (2)", "CIN (2)", "Avis de crédit (2)"];
-            }
-        } else if (typeActe === "RECLASSEMENT") {
-            if(modeExemplaire === "1") {
-                pieces = ["Projet (1)", "Demande (1)", "Dernière situation (1)", "Attestation de non interruption de service (1)", "CIN (1)", "Avis de crédit (1)"];
-            } else {
-                pieces = ["Projet (5 ex)", "Demande (2 ex)", "Dernière situation (2 ex)", "Attestation de non interruption de service (2 ex)", "CIN (2 ex)", "Avis de crédit (2 ex)"];
-            }
-        } else if (typeActe === "BONIFICATION") {
-            if(modeExemplaire === "1") {
-                pieces = ["Projet (1)", "Demande (1)", "Dernière situation (1)", "Attestation de non interruption de service (1)", "Attestation de non attribution (1)", "Etat signalétique (1)", "CIN (1)", "Avis de crédit (1)"];
-            } else {
-                pieces = ["Projet (5 ex)", "Demande (2ex)", "Dernière situation (2 ex)", "Attestation de non interruption de service (2ex)", "Attestation de non attribution (2ex)", "Etat signalétique (2 ex)", "CIN (2 ex)", "Avis de crédit (2 ex)"];
-            }
+    function supprimerAgent(im) {
+        if(confirm(`Voulez-vous supprimer définitivement l'agent matricule IM : ${im} de la base de données du SRB Vatovavy ?`)) {
+            dbRef.child(im).remove().then(() => {
+                afficherPopupCentral("Supprimé", `L'agent IM ${im} a été retiré.`, true);
+                if (currentAgentIm === im) {
+                    document.getElementById("bloc_fiche_detail").style.display = "none";
+                    currentAgentIm = null;
+                }
+            });
         }
+    }
 
-        pieces.forEach(p => {
-            listContainer.innerHTML += `<li><i class="fa-solid fa-check-square me-2 text-purple"></i>${p}</li>`;
+    function ecouterChangementsFirebase() {
+        dbRef.on('value', snapshot => {
+            const tbody = document.getElementById("liste_agents_body");
+            tbody.innerHTML = "";
+            cacheAgents = snapshot.val() || {};
+            
+            const cles = Object.keys(cacheAgents);
+            document.getElementById("badge_total").innerText = `${cles.length} Agent(s)`;
+
+            if(cles.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="text-center text-muted small p-4">Aucun agent enregistré pour le moment.</td></tr>`;
+                return;
+            }
+
+            cles.forEach(k => {
+                const a = cacheAgents[k];
+                const chrono = calculerDonniesTemporelles(a.dateEffet);
+
+                tbody.innerHTML += `
+                    <tr class="ligne-agent" data-im="${a.im.toUpperCase()}">
+                        <td class="fw-bold text-dark"><i class="fa-solid fa-user-tie text-muted me-2"></i>${a.nom}</td>
+                        <td class="text-secondary fw-bold">${a.im}</td>
+                        <td class="text-primary fw-bold">${chrono.dateProchaineStr}</td>
+                        <td><span class="badge ${chrono.classeStabilite} text-uppercase shadow-sm p-2 small" style="font-size: 10px;">${chrono.stabilite}</span></td>
+                        <td class="text-end">
+                            <div class="d-flex justify-content-end gap-1">
+                                <button class="btn btn-sm btn-success px-2 py-1 small rounded-1" onclick="ouvrirFicheDetaillee('${a.im}')" title="Fiche complète"><i class="fa-solid fa-eye"></i></button>
+                                <button class="btn btn-sm btn-warning px-2 py-1 small rounded-1 text-dark fw-bold" onclick="chargerAgentPourModification('${a.im}')" title="Modifier"><i class="fa-solid fa-pen-to-square"></i> Modif.</button>
+                                <button class="btn btn-sm btn-danger px-2 py-1 small rounded-1" onclick="supprimerAgent('${a.im}')" title="Supprimer"><i class="fa-solid fa-trash-can"></i></button>
+                            </div>
+                        </td>
+                    </tr>`;
+            });
+
+            if(currentAgentIm && cacheAgents[currentAgentIm]) {
+                ouvrirFicheDetaillee(currentAgentIm);
+            }
         });
+    }
+
+    function ouvrirFicheDetaillee(im) {
+        currentAgentIm = im;
+        const a = cacheAgents[im];
+        if(!a) return;
+
+        document.getElementById("bloc_fiche_detail").style.display = "block";
+        document.getElementById("lbl_nom").innerText = a.nom;
+        document.getElementById("lbl_type").innerText = a.type;
+        document.getElementById("lbl_im_fiche").innerText = a.im;
+        
+        // Lecture sécurisée du libellé de l'échelon
+        let echelonTxt = "-";
+        if(ECHELONS_PAR_TYPE[a.type] && ECHELONS_PAR_TYPE[a.type][a.echelonIndex] !== undefined) {
+            echelonTxt = ECHELONS_PAR_TYPE[a.type][a.echelonIndex];
+        }
+        document.getElementById("lbl_echelon").innerText = echelonTxt;
+        document.getElementById("lbl_indice").innerText = a.indice;
+        
+        const dEff = a.dateEffet ? new Date(a.dateEffet).toLocaleDateString('fr-FR') : "-";
+        document.getElementById("lbl_date_effet_actuel").innerText = dEff;
+        document.getElementById("lbl_div").innerText = a.division || "-";
+
+        const chrono = calculerDonniesTemporelles(a.dateEffet);
+        document.getElementById("lbl_date_prochain").innerText = chrono.dateProchaineStr;
+        document.getElementById("lbl_temps_restant").innerText = chrono.tempsRestantStr;
+        
+        document.getElementById("zone_badge_fiche").innerHTML = `
+            <span class="badge ${chrono.classeStabilite} me-2 fs-6 p-2 text-uppercase">${chrono.stabilite}</span>
+            <span class="badge-statut-temps ${chrono.classeAlerte} fs-6">${chrono.texteAlerte}</span>`;
+
+        document.getElementById("lbl_cin").innerText = a.cin || "-";
+        document.getElementById("lbl_tel").innerText = a.tel || "-";
+        document.getElementById("lbl_date_naissance").innerText = a.dateNaissance ? new Date(a.dateNaissance).toLocaleDateString('fr-FR') : "-";
+        document.getElementById("lbl_situation").innerText = a.situation || "Célibataire";
+        
+        const nfb = a.nbEnfants || 0;
+        document.getElementById("lbl_nb_enfants").innerText = nfb;
+        document.getElementById("lbl_prenoms_enfants").innerText = (a.enfants && a.enfants.length > 0) ? a.enfants.join(", ") : "Aucun enfant à charge";
+        document.getElementById("lbl_somme_ariary").innerText = (nfb * 10000).toLocaleString('fr-FR');
+
+        let consomme = 0;
+        const listH = document.getElementById("liste_historique_conges");
+        listH.innerHTML = "";
+        if(a.absences) {
+            Object.keys(a.absences).forEach(idAbs => {
+                const abs = a.absences[idAbs];
+                consomme += parseInt(abs.jours) || 0;
+                listH.innerHTML += `<li class="list-group-item d-flex justify-content-between align-items-center small text-dark"><span><i class="fa-solid fa-circle-minus text-danger me-2"></i>${abs.type}</span><span class="badge bg-danger rounded-pill">${abs.jours} Jours</span></li>`;
+            });
+        }
+        if(consomme === 0) {
+            listH.innerHTML = `<li class="list-group-item text-center text-muted small py-2">Aucune absence enregistrée.</li>`;
+        }
+        document.getElementById("lbl_conges_pris").innerText = `${consomme} Jour(s)`;
+        document.getElementById("lbl_conges_restants").innerText = `${30 - consomme} Jour(s)`;
+
+        actualiserPiecesDossier();
     }
 
     function ajouterAbsenceEnLigne() {
-        const jours = parseInt(document.getElementById('action_jours_conge').value);
+        if(!currentAgentIm) return;
         const type = document.getElementById('action_type_conge').value;
-        if(!jours || jours < 1) return;
+        const jours = parseInt(document.getElementById('action_jours_conge').value) || 0;
+        if(jours <= 0) return;
 
         const soldeActuel = parseInt(document.getElementById('lbl_conges_restants').innerText);
         if(jours > soldeActuel) {
-            afficherPopupCentral("Alerte Solde", "Droit aux congés insuffistant !", false);
+            afficherPopupCentral("Alerte Solde", "Droit aux congés insuffisant !", false);
             return;
         }
 
-        firebase.database().ref("agents_srbv_complete_v3/" + currentAgentIm + "/absences").push({ type: type, jours: jours }).then(() => {
-            afficherPopupCentral("Mise à jour Congés", "Absence déduite !", true);
+        dbRef.child(currentAgentIm + "/absences").push({ type: type, jours: jours }).then(() => {
+            afficherPopupCentral("Mise à jour Congés", "Absence déduite avec succès !", true);
             document.getElementById('action_jours_conge').value = "";
+        });
+    }
+
+    function actualiserPiecesDossier() {
+        const typeActe = document.getElementById("select_type_acte").value;
+        const nbrEx = document.getElementById("select_ex_acte").value;
+        const ul = document.getElementById("liste_pieces_dossier");
+        ul.innerHTML = "";
+
+        PIECES_LEGALES[typeActe].forEach(piece => {
+            let mentionEx = nbrEx === "1" ? "en exemplaire unique" : "en 4 exemplaires originaux (Circuit MEF Central)";
+            ul.innerHTML += `<li class="mb-1"><strong>${piece}</strong> <span class="text-muted">(${mentionEx})</span></li>`;
         });
     }
 
@@ -960,14 +862,19 @@
 
     function afficherPopupCentral(titre, texte, succes) {
         const boite = document.getElementById('popup_notification');
+        const icone = document.getElementById('popup_icone');
+        
         document.getElementById('popup_titre').innerText = titre;
         document.getElementById('popup_texte').innerText = texte;
+        
+        if(succes) { boite.style.borderTopColor = "var(--mada-green)"; icone.className = "fa-solid fa-circle-check text-success"; }
+        else { boite.style.borderTopColor = "var(--mada-red)"; icone.className = "fa-solid fa-circle-xmark text-danger"; }
+        
         boite.style.display = "block";
-        setTimeout(() => { boite.style.display = "none"; }, 2500);
+        setTimeout(() => { boite.style.display = "none"; }, 3000);
     }
-
-    function escapeHtml(text) { return text ? text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : ""; }
 </script>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
