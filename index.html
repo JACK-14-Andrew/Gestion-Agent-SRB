@@ -7,22 +7,29 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;900&family=Inter:wght@300;400;600;700&family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-
     <style>
-        /* === TOUS LES STYLES EXISTANTS (inchangés) === */
         :root {
-          --mada-red: #ED1C24; --mada-green: #007A33; --mada-white: #FFFFFF;
-          --mada-dark: #111827; --mada-gray: #F8FAFC; --mada-border: #E2E8F0;
-          --gold-premium: #D4AF37;
+            --mada-red: #ED1C24;
+            --mada-green: #007A33;
+            --mada-white: #FFFFFF;
+            --mada-dark: #0B1120;
+            --gold-premium: #D4AF37;
+            --text-light: #F1F5F9;
+            --text-muted: #94A3B8;
         }
-        body { background-color: #0F172A; font-family: 'Inter', sans-serif; color: #334155; padding-bottom: 80px; overflow-x: hidden; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: linear-gradient(145deg, #0B1120 0%, #1E293B 100%);
+            font-family: 'Inter', sans-serif;
+            color: var(--text-light);
+            padding-bottom: 80px;
+            overflow-x: hidden;
+        }
         .mada-top-bar { height: 12px; width: 100%; background: linear-gradient(90deg, var(--mada-white) 33.33%, var(--mada-red) 33.33% 66.66%, var(--mada-green) 66.66%); position: fixed; top: 0; left: 0; z-index: 10000; }
-        .logo-container { padding: 35px 0; background: #1E293B; border-bottom: 2px solid #334155; margin-top: 12px; }
-        
-        .site-logo { 
+        .logo-container { padding: 35px 0; background: #111827; border-bottom: 2px solid #2D3748; margin-top: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.5); }
+        .site-logo {
             font-family: 'Poppins', sans-serif; font-weight: 900; font-size: 40px; text-transform: uppercase; letter-spacing: -1px; display: inline-block; color: #FFF; background: #000; padding: 8px 25px; border: 4px solid #FFF; position: relative; overflow: hidden;
             animation: logoMotionVideo 6s infinite ease-in-out; perspective: 1000px;
         }
@@ -36,76 +43,314 @@
             75% { transform: rotate(2deg) scale(1.02) rotateY(-10deg); box-shadow: -5px -5px 0px var(--mada-green), -10px -10px 0px var(--mada-red); }
             100% { transform: rotate(-1deg) scale(1); box-shadow: 5px 5px 0px var(--mada-red), 10px 10px 0px var(--mada-green); }
         }
-
+        @keyframes technologieReflet {
+            0% { transform: translateX(-100%) rotate(30deg); }
+            100% { transform: translateX(200%) rotate(30deg); }
+        }
         #ecran_auth {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, #1E293B 0%, #0F172A 100%); z-index: 9999; display: flex; align-items: center; justify-content: center; transition: 0.5s ease-in-out;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, #1E293B 0%, #0B1120 100%); z-index: 9999; display: flex; align-items: center; justify-content: center; transition: 0.5s ease-in-out;
         }
         .carte-auth {
-            background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(16px); width: 100%; max-width: 460px; padding: 45px; border-radius: 12px; box-shadow: 0 30px 60px -12px rgba(0,0,0,0.6); border: 1px solid rgba(255, 255, 255, 0.08); border-top: 5px solid var(--mada-green); text-align: center;
+            background: rgba(30, 41, 59, 0.85);
+            backdrop-filter: blur(16px);
+            width: 100%; max-width: 460px; padding: 45px;
+            border-radius: 24px;
+            box-shadow: 0 30px 60px -12px rgba(0,0,0,0.8);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-top: 5px solid var(--mada-green);
+            text-align: center;
+            color: white;
         }
-        .btn-toggle-auth { color: var(--gold-premium); text-decoration: none; font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: 0.2s; }
-        .input-group-auth { background: #0F172A; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1); overflow: hidden; }
+        .carte-auth label { color: var(--text-muted); }
+        .btn-toggle-auth { color: var(--gold-premium); text-decoration: none; font-weight: 600; font-size: 0.85rem; cursor: pointer; }
+        .input-group-auth { background: #0F172A; border-radius: 30px; border: 1px solid rgba(255,255,255,0.15); overflow: hidden; }
         .input-group-auth input { background: transparent !important; color: white !important; border: none !important; }
-        .input-group-auth .btn-oeil { background: transparent; border: none; color: #64748B; padding: 10px 15px; }
-
-        .card-site { background: white; border: none; border-radius: 8px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3); margin-bottom: 30px; overflow: hidden; }
-        .card-site-header { background: var(--mada-dark); color: white; font-family: 'Poppins', sans-serif; font-weight: 700; text-transform: uppercase; padding: 20px; font-size: 0.9rem; letter-spacing: 1px; border-left: 8px solid var(--mada-green); }
-        .form-control-site { border: 1px solid #CBD5E1; border-radius: 4px; padding: 10px; background: var(--mada-gray); font-size: 0.95rem; color: #1E293B; }
-        .form-control-site:focus { border-color: var(--mada-green); box-shadow: none; background: white; }
-        
-        .btn-site-submit { background: linear-gradient(135deg, var(--mada-green), #059669); color: white; font-family: 'Poppins', sans-serif; font-weight: 700; text-transform: uppercase; padding: 15px; border: none; width: 100%; transition: 0.3s; border-radius: 4px; }
-        .btn-site-submit:hover { background: var(--mada-dark); transform: translateY(-2px); }
-        
-        .table-site th { background: var(--mada-dark); color: #94A3B8; text-transform: uppercase; font-size: 0.8rem; padding: 15px; }
-        .table-site td { padding: 15px; vertical-align: middle; background: white; border-bottom: 1px solid var(--mada-border); color: #1E293B; }
-        
-        .nav-tabs-site { border-bottom: 2px solid var(--mada-border); }
-        .nav-tabs-site .nav-link { border: none; color: #64748B; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; padding: 12px 18px; }
-        .nav-tabs-site .nav-link.active { color: var(--mada-green); border-bottom: 4px solid var(--mada-green); background: none; }
-        
-        .pane-site-dossier { background: var(--mada-gray); padding: 25px; border-left: 6px solid var(--mada-green); border-radius: 0 4px 4px 0; }
-        .conge-badge-box { background: #EFF6FF; border: 1px solid #BFDBFE; padding: 15px; text-align: center; border-radius: 6px; }
-        .allocation-box { background: #F0FDF4; border: 2px dashed var(--mada-green); padding: 20px; text-align: center; border-radius: 6px; margin-bottom: 20px; }
-
-        .premium-footer { text-align: center; padding: 30px; margin-top: 50px; color: #64748B; font-size: 0.9rem; border-top: 1px solid #334155; }
-        .signature-tahiana { font-family: 'Times new roman', serif; font-style: bold; font-weight: 600; color: var(--gold-premium); font-size: 1.3rem; letter-spacing: 1px; display: inline-block; margin-left: 8px; }
-
-        .notif-centrale {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(15, 23, 42, 0.98); color: white; padding: 35px 55px; border-radius: 8px; z-index: 10000; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); text-align: center; border-top: 6px solid var(--mada-green); display: none; 
+        .input-group-auth .btn-oeil { background: transparent; border: none; color: #94A3B8; padding: 10px 15px; }
+        .card-site {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 24px;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3);
+            margin-bottom: 30px;
+            overflow: hidden;
+            color: var(--text-light);
         }
-        .notif-centrale i { font-size: 50px; color: #10B981; margin-bottom: 15px; display: block; }
-
-        .badge-statut-temps { padding: 6px 12px; font-weight: 700; border-radius: 4px; text-transform: uppercase; font-size: 0.75rem; display: inline-block; }
-        .badge-urgent { background-color: #FEE2E2; color: #991B1B; border: 1px solid #FCA5A5; animation: clignotementAlerte 2s infinite; }
-        .badge-proche { background-color: #FEF3C7; color: #92400E; border: 1px solid #FCD34D; }
-        .badge-ajour { background-color: #D1FAE5; color: #065F46; border: 1px solid #6EE7B7; }
-        
-        @keyframes clignotementAlerte {
-            0% { opacity: 1; box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
-            50% { opacity: 0.8; box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
-            100% { opacity: 1; box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        .card-site-header {
+            background: rgba(0,0,0,0.5);
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 20px;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            border-left: 8px solid var(--mada-green);
         }
-
-        .box-pieces-requises { background-color: #FAF5FF; border-left: 4px solid #8B5CF6; padding: 15px; border-radius: 4px; margin-top: 15px; }
-        .box-pieces-requises ul { padding-left: 20px; margin-bottom: 0; font-size: 0.85rem; color: #5B21B6; }
-        .box-enfants-dynamique { background: #F1F5F9; padding: 8px; margin-top: 5px; border-radius: 4px; border-left: 3px solid #64748B; }
-        
-        /* Styles pour les dossiers */
-        .dossier-card {
-            background: #F8FAFC;
-            border-left: 5px solid #007A33;
-            margin-bottom: 12px;
+        .card-site .card-body { color: var(--text-light); }
+        .form-control-site {
+            background: rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 16px;
             padding: 12px;
-            border-radius: 6px;
+            color: white !important;
             transition: 0.2s;
         }
-        .dossier-card:hover { background: #EFF6FF; transform: translateX(3px); }
-        .badge-delai { font-size: 0.7rem; padding: 4px 8px; border-radius: 20px; }
-        .bg-delai-urgent { background-color: #FEE2E2; color: #B91C1C; }
-        .bg-delai-proche { background-color: #FEF3C7; color: #92400E; }
-        .bg-delai-ok { background-color: #D1FAE5; color: #065F46; }
-        .btn-bordereau { background: none; border: 1px solid #007A33; color: #007A33; border-radius: 20px; padding: 4px 10px; font-size: 0.7rem; }
-        .btn-bordereau:hover { background: #007A33; color: white; }
+        .form-control-site:focus {
+            background: rgba(0,0,0,0.6);
+            border-color: var(--mada-green);
+            box-shadow: 0 0 0 3px rgba(0,122,51,0.25);
+            outline: none;
+            color: white !important;
+        }
+        .form-control-site::placeholder { color: #94A3B8; }
+        .form-select-site {
+            background: rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 16px;
+            padding: 12px;
+            color: white !important;
+        }
+        .form-select-site option { background: #1E293B; color: white; }
+        .btn-site-submit {
+            background: linear-gradient(135deg, var(--mada-green), #10B981);
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 15px;
+            border: none;
+            width: 100%;
+            transition: 0.3s;
+            border-radius: 40px;
+            box-shadow: 0 4px 15px rgba(0,122,51,0.3);
+        }
+        .btn-site-submit:hover { background: var(--mada-dark); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,122,51,0.4); }
+        .table-site {
+            color: var(--text-light) !important;
+        }
+        .table-site th {
+            background: rgba(0,0,0,0.6);
+            color: #CBD5E1 !important;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            padding: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .table-site td {
+            padding: 15px;
+            vertical-align: middle;
+            background: transparent;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            color: var(--text-light) !important;
+        }
+        .table-site td .btn { color: white; }
+        .nav-tabs-site {
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .nav-tabs-site .nav-link {
+            border: none;
+            color: #94A3B8;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            padding: 12px 18px;
+            border-radius: 30px;
+        }
+        .nav-tabs-site .nav-link.active {
+            color: var(--mada-green);
+            background: rgba(0,122,51,0.2);
+            border: 1px solid rgba(0,122,51,0.3);
+        }
+        .pane-site-dossier {
+            background: rgba(0,0,0,0.25);
+            padding: 25px;
+            border-radius: 20px;
+            border-left: 4px solid var(--mada-green);
+            color: var(--text-light);
+        }
+        .pane-site-dossier strong { color: white; }
+        .conge-badge-box {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 15px;
+            text-align: center;
+            border-radius: 16px;
+            color: var(--text-light);
+        }
+        .conge-badge-box .fs-4 { color: white; }
+        .allocation-box {
+            background: rgba(0,122,51,0.15);
+            border: 2px dashed var(--mada-green);
+            padding: 20px;
+            text-align: center;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            color: var(--text-light);
+        }
+        .premium-footer {
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+            color: #94A3B8;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .signature-tahiana {
+            font-family: 'Times new roman', serif;
+            font-weight: bold;
+            color: var(--gold-premium);
+            font-size: 1.3rem;
+            letter-spacing: 1px;
+            display: inline-block;
+            margin-left: 8px;
+        }
+        .notif-centrale {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(20px);
+            color: white;
+            padding: 35px 55px;
+            border-radius: 24px;
+            z-index: 10000;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+            text-align: center;
+            border-top: 6px solid var(--mada-green);
+            display: none;
+        }
+        .notif-centrale i { font-size: 50px; color: #10B981; margin-bottom: 15px; display: block; }
+        .badge-statut-temps {
+            padding: 6px 14px;
+            font-weight: 700;
+            border-radius: 30px;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            display: inline-block;
+        }
+        .badge-urgent { background-color: #7F1D1D; color: #FECACA; animation: clignotementAlerte 1.5s infinite; }
+        .badge-proche { background-color: #854D0E; color: #FEF08A; }
+        .badge-ajour { background-color: #064E3B; color: #A7F3D0; }
+        @keyframes clignotementAlerte {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(0.98); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        .box-pieces-requises {
+            background: rgba(139,92,246,0.12);
+            border-left: 4px solid #8B5CF6;
+            padding: 15px;
+            border-radius: 16px;
+            margin-top: 15px;
+            color: var(--text-light);
+        }
+        .box-pieces-requises ul { padding-left: 20px; margin-bottom: 0; font-size: 0.85rem; color: #C4B5FD; }
+        .box-pieces-requises ul li { color: #C4B5FD; }
+        .box-enfants-dynamique {
+            background: rgba(0,0,0,0.3);
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 12px;
+            border-left: 3px solid #10B981;
+            color: var(--text-light);
+        }
+        .box-enfants-dynamique label { color: var(--text-muted); }
+        .dossier-card {
+            background: rgba(0,0,0,0.35);
+            border-left: 5px solid #F59E0B;
+            margin-bottom: 12px;
+            padding: 16px;
+            border-radius: 20px;
+            transition: 0.2s;
+            color: var(--text-light);
+        }
+        .dossier-card:hover { background: rgba(0,0,0,0.5); transform: translateX(4px); }
+        .dossier-card strong { color: white; }
+        .dossier-card small { color: var(--text-muted); }
+        .badge-delai { font-size: 0.7rem; padding: 4px 10px; border-radius: 30px; }
+        .bg-delai-urgent { background-color: #7F1D1D; color: #FECACA; }
+        .bg-delai-proche { background-color: #854D0E; color: #FEF08A; }
+        .bg-delai-ok { background-color: #064E3B; color: #A7F3D0; }
+        .btn-bordereau {
+            background: rgba(16,185,129,0.2);
+            border: 1px solid #10B981;
+            color: #10B981;
+            border-radius: 30px;
+            padding: 4px 12px;
+            font-size: 0.7rem;
+            transition: 0.2s;
+        }
+        .btn-bordereau:hover { background: #10B981; color: white; }
+        .etape-badge {
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: 40px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            background: #1E293B;
+            color: #94A3B8;
+            border: 1px solid #334155;
+        }
+        .etape-badge.active {
+            background: #10B981;
+            color: white;
+            border-color: #10B981;
+        }
+        .etape-badge.done {
+            background: #064E3B;
+            color: #A7F3D0;
+            border-color: #065F46;
+        }
+        .btn-avancer {
+            background: #2563EB;
+            border: none;
+            border-radius: 30px;
+            color: white;
+            padding: 2px 14px;
+            font-size: 0.7rem;
+            transition: 0.2s;
+        }
+        .btn-avancer:hover { background: #1D4ED8; color: white; }
+        .btn-avancer:disabled { opacity: 0.5; cursor: not-allowed; }
+        .text-muted { color: var(--text-muted) !important; }
+        .text-light { color: var(--text-light) !important; }
+        .bg-white { background: white; color: #1E293B; }
+        .bg-white .text-success { color: var(--mada-green) !important; }
+        .bg-light { background: rgba(255,255,255,0.05) !important; color: var(--text-light); }
+        .bg-light .text-dark { color: white !important; }
+        .bg-light .text-muted { color: var(--text-muted) !important; }
+        .border { border-color: rgba(255,255,255,0.1) !important; }
+        .badge.bg-secondary { background: #475569 !important; color: white; }
+        .badge.bg-dark { background: #1E293B !important; color: white; }
+        .badge.bg-danger { background: #B91C1C !important; color: white; }
+        .badge.bg-success { background: #007A33 !important; color: white; }
+        .alert-info { background: rgba(59,130,246,0.15); color: #93C5FD; border: 1px solid rgba(59,130,246,0.2); }
+        .btn-outline-success { color: #10B981; border-color: #10B981; }
+        .btn-outline-success:hover { background: #10B981; color: white; }
+        .btn-primary { background: #2563EB; border: none; }
+        .btn-primary:hover { background: #1D4ED8; }
+        .btn-dark { background: #1E293B; border: none; color: white; }
+        .btn-dark:hover { background: #334155; }
+        .btn-outline-danger { color: #F87171; border-color: #F87171; }
+        .btn-outline-danger:hover { background: #DC2626; color: white; }
+        /* Réglage des couleurs dans les modals */
+        .modal-content { background: #1E293B; color: var(--text-light); border: 1px solid rgba(255,255,255,0.08); }
+        .modal-header { border-color: rgba(255,255,255,0.08); }
+        .modal-footer { border-color: rgba(255,255,255,0.08); }
+        .modal-content .form-label { color: var(--text-muted); }
+        .modal-content .form-control, .modal-content .form-select {
+            background: #0F172A;
+            border-color: #334155;
+            color: white;
+        }
+        .modal-content .form-control:focus, .modal-content .form-select:focus {
+            border-color: var(--mada-green);
+            box-shadow: 0 0 0 3px rgba(0,122,51,0.2);
+        }
+        .modal-content .btn-secondary { background: #334155; border: none; color: white; }
+        .modal-content .btn-secondary:hover { background: #475569; }
+        .modal-content .btn-success { background: var(--mada-green); border: none; }
+        .modal-content .btn-success:hover { background: #005a26; }
     </style>
 </head>
 <body>
@@ -192,12 +437,12 @@
                 </div>
                 <div class="col-lg-4 mt-3 mt-lg-0">
                     <div class="input-group border-0 shadow-sm rounded">
-                        <span class="input-group-text bg-white border-0"><i class="fa-solid fa-magnifying-glass text-success"></i></span>
-                        <input type="text" id="moteur_recherche" class="form-control border-0 py-3 text-dark" placeholder="RECHERCHER UN AGENT PAR MATRICULE IM..." onkeyup="executerFiltrage()">
+                        <span class="input-group-text bg-transparent border-0"><i class="fa-solid fa-magnifying-glass text-success"></i></span>
+                        <input type="text" id="moteur_recherche" class="form-control border-0 py-3 text-dark bg-white" placeholder="RECHERCHER UN AGENT PAR MATRICULE IM..." onkeyup="executerFiltrage()">
                     </div>
                 </div>
                 <div class="col-lg-2 text-end">
-                    <button class="btn btn-outline-danger font-weight-bold px-3 py-2 text-uppercase small" onclick="deconnexion()"><i class="fa-solid fa-power-off me-2"></i>Quitter</button>
+                    <button class="btn btn-outline-danger font-weight-bold px-3 py-2 text-uppercase small rounded-pill" onclick="deconnexion()"><i class="fa-solid fa-power-off me-2"></i>Quitter</button>
                 </div>
             </div>
         </div>
@@ -209,7 +454,7 @@
             <div class="col-xl-4 col-lg-5">
                 <div class="card-site">
                     <div class="card-site-header"><i class="fa-solid fa-user-plus me-2"></i> Enregistrement / Modification Agent</div>
-                    <div class="card-body p-4 bg-white" style="max-height: 750px; overflow-y: auto;">
+                    <div class="card-body p-4" style="max-height: 750px; overflow-y: auto;">
                         <form id="form_agent" onsubmit="sauvegarderAgent(event)">
                             
                             <div class="text-uppercase small fw-bold mb-3 text-success border-bottom pb-1"><i class="fa-solid fa-id-card me-1"></i> 1. Statut & Identité</div>
@@ -233,9 +478,8 @@
                                 </div>
                             </div>
 
-                            <!-- NOUVEAU CHAMP CORPS POUR FONCTIONNAIRES -->
                             <div id="bloc_corps_fonctionnaire" style="display: none;">
-                                <label class="small fw-bold text-dark">CORPS / CATÉGORIE (Fonctionnaire)</label>
+                                <label class="small fw-bold text-muted">CORPS / CATÉGORIE (Fonctionnaire)</label>
                                 <select id="corps_fonctionnaire" class="form-select form-control-site mb-3" onchange="suggererIndiceAutomatique()">
                                     <option value="OPERATEUR">Opérateur D18A</option>
                                     <option value="ENCADREUR">Encadreur C18A</option>
@@ -250,25 +494,15 @@
 
                             <div class="text-uppercase small fw-bold mb-3 text-success border-bottom pb-1"><i class="fa-solid fa-cake-candles me-1"></i> 2. Données Civiles & Contact</div>
                             <div class="row g-2 mb-3">
-                                <div class="col-md-6">
-                                    <label class="small fw-bold">N° CIN</label>
-                                    <input type="text" id="cin" class="form-control form-control-site" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="small fw-bold">N° TÉLÉPHONE</label>
-                                    <input type="text" id="tel" class="form-control form-control-site" required>
-                                </div>
-                                <div class="col-12">
-                                    <label class="small fw-bold">DATE DE NAISSANCE</label>
-                                    <input type="date" id="date_naissance" class="form-control form-control-site" required>
-                                </div>
+                                <div class="col-md-6"><input type="text" id="cin" class="form-control form-control-site" placeholder="N° CIN" required></div>
+                                <div class="col-md-6"><input type="text" id="tel" class="form-control form-control-site" placeholder="N° TÉLÉPHONE" required></div>
+                                <div class="col-12"><input type="date" id="date_naissance" class="form-control form-control-site" required></div>
                             </div>
 
                             <div class="text-uppercase small fw-bold mb-3 text-success border-bottom pb-1"><i class="fa-solid fa-children me-1"></i> 3. Situation Matrimoniale & Enfants</div>
                             <div class="row g-2 mb-3">
                                 <div class="col-md-6">
-                                    <label class="small fw-bold">SITUATION</label>
-                                    <select id="select_situation" class="form-select form-select-site" onchange="gererAffichageConjoint()">
+                                    <select id="select_situation" class="form-select form-control-site" onchange="gererAffichageConjoint()">
                                         <option value="Célibataire">Célibataire</option>
                                         <option value="Marié(e)">Marié(e)</option>
                                         <option value="Divorcé(e)">Divorcé(e)</option>
@@ -276,12 +510,10 @@
                                     </select>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="small fw-bold">NB ENFANTS</label>
                                     <input type="number" id="champ_nb_enfants" class="form-control form-control-site" value="0" min="0" oninput="declarerChampsEnfants()">
                                 </div>
                                 <div class="col-12" id="bloc_conjoint" style="display:none;">
-                                    <label class="small fw-bold text-danger">NOM DU CONJOINT (ÉPOUX / ÉPOUSE)</label>
-                                    <input type="text" id="nom_conjoint" class="form-control form-control-site border-danger" placeholder="Nom complet du conjoint...">
+                                    <input type="text" id="nom_conjoint" class="form-control form-control-site" placeholder="Nom complet du conjoint...">
                                 </div>
                                 <div class="col-12" id="bloc_enfants_dynamique"></div>
                             </div>
@@ -289,24 +521,20 @@
                             <div class="text-uppercase small fw-bold mb-3 text-success border-bottom pb-1"><i class="fa-solid fa-gavel me-1"></i> 4. Hiérarchie, Échelon & Indice</div>
                             <div class="row g-2 mb-3">
                                 <div class="col-md-12">
-                                    <label class="small fw-bold">ÉCHELON / GRADE</label>
                                     <select id="echelon" class="form-select form-control-site" onchange="suggererIndiceAutomatique()"></select>
                                 </div>
                                 <div class="col-12 mt-2">
-                                    <label class="small fw-bold text-dark">INDICE DE CALCUL SÉLECTIONNÉ (MODIFIABLE)</label>
-                                    <input type="number" id="affichage_indice" class="form-control form-control-site text-center fw-bold text-danger fs-5" value="0" min="0">
+                                    <input type="number" id="affichage_indice" class="form-control form-control-site text-center fw-bold text-success fs-5" value="0" min="0">
                                 </div>
                             </div>
 
                             <div class="text-uppercase small fw-bold mb-3 text-success border-bottom pb-1"><i class="fa-solid fa-calendar-check me-1"></i> 5. Date d'Entrée & Division</div>
                             <div class="row g-2 mb-4">
                                 <div class="col-12">
-                                    <label class="small fw-bold text-danger">DATE D'ENTRÉE AU MEF (BASE DE CALCUL)</label>
                                     <input type="date" id="date_debut_contrat" class="form-control form-control-site" required>
                                     <span class="text-muted" style="font-size: 11px;">Sert de point de départ réglementaire pour la règle des 6 ans et les avancements.</span>
                                 </div>
                                 <div class="col-12">
-                                    <label class="small fw-bold">DIVISION D'AFFECTATION</label>
                                     <select id="division" class="form-select form-control-site">
                                         <option>Division Administrative et Financière</option>
                                         <option>Division du Patrimoine de l’Etat</option>
@@ -350,10 +578,10 @@
                 </div>
 
                 <div id="bloc_fiche_detail" style="display: none;">
-                    <div class="card-site shadow border bg-white">
-                        <div class="p-4 border-bottom d-flex justify-content-between align-items-center bg-light">
-                            <h4 class="m-0 fw-bold"><i class="fa-solid fa-file-invoice text-success me-2"></i>Fiche : <span id="lbl_nom" class="text-success"></span></h4>
-                            <button class="btn btn-dark rounded-1 fw-bold px-4" onclick="window.print()"><i class="fa-solid fa-print me-2"></i>IMPRIMER LA FICHE</button>
+                    <div class="card-site shadow border">
+                        <div class="p-4 border-bottom d-flex justify-content-between align-items-center" style="background: rgba(0,0,0,0.3);">
+                            <h4 class="m-0 fw-bold text-white"><i class="fa-solid fa-file-invoice text-success me-2"></i>Fiche : <span id="lbl_nom" class="text-warning"></span></h4>
+                            <button class="btn btn-dark rounded-pill px-4" onclick="window.print()"><i class="fa-solid fa-print me-2"></i>IMPRIMER LA FICHE</button>
                         </div>
 
                         <ul class="nav nav-tabs nav-tabs-site px-4 pt-2" role="tablist">
@@ -367,11 +595,11 @@
                             <div class="tab-pane fade show active pane-site-dossier" id="tab_carriere">
                                 <div class="row align-items-center mb-4">
                                     <div class="col-md-7">
-                                        <h5 class="fw-bold m-0 text-dark text-uppercase"><i class="fa-solid fa-stairs me-2 text-danger"></i>Situation Administrative & Chrono</h5>
+                                        <h5 class="fw-bold m-0 text-uppercase"><i class="fa-solid fa-stairs me-2 text-danger"></i>Situation Administrative & Chrono</h5>
                                     </div>
                                     <div class="col-md-5 text-md-end" id="zone_badge_fiche"></div>
                                 </div>
-                                <div class="row g-3 mb-4 text-dark">
+                                <div class="row g-3 mb-4">
                                     <div class="col-md-6"><strong>Type de Personnel :</strong> <span id="lbl_type" class="badge bg-secondary"></span></div>
                                     <div class="col-md-6"><strong>Matricule IM :</strong> <span id="lbl_im_fiche" class="fw-bold text-danger"></span></div>
                                     <div class="col-md-6"><strong>Échelon Actuel :</strong> <span id="lbl_echelon" class="fw-bold text-primary"></span></div>
@@ -386,7 +614,7 @@
                                     <h6 class="fw-bold text-uppercase m-0 mb-2"><i class="fa-solid fa-file-shield me-2"></i>Pièces requises pour constitution du dossier (Vatovavy SRB)</h6>
                                     <div class="row">
                                         <div class="col-md-6 mb-2">
-                                            <label class="small fw-bold text-dark">Type d'acte à préparer :</label>
+                                            <label class="small fw-bold text-muted">Type d'acte à préparer :</label>
                                             <select id="select_type_acte" class="form-select form-control-site py-1 mt-1" onchange="actualiserPiecesDossier()">
                                                 <option value="ECHELON">Avancement d'Échelon</option>
                                                 <option value="CLASSE">Changement de Classe (Arrêtés et décisions)</option>
@@ -395,7 +623,7 @@
                                             </select>
                                         </div>
                                         <div class="col-md-6">
-                                            <label class="small fw-bold text-dark">Nombre d'exemplaires :</label>
+                                            <label class="small fw-bold text-muted">Nombre d'exemplaires :</label>
                                             <select id="select_ex_acte" class="form-select form-control-site py-1 mt-1" onchange="actualiserPiecesDossier()">
                                                 <option value="1">1 Exemplaire (Dossier Standard)</option>
                                                 <option value="multiples">Multiples Exemplaires (Dossier de réserve)</option>
@@ -404,14 +632,14 @@
                                     </div>
                                     <ul id="liste_pieces_dossier" class="mt-3"></ul>
                                     <div class="mt-3 text-end">
-                                        <button class="btn btn-sm btn-outline-success" onclick="genererBordereauDemande()"><i class="fa-regular fa-envelope"></i> Générer Bordereau de Demande</button>
+                                        <button class="btn btn-sm btn-outline-success rounded-pill" onclick="genererBordereauDemande()"><i class="fa-regular fa-envelope"></i> Générer Bordereau de Demande</button>
                                     </div>
                                 </div>
                             </div>
                             
                             <div class="tab-pane fade pane-site-dossier" id="tab_civil" style="border-left-color: #a855f7;">
-                                <h5 class="fw-bold mb-3 text-dark text-uppercase"><i class="fa-solid fa-user me-2 text-purple"></i>État Civil & Prestations</h5>
-                                <div class="row g-3 text-dark mb-4">
+                                <h5 class="fw-bold mb-3 text-uppercase"><i class="fa-solid fa-user me-2"></i>État Civil & Prestations</h5>
+                                <div class="row g-3 mb-4">
                                     <div class="col-md-6"><strong>N° CIN :</strong> <span id="lbl_cin"></span></div>
                                     <div class="col-md-6"><strong>N° Téléphone :</strong> <span id="lbl_tel"></span></div>
                                     <div class="col-md-6"><strong>Date de Naissance :</strong> <span id="lbl_date_naissance"></span></div>
@@ -419,8 +647,8 @@
                                 </div>
                                 <div class="allocation-box">
                                     <h5 class="fw-bold text-success text-uppercase mb-2">Prestations Sociales Automatiques</h5>
-                                    <div class="fs-6 text-dark mb-2">Nombre d'enfants déclarés : <strong id="lbl_nb_enfants" class="text-danger">0</strong></div>
-                                    <div class="small text-muted mb-3">Prénoms à charge : <span id="lbl_prenoms_enfants" class="fw-bold text-dark">Aucun</span></div>
+                                    <div class="fs-6 mb-2">Nombre d'enfants déclarés : <strong id="lbl_nb_enfants" class="text-danger">0</strong></div>
+                                    <div class="small text-muted mb-3">Prénoms à charge : <span id="lbl_prenoms_enfants" class="fw-bold">Aucun</span></div>
                                     <div class="bg-white p-2 border border-2 text-uppercase fw-bold d-inline-block rounded">
                                         Allocation Mensuelle (10 000 Ar / Enfant) : <span id="lbl_somme_ariary" class="text-success fs-5">0</span> Ar
                                     </div>
@@ -428,13 +656,13 @@
                             </div>
 
                             <div class="tab-pane fade pane-site-dossier" id="tab_conges" style="border-left-color: #3b82f6;">
-                                <h5 class="fw-bold text-dark text-uppercase mb-4"><i class="fa-solid fa-clock-rotate-left me-2 text-primary"></i>Droits aux Congés de l'Agent</h5>
+                                <h5 class="fw-bold text-uppercase mb-4"><i class="fa-solid fa-clock-rotate-left me-2 text-primary"></i>Droits aux Congés de l'Agent</h5>
                                 <div class="row g-3 mb-4">
-                                    <div class="col-md-4"><div class="conge-badge-box"><strong>Droit Annuel</strong><div class="fs-4 fw-bold text-dark">30 Jours</div></div></div>
-                                    <div class="col-md-4"><div class="conge-badge-box bg-danger-subtle text-danger"><strong>Jours Consommés</strong><div class="fs-4 fw-bold text-danger" id="lbl_conges_pris">0 Jour</div></div></div>
-                                    <div class="col-md-4"><div class="conge-badge-box bg-success-subtle text-success"><strong>Solde Restant</strong><div class="fs-4 fw-bold text-success" id="lbl_conges_restants">30 Jours</div></div></div>
+                                    <div class="col-md-4"><div class="conge-badge-box"><strong>Droit Annuel</strong><div class="fs-4 fw-bold">30 Jours</div></div></div>
+                                    <div class="col-md-4"><div class="conge-badge-box"><strong>Jours Consommés</strong><div class="fs-4 fw-bold text-danger" id="lbl_conges_pris">0 Jour</div></div></div>
+                                    <div class="col-md-4"><div class="conge-badge-box"><strong>Solde Restant</strong><div class="fs-4 fw-bold text-success" id="lbl_conges_restants">30 Jours</div></div></div>
                                 </div>
-                                <div class="p-3 bg-light border rounded mb-4 text-dark">
+                                <div class="p-3 bg-light border rounded mb-4">
                                     <h6 class="fw-bold text-uppercase"><i class="fa-solid fa-plus-circle me-1"></i> Enregistrer une absence / congé</h6>
                                     <div class="row g-2 mt-1">
                                         <div class="col-md-4">
@@ -447,17 +675,17 @@
                                         <div class="col-md-4"><button class="btn btn-primary w-100 h-100 rounded-1 fw-bold" onclick="ajouterAbsenceEnLigne()">Déduire</button></div>
                                     </div>
                                 </div>
-                                <h6 class="fw-bold text-dark border-bottom pb-2">Historique des Absences de l'Agent</h6>
+                                <h6 class="fw-bold border-bottom pb-2">Historique des Absences de l'Agent</h6>
                                 <ul class="list-group list-group-flush" id="liste_historique_conges"></ul>
                             </div>
 
                             <!-- ONGLET SUIVI DOSSIERS -->
                             <div class="tab-pane fade pane-site-dossier" id="tab_dossiers" style="border-left-color: #f59e0b;">
                                 <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <h5 class="fw-bold text-dark m-0"><i class="fa-solid fa-folder-tree text-warning me-2"></i>Dossiers administratifs</h5>
-                                    <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#modalNouveauDossier"><i class="fa-solid fa-plus"></i> Nouveau dossier</button>
+                                    <h5 class="fw-bold m-0"><i class="fa-solid fa-folder-tree text-warning me-2"></i>Dossiers administratifs</h5>
+                                    <button class="btn btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#modalNouveauDossier"><i class="fa-solid fa-plus"></i> Nouveau dossier</button>
                                 </div>
-                                <div id="liste_dossiers_agent" style="max-height: 400px; overflow-y: auto;"></div>
+                                <div id="liste_dossiers_agent" style="max-height: 500px; overflow-y: auto;"></div>
                                 <div class="alert alert-info mt-3 small">
                                     <i class="fa-regular fa-clock"></i> Délai de traitement réglementaire : <strong>30 jours</strong> à compter de la date de dépôt.
                                 </div>
@@ -477,7 +705,7 @@
 <!-- MODAL POUR CRÉER UN DOSSIER -->
 <div class="modal fade" id="modalNouveauDossier" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content" style="background: #1E293B; color: #F1F5F9;">
+        <div class="modal-content">
             <div class="modal-header border-secondary">
                 <h5 class="modal-title"><i class="fa-solid fa-folder-plus text-success"></i> Créer un dossier administratif</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
@@ -485,7 +713,7 @@
             <div class="modal-body">
                 <div class="mb-3">
                     <label class="form-label">Type de procédure</label>
-                    <select id="new_dossier_type" class="form-select" style="background:#0F172A; border-color:#334155; color:white;">
+                    <select id="new_dossier_type" class="form-select">
                         <option value="AVANCEMENT_ECHELON">Avancement d'échelon</option>
                         <option value="CHANGEMENT_CLASSE">Changement de classe</option>
                         <option value="RECLASSEMENT">Reclassement indiciaire</option>
@@ -494,7 +722,7 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Division destinataire</label>
-                    <select id="new_dossier_division" class="form-select" style="background:#0F172A; border-color:#334155; color:white;">
+                    <select id="new_dossier_division" class="form-select">
                         <option>Division Administrative et Financière</option>
                         <option>Division du Patrimoine de l’Etat</option>
                         <option>Division du Contrôle et de la Régulation Budgétaire</option>
@@ -508,13 +736,13 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Date de dépôt prévue</label>
-                    <input type="date" id="new_dossier_date" class="form-control" style="background:#0F172A; border-color:#334155; color:white;" value="">
+                    <input type="date" id="new_dossier_date" class="form-control" value="">
                 </div>
                 <div class="form-text text-secondary">Le délai réglementaire est de 30 jours à compter de cette date.</div>
             </div>
             <div class="modal-footer border-secondary">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                <button type="button" class="btn btn-success" onclick="creerNouveauDossier()">Créer le dossier</button>
+                <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-success rounded-pill" onclick="creerNouveauDossier()"><i class="fa-solid fa-save"></i> Créer le dossier</button>
             </div>
         </div>
     </div>
@@ -535,7 +763,6 @@
 
     // === GRILLES INDICIAIRES OFFICIELLES ===
 
-    // Liste des grades (échelons) pour chaque type (inchangée)
     const ECHELONS_PAR_TYPE = {
         FONCTIONNAIRE: ["STOE", "2C1E", "2C2E", "2C3E", "1C1E", "1C2E", "1C3E", "PR1E", "PR2E", "PR3E", "EX1E", "EX2E"],
         CONTRACTUEL_EFA_INF: ["1er Echelon", "2ème Echelon", "3ème Echelon", "4ème Echelon", "5ème Echelon", "6ème Echelon", "7ème Echelon", "8ème Echelon", "9ème Echelon"],
@@ -543,9 +770,7 @@
         ELD: ["0% Equivalence", "10% Equivalence", "20% Equivalence", "30% Equivalence", "40% Equivalence", "50% Equivalence", "60% Equivalence", "70% Equivalence", "80% Equivalence"]
     };
 
-    // Grille des indices pour les Fonctionnaires (selon grade et corps)
     const INDICES_FONCTIONNAIRES = {
-        // Grade -> [Opérateur, Encadreur, Technicien Sup, Réal. Adj A18C, Réal. Adj A18D, Cadre A2, Cadre A1, Cadre Concepteur]
         "STOE":    [275, 380, 500, 605, 650, 750, 850, 950, 1100],
         "2C1E":    [295, 415, 540, 665, 710, 815, 920, 1035, 1185],
         "2C2E":    [310, 435, 580, 730, 780, 900, 995, 1125, 1280],
@@ -557,10 +782,9 @@
         "PR2E":    [460, 605, 885, 1285, 1335, 1480, 1595, 1880, 2000],
         "PR3E":    [490, 640, 950, 1410, 1460, 1610, 1710, 2045, 2155],
         "EX1E":    [515, 675, 1020, 1550, 1600, 1750, 1850, 2225, 2325],
-        "EX2E":    [675, 1020, 1550, 1600, 1750, 1850, 2225, 2325, 2520]  // note: certaines valeurs sont répétées selon image
+        "EX2E":    [675, 1020, 1550, 1600, 1750, 1850, 2225, 2325, 2520]
     };
 
-    // Mapping des corps vers index dans le tableau ci-dessus
     const CORPS_INDEX = {
         "OPERATEUR": 0,
         "ENCADREUR": 1,
@@ -572,42 +796,22 @@
         "CADRE_CONCEPTEUR": 7
     };
 
-    // Grille des indices pour les ELD (selon pourcentage et corps CT)
     const INDICES_ELD = {
-        "4100": {  // indice CT 100
-            "0%": 212, "10%": 222, "20%": 228, "30%": 235, "40%": 242, "50%": 250, "60%": 257, "70%": 266, "80%": 273
-        },
-        "4125": { // CT 125
-            "0%": 231, "10%": 241, "20%": 250, "30%": 259, "40%": 269, "50%": 278, "60%": 288, "70%": 297, "80%": 307
-        },
-        "4135": { // CT 135
-            "0%": 238, "10%": 249, "20%": 259, "30%": 270, "40%": 280, "50%": 289, "60%": 300, "70%": 310, "80%": 320
-        },
-        "4150": { // CT 150
-            "0%": 250, "10%": 262, "20%": 273, "30%": 284, "40%": 295, "50%": 307, "60%": 317, "70%": 329, "80%": 340
-        },
-        "3250": { // CT 250
-            "0%": 320, "10%": 338, "20%": 357, "30%": 375, "40%": 393, "50%": 413, "60%": 434, "70%": 453, "80%": 473
-        },
-        "3400": { // CT 400
-            "0%": 429, "10%": 460, "20%": 491, "30%": 524, "40%": 553, "50%": 588, "60%": 615, "70%": 645, "80%": 658
-        },
-        "2425": { // CT 425
-            "0%": 449, "10%": 482, "20%": 516, "30%": 550, "40%": 583, "50%": 618, "60%": 645, "70%": 660, "80%": 699
-        },
-        "2700": { // CT 700
-            "0%": 645, "10%": 697, "20%": 761, "30%": 824, "40%": 888, "50%": 951, "60%": 1015, "70%": 1078, "80%": 1142
-        },
-        "1100": { // CT 1000
-            "0%": 897, "10%": 987, "20%": 1077, "30%": 1167, "40%": 1250, "50%": 1346, "60%": 1436, "70%": 1526, "80%": 1615
-        }
+        "4100": {"0%": 212, "10%": 222, "20%": 228, "30%": 235, "40%": 242, "50%": 250, "60%": 257, "70%": 266, "80%": 273},
+        "4125": {"0%": 231, "10%": 241, "20%": 250, "30%": 259, "40%": 269, "50%": 278, "60%": 288, "70%": 297, "80%": 307},
+        "4135": {"0%": 238, "10%": 249, "20%": 259, "30%": 270, "40%": 280, "50%": 289, "60%": 300, "70%": 310, "80%": 320},
+        "4150": {"0%": 250, "10%": 262, "20%": 273, "30%": 284, "40%": 295, "50%": 307, "60%": 317, "70%": 329, "80%": 340},
+        "3250": {"0%": 320, "10%": 338, "20%": 357, "30%": 375, "40%": 393, "50%": 413, "60%": 434, "70%": 453, "80%": 473},
+        "3400": {"0%": 429, "10%": 460, "20%": 491, "30%": 524, "40%": 553, "50%": 588, "60%": 615, "70%": 645, "80%": 658},
+        "2425": {"0%": 449, "10%": 482, "20%": 516, "30%": 550, "40%": 583, "50%": 618, "60%": 645, "70%": 660, "80%": 699},
+        "2700": {"0%": 645, "10%": 697, "20%": 761, "30%": 824, "40%": 888, "50%": 951, "60%": 1015, "70%": 1078, "80%": 1142},
+        "1100": {"0%": 897, "10%": 987, "20%": 1077, "30%": 1167, "40%": 1250, "50%": 1346, "60%": 1436, "70%": 1526, "80%": 1615}
     };
 
-    // Pour les contractuels EFA, on garde une grille par défaut (simplifiée)
     const BASE_INDICES_CONTRACTUEL_INF = [100, 115, 130, 145, 160, 180, 200, 225, 250];
     const BASE_INDICES_CONTRACTUEL_SUP = [200, 240, 280, 320, 370, 420, 480, 550, 630, 720, 820, 950];
 
-    // Pièces requises (inchangé)
+    // PIÈCES REQUISES enrichies
     const PIECES_LEGALES = {
         ECHELON: [
             "Demande manuscrite de l'agent visée par le chef de division",
@@ -616,7 +820,9 @@
             "Certificat de présence effective délivré par la DRH",
             "Attestation de non-interruption de service",
             "Proposition hiérarchique motivée",
-            "État des services (relevé de carrière)"
+            "État des services (relevé de carrière)",
+            "Photocopie CIN",
+            "Avis de CREDIT"
         ],
         CLASSE: [
             "Projet de décision d'avancement de classe",
@@ -625,7 +831,9 @@
             "Fiche d'évaluation de performance sur 3 ans",
             "Arrêté de titularisation dans le grade",
             "Autorisation de la Direction Générale du Budget",
-            "Certificat médical d'aptitude"
+            "Certificat médical d'aptitude",
+            "Photocopie CIN",
+            "Avis de CREDIT"
         ],
         RECLASSEMENT: [
             "Diplôme original ou titre équivalent homologué",
@@ -634,7 +842,9 @@
             "Curriculum vitae détaillé avec pièces justificatives",
             "Demande de reclassement motivée",
             "Relevé de carrière complet",
-            "Avis de la commission paritaire compétente"
+            "Avis de la commission paritaire compétente",
+            "Photocopie CIN",
+            "Avis de CREDIT"
         ],
         BONIFICATION: [
             "Attestation de décoration honorifique ou acte de bravoure",
@@ -642,9 +852,28 @@
             "Extrait du livret matricule individuel",
             "Titre de gratitude officiel (si existant)",
             "Délibération de bonification d'ancienneté",
-            "Certificat administratif de service rendu"
+            "Certificat administratif de service rendu",
+            "Photocopie CIN",
+            "Avis de CREDIT"
         ]
     };
+
+    // Circuit du dossier : 13 étapes
+    const CIRCUIT_ETAPES = [
+        "SRB",
+        "Bordereau d'Envoi",
+        "VISA SOLDE",
+        "BE",
+        "CONTROLE FINANCIER",
+        "BE",
+        "Fonction Public",
+        "SRB",
+        "BE",
+        "PREFET DU REGION",
+        "SRB",
+        "BE",
+        "MANDATEMENT SOLDE avec Acte formaté"
+    ];
 
     window.onload = function() {
         const savedUser = localStorage.getItem('srbv_user');
@@ -714,7 +943,6 @@
 
     function deconnexion() { window.location.reload(); }
 
-    // Adaptation des échelons selon le type d'agent
     function adapterFormulaireEchelons() {
         const type = document.getElementById("type_agent").value;
         const sEchelon = document.getElementById("echelon");
@@ -722,60 +950,32 @@
         ECHELONS_PAR_TYPE[type].forEach((ech, index) => {
             sEchelon.innerHTML += `<option value="${index}">${ech}</option>`;
         });
-        
-        // Afficher ou masquer le champ "Corps" pour les fonctionnaires
         const blocCorps = document.getElementById("bloc_corps_fonctionnaire");
-        if (type === "FONCTIONNAIRE") {
-            blocCorps.style.display = "block";
-        } else {
-            blocCorps.style.display = "none";
-        }
-        
+        blocCorps.style.display = (type === "FONCTIONNAIRE") ? "block" : "none";
         suggererIndiceAutomatique();
     }
 
-    // Calcul automatique de l'indice selon les grilles officielles
     function suggererIndiceAutomatique() {
         const type = document.getElementById("type_agent").value;
         const indexEchelon = parseInt(document.getElementById("echelon").value);
         if (isNaN(indexEchelon)) return;
-
         let indice = 0;
-
         if (type === "FONCTIONNAIRE") {
             const grade = ECHELONS_PAR_TYPE.FONCTIONNAIRE[indexEchelon];
             const corps = document.getElementById("corps_fonctionnaire").value;
             const idxCorps = CORPS_INDEX[corps];
             if (grade && INDICES_FONCTIONNAIRES[grade] && INDICES_FONCTIONNAIRES[grade][idxCorps] !== undefined) {
                 indice = INDICES_FONCTIONNAIRES[grade][idxCorps];
-            } else {
-                indice = 500; // fallback
-            }
-        } 
-        else if (type === "CONTRACTUEL_EFA_INF") {
-            if (BASE_INDICES_CONTRACTUEL_INF[indexEchelon] !== undefined)
-                indice = BASE_INDICES_CONTRACTUEL_INF[indexEchelon];
-            else indice = 100;
+            } else indice = 500;
+        } else if (type === "CONTRACTUEL_EFA_INF") {
+            indice = BASE_INDICES_CONTRACTUEL_INF[indexEchelon] || 100;
+        } else if (type === "CONTRACTUEL_EFA_SUP") {
+            indice = BASE_INDICES_CONTRACTUEL_SUP[indexEchelon] || 200;
+        } else if (type === "ELD") {
+            const pourcentage = ECHELONS_PAR_TYPE.ELD[indexEchelon].split(" ")[0];
+            const eldRow = INDICES_ELD["4150"];
+            indice = eldRow && eldRow[pourcentage] !== undefined ? eldRow[pourcentage] : 250;
         }
-        else if (type === "CONTRACTUEL_EFA_SUP") {
-            if (BASE_INDICES_CONTRACTUEL_SUP[indexEchelon] !== undefined)
-                indice = BASE_INDICES_CONTRACTUEL_SUP[indexEchelon];
-            else indice = 200;
-        }
-        else if (type === "ELD") {
-            // Pour les ELD, on utilise une valeur par défaut basée sur le pourcentage
-            // On pourrait aussi ajouter un sélecteur de corps CT, mais par souci de simplicité on prend un indice moyen.
-            // On utilise la grille pour le corps "4150" (indice CT 150) comme exemple.
-            const pourcentage = ECHELONS_PAR_TYPE.ELD[indexEchelon]; // ex "0% Equivalence"
-            const pct = pourcentage.split(" ")[0]; // récupère "0%"
-            const eldRow = INDICES_ELD["4150"]; // on prend la ligne CT 150 par défaut
-            if (eldRow && eldRow[pct] !== undefined) {
-                indice = eldRow[pct];
-            } else {
-                indice = 250 + (indexEchelon * 15); // fallback
-            }
-        }
-
         document.getElementById("affichage_indice").value = indice;
     }
 
@@ -788,7 +988,7 @@
         const div = document.getElementById("bloc_enfants_dynamique");
         div.innerHTML = "";
         for(let i=1; i<=nb; i++) {
-            div.innerHTML += `<div class="box-enfants-dynamique"><label class="small fw-bold text-dark text-uppercase" style="font-size:10px;">Prénom Enfant N°0${i} :</label><input type="text" class="form-control form-control-site py-1 champ-prenom-enfant" placeholder="Prénom..."></div>`;
+            div.innerHTML += `<div class="box-enfants-dynamique"><label class="small fw-bold text-uppercase" style="font-size:10px;">Prénom Enfant N°0${i} :</label><input type="text" class="form-control form-control-site py-1 champ-prenom-enfant" placeholder="Prénom..."></div>`;
         }
     }
 
@@ -815,12 +1015,10 @@
         if(!matricule) return;
         const prenomsEnfants = [];
         document.querySelectorAll(".champ-prenom-enfant").forEach(input => { if(input.value.trim()) prenomsEnfants.push(input.value.trim()); });
-        
         let corps = null;
         if (document.getElementById("type_agent").value === "FONCTIONNAIRE") {
             corps = document.getElementById("corps_fonctionnaire").value;
         }
-        
         const agentData = {
             type: document.getElementById("type_agent").value,
             im: matricule,
@@ -868,7 +1066,7 @@
             div.innerHTML = "";
             if (agent.enfants && Array.isArray(agent.enfants)) {
                 agent.enfants.forEach((enfant, i) => {
-                    div.innerHTML += `<div class="box-enfants-dynamique"><label class="small fw-bold text-dark">Prénom enfant ${i+1} :</label><input type="text" class="form-control form-control-site py-1 champ-prenom-enfant" value="${enfant}"></div>`;
+                    div.innerHTML += `<div class="box-enfants-dynamique"><label class="small fw-bold">Prénom enfant ${i+1} :</label><input type="text" class="form-control form-control-site py-1 champ-prenom-enfant" value="${enfant}"></div>`;
                 });
             }
             document.getElementById("date_debut_contrat").value = agent.dateEffet || "";
@@ -974,7 +1172,7 @@
         });
     }
 
-    // ========== GESTION DOSSIERS (inchangée) ==========
+    // ========== GESTION DOSSIERS AVEC CIRCUIT ==========
     function afficherListeDossiers(im) {
         const agent = cacheAgents[im];
         if(!agent) return;
@@ -993,17 +1191,52 @@
             if(joursRestants < 0) { statutClass = "bg-delai-urgent"; statutTexte = "DÉPASSÉ"; }
             else if(joursRestants <= 7) { statutClass = "bg-delai-proche"; statutTexte = "URGENT"; }
             else { statutClass = "bg-delai-ok"; statutTexte = "En cours"; }
+
+            const etapeIndex = d.etapeIndex || 0;
+            const etapeActuelle = CIRCUIT_ETAPES[etapeIndex] || "Terminé";
+            const estTermine = etapeIndex >= CIRCUIT_ETAPES.length - 1;
+
             container.innerHTML += `
                 <div class="dossier-card">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div><strong><i class="fa-solid fa-folder text-warning me-1"></i> ${d.typeLibelle || d.type}</strong><br>
-                        <small>Division : ${d.division}</small><br><small>Dépôt : ${dateDepot.toLocaleDateString('fr-FR')}</small><br>
-                        <small>Échéance : ${dateLimite.toLocaleDateString('fr-FR')}</small></div>
-                        <div class="text-end"><span class="badge ${statutClass} mb-2">${statutTexte}</span><br>
-                        <button class="btn-bordereau mt-1" onclick="genererBordereauDossier('${im}', '${id}')"><i class="fa-regular fa-envelope"></i> Bordereau</button></div>
+                    <div class="d-flex justify-content-between align-items-start flex-wrap">
+                        <div>
+                            <strong><i class="fa-solid fa-folder text-warning me-1"></i> ${d.typeLibelle || d.type}</strong><br>
+                            <small>Division : ${d.division}</small><br>
+                            <small>Dépôt : ${dateDepot.toLocaleDateString('fr-FR')}</small><br>
+                            <small>Échéance : ${dateLimite.toLocaleDateString('fr-FR')}</small>
+                        </div>
+                        <div class="text-end">
+                            <span class="badge ${statutClass} mb-2">${statutTexte}</span><br>
+                            <div class="mt-1">
+                                <span class="etape-badge ${estTermine ? 'done' : 'active'}">
+                                    <i class="fa-regular fa-circle-check"></i> ${etapeActuelle}
+                                </span>
+                            </div>
+                            <button class="btn-avancer mt-2" onclick="avancerEtape('${im}', '${id}')" ${estTermine ? 'disabled' : ''}>
+                                <i class="fa-solid fa-arrow-right"></i> ${estTermine ? 'Terminé' : 'Avancer'}
+                            </button>
+                            <button class="btn-bordereau mt-2" onclick="genererBordereauDossier('${im}', '${id}')"><i class="fa-regular fa-envelope"></i> Bordereau</button>
+                        </div>
                     </div>
                     <div class="mt-2 small">Délai restant : ${joursRestants > 0 ? joursRestants + " jours" : "Expiré"}</div>
-                </div>`;
+                </div>
+            `;
+        });
+    }
+
+    function avancerEtape(im, dossierId) {
+        const agent = cacheAgents[im];
+        if(!agent || !agent.dossiers || !agent.dossiers[dossierId]) return;
+        const dossier = agent.dossiers[dossierId];
+        const etapeIndex = dossier.etapeIndex || 0;
+        if(etapeIndex >= CIRCUIT_ETAPES.length - 1) {
+            afficherPopupCentral("Information", "Dossier déjà terminé.", false);
+            return;
+        }
+        const newIndex = etapeIndex + 1;
+        dbRef.child(`${im}/dossiers/${dossierId}/etapeIndex`).set(newIndex).then(() => {
+            afficherPopupCentral("Étape franchie", `Passage à : ${CIRCUIT_ETAPES[newIndex]}`, true);
+            ouvrirFicheDetaillee(im);
         });
     }
 
@@ -1015,9 +1248,16 @@
         if(!dateDepot) dateDepot = new Date().toISOString().slice(0,10);
         const libelles = { "AVANCEMENT_ECHELON": "Avancement d'échelon", "CHANGEMENT_CLASSE": "Changement de classe", "RECLASSEMENT": "Reclassement indiciaire", "BONIFICATION": "Bonification d'ancienneté" };
         const newId = Date.now().toString();
-        const dossierData = { type, typeLibelle: libelles[type], division, dateDepot, statut: "En instruction" };
+        const dossierData = { 
+            type, 
+            typeLibelle: libelles[type], 
+            division, 
+            dateDepot, 
+            statut: "En instruction",
+            etapeIndex: 0
+        };
         dbRef.child(`${currentAgentIm}/dossiers/${newId}`).set(dossierData).then(() => {
-            afficherPopupCentral("Dossier créé", "Dossier ajouté avec succès.", true);
+            afficherPopupCentral("Dossier créé", "Dossier ajouté avec succès. Circuit démarré.", true);
             const modal = bootstrap.Modal.getInstance(document.getElementById("modalNouveauDossier"));
             if(modal) modal.hide();
             ouvrirFicheDetaillee(currentAgentIm);
@@ -1031,7 +1271,7 @@
         let typeLib = { ECHELON: "Avancement d'échelon", CLASSE: "Changement de classe", RECLASSEMENT: "Reclassement indiciaire", BONIFICATION: "Bonification d'ancienneté" }[typeActe];
         const pieces = PIECES_LEGALES[typeActe].join("\n- ");
         const contenu = `MINISTÈRE DES FINANCES\nDR BUDGET VATOVAVY\n\nBORDEREAU DE DEMANDE D'ACTE\n\nObjet : ${typeLib}\nAgent : ${agent.nom} (IM: ${agent.im})\nPièces jointes :\n- ${pieces}\nDate : ${new Date().toLocaleDateString('fr-FR')}\nSignature : _________________`;
-        const fen = window.open(); fen.document.write(`<pre style="font-family:monospace">${contenu}</pre><button onclick="window.print()">Imprimer</button>`); fen.document.close();
+        const fen = window.open(); fen.document.write(`<pre style="font-family:monospace; padding:20px; color:#333;">${contenu}</pre><button onclick="window.print()">Imprimer</button>`); fen.document.close();
     }
 
     function genererBordereauDossier(im, dossierId) {
@@ -1040,8 +1280,9 @@
         if(!dossier) return;
         let piecesKey = { "AVANCEMENT_ECHELON":"ECHELON", "CHANGEMENT_CLASSE":"CLASSE", "RECLASSEMENT":"RECLASSEMENT", "BONIFICATION":"BONIFICATION" }[dossier.type];
         const pieces = PIECES_LEGALES[piecesKey].join("\n- ");
-        const contenu = `BORDEREAU D'ENVOI\nAgent : ${agent.nom} (${im})\nDossier : ${dossier.typeLibelle}\nDivision : ${dossier.division}\nDate dépôt : ${new Date(dossier.dateDepot).toLocaleDateString()}\nPièces jointes :\n- ${pieces}\nDélai : 30 jours\nSignature : DR Budget Vatovavy`;
-        const fen = window.open(); fen.document.write(`<pre style="font-family:monospace">${contenu}</pre><button onclick="window.print()">Imprimer</button>`); fen.document.close();
+        const etapeActuelle = CIRCUIT_ETAPES[dossier.etapeIndex || 0] || "Début";
+        const contenu = `BORDEREAU D'ENVOI\nAgent : ${agent.nom} (${im})\nDossier : ${dossier.typeLibelle}\nDivision : ${dossier.division}\nDate dépôt : ${new Date(dossier.dateDepot).toLocaleDateString()}\nÉtape actuelle : ${etapeActuelle}\nPièces jointes :\n- ${pieces}\nDélai : 30 jours\nSignature : DR Budget Vatovavy`;
+        const fen = window.open(); fen.document.write(`<pre style="font-family:monospace; padding:20px; color:#333;">${contenu}</pre><button onclick="window.print()">Imprimer</button>`); fen.document.close();
     }
 
     function executerFiltrage() {
